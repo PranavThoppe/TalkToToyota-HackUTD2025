@@ -1,152 +1,1793 @@
 [
   {
-    "id": "corolla",
-    "name": "Corolla",
-    "price": 22725,
-    "msrp": 28440,
+    "id": "1",
+    "name": "Toyota Corolla",
+    "year": 2025,
+    "price": 21900,
+    "msrp": 21900,
+    "priceRange": "$21,900 - $28,950",
     "category": "Cars & Minivan",
     "type": "sedan",
     "badges": [],
-    "image": "/placeholder.svg"
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/corolla/xse/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 31,
+        "highway": 40,
+        "combined": 35
+      },
+      "horsepower": 169,
+      "torque": "151 lb-ft",
+      "seating": 5,
+      "fuelType": "Gasoline",
+      "engine": "2.0L 4-cylinder",
+      "transmission": "CVT",
+      "drivetrain": "FWD",
+      "cargoSpace": "13.1 cu ft",
+      "dimensions": {
+        "length": "182.3 in",
+        "width": "70.1 in",
+        "height": "56.5 in",
+        "wheelbase": "106.3 in",
+        "groundClearance": "5.3 in",
+        "weight": "3150 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Toyota Safety Sense 3.0",
+      "8-inch touchscreen",
+      "Apple CarPlay & Android Auto",
+      "Adaptive cruise control",
+      "Lane departure warning"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["daily commute", "first car", "fuel efficiency", "reliability", "students"],
+    "pros": ["Excellent reliability", "Great fuel economy", "Affordable", "Low maintenance"],
+    "cons": ["Basic interior", "Not much power", "Road noise"]
   },
   {
-    "id": "corolla-hybrid",
-    "name": "Corolla Hybrid",
-    "price": 24575,
-    "msrp": 28415,
+    "id": "2",
+    "name": "Toyota Corolla Hybrid",
+    "year": 2025,
+    "price": 24300,
+    "msrp": 24300,
+    "priceRange": "$24,300 - $29,200",
     "category": "Cars & Minivan",
-    "type": "hybrid",
+    "type": "sedan",
     "badges": ["Hybrid EV"],
-    "image": "/placeholder.svg"
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/corolla-hybrid/le/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 53,
+        "highway": 52,
+        "combined": 52
+      },
+      "horsepower": 121,
+      "torque": "105 lb-ft",
+      "seating": 5,
+      "fuelType": "Hybrid",
+      "engine": "1.8L 4-cylinder + electric motor",
+      "transmission": "e-CVT",
+      "drivetrain": "FWD",
+      "cargoSpace": "13.1 cu ft",
+      "dimensions": {
+        "length": "182.3 in",
+        "width": "70.1 in",
+        "height": "56.9 in",
+        "wheelbase": "106.3 in",
+        "groundClearance": "5.1 in",
+        "weight": "3175 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Toyota Safety Sense 3.0",
+      "8-inch touchscreen",
+      "Regenerative braking",
+      "EV mode",
+      "Hybrid system indicator"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid battery",
+    "bestFor": ["eco-conscious", "fuel efficiency", "city driving", "low emissions"],
+    "pros": ["Outstanding MPG", "Hybrid reliability", "Low running costs", "Smooth ride"],
+    "cons": ["Less power", "Battery takes trunk space", "Higher upfront cost"]
   },
   {
-    "id": "corolla-hatchback",
-    "name": "Corolla Hatchback",
-    "price": 24180,
-    "msrp": 26780,
+    "id": "3",
+    "name": "Toyota Camry",
+    "year": 2025,
+    "price": 28400,
+    "msrp": 28400,
+    "priceRange": "$28,400 - $37,000",
+    "category": "Cars & Minivan",
+    "type": "sedan",
+    "badges": ["Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/camry/xse/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 28,
+        "highway": 39,
+        "combined": 32
+      },
+      "horsepower": 225,
+      "torque": "163 lb-ft",
+      "seating": 5,
+      "fuelType": "Hybrid",
+      "engine": "2.5L 4-cylinder Hybrid",
+      "transmission": "e-CVT",
+      "drivetrain": "FWD/AWD",
+      "cargoSpace": "15.1 cu ft",
+      "dimensions": {
+        "length": "192.7 in",
+        "width": "72.4 in",
+        "height": "56.9 in",
+        "wheelbase": "111.2 in",
+        "groundClearance": "5.7 in",
+        "weight": "3310 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Toyota Safety Sense 3.0",
+      "12.3-inch touchscreen",
+      "Wireless Apple CarPlay",
+      "Panoramic sunroof available",
+      "Premium JBL audio available"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["families", "business travel", "daily commute", "reliability"],
+    "pros": ["Spacious interior", "Excellent reliability", "Strong hybrid system", "Comfortable"],
+    "cons": ["CVT transmission feel", "Conservative styling", "Firm ride"]
+  },
+  {
+    "id": "4",
+    "name": "Toyota Corolla Hatchback",
+    "year": 2025,
+    "price": 24155,
+    "msrp": 24155,
+    "priceRange": "$24,155 - $28,655",
     "category": "Cars & Minivan",
     "type": "hatchback",
     "badges": [],
-    "image": "/placeholder.svg"
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/corolla-hatchback/se/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 30,
+        "highway": 38,
+        "combined": 33
+      },
+      "horsepower": 169,
+      "torque": "151 lb-ft",
+      "seating": 5,
+      "fuelType": "Gasoline",
+      "engine": "2.0L 4-cylinder",
+      "transmission": "CVT",
+      "drivetrain": "FWD",
+      "cargoSpace": "18.0 cu ft (up to 23.3 cu ft folded)",
+      "dimensions": {
+        "length": "171.7 in",
+        "width": "70.7 in",
+        "height": "56.5 in",
+        "wheelbase": "103.9 in",
+        "groundClearance": "5.1 in",
+        "weight": "3115 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Toyota Safety Sense 2.5+",
+      "8-inch touchscreen",
+      "Sport-tuned suspension",
+      "LED headlights",
+      "Rear spoiler"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["young professionals", "cargo versatility", "urban driving", "style"],
+    "pros": ["Versatile cargo space", "Sporty handling", "Fun to drive", "Efficient"],
+    "cons": ["Firm ride", "Road noise", "No hybrid option"]
   },
   {
-    "id": "prius",
-    "name": "Prius",
-    "price": 28875,
-    "msrp": 32500,
+    "id": "5",
+    "name": "Toyota GR Corolla",
+    "year": 2025,
+    "price": 43000,
+    "msrp": 43000,
+    "priceRange": "$43,000 - $51,000",
     "category": "Cars & Minivan",
-    "type": "hybrid",
+    "type": "hatchback",
+    "badges": ["Performance"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/gr-corolla/core/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 21,
+        "highway": 28,
+        "combined": 24
+      },
+      "horsepower": 300,
+      "torque": "273 lb-ft",
+      "seating": 5,
+      "fuelType": "Gasoline",
+      "engine": "1.6L turbocharged 3-cylinder",
+      "transmission": "6-speed manual",
+      "drivetrain": "AWD",
+      "cargoSpace": "17.8 cu ft",
+      "dimensions": {
+        "length": "172.0 in",
+        "width": "70.7 in",
+        "height": "57.9 in",
+        "wheelbase": "103.9 in",
+        "groundClearance": "6.3 in",
+        "weight": "3249 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "GR-FOUR AWD system",
+      "Sport-tuned suspension",
+      "Performance exhaust",
+      "Launch control",
+      "Track mode"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["enthusiasts", "performance", "track days", "rally-inspired"],
+    "pros": ["300hp AWD", "Manual transmission", "Aggressive styling", "Fun factor"],
+    "cons": ["Premium price", "Firm suspension", "Limited availability", "Fuel economy"]
+  },
+  {
+    "id": "6",
+    "name": "Toyota Prius",
+    "year": 2025,
+    "price": 28545,
+    "msrp": 28545,
+    "priceRange": "$28,545 - $36,050",
+    "category": "Cars & Minivan",
+    "type": "hatchback",
     "badges": ["Hybrid EV"],
-    "image": "/placeholder.svg"
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/prius/xle/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 57,
+        "highway": 56,
+        "combined": 57
+      },
+      "horsepower": 196,
+      "torque": "139 lb-ft",
+      "seating": 5,
+      "fuelType": "Hybrid",
+      "engine": "2.0L 4-cylinder hybrid",
+      "transmission": "e-CVT",
+      "drivetrain": "FWD/AWD",
+      "cargoSpace": "19.9 cu ft",
+      "dimensions": {
+        "length": "181.1 in",
+        "width": "72.0 in",
+        "height": "56.7 in",
+        "wheelbase": "107.1 in",
+        "groundClearance": "5.3 in",
+        "weight": "3220 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Toyota Safety Sense 3.0",
+      "12.3-inch touchscreen",
+      "Solar roof available",
+      "Bi-tone paint options",
+      "AWD-e available"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["eco-conscious", "maximum MPG", "modern design", "tech lovers"],
+    "pros": ["Best-in-class MPG", "Bold new design", "Tech-forward", "Smooth driving"],
+    "cons": ["Premium pricing", "Rear visibility", "Firm seats"]
   },
   {
-    "id": "prius-prime",
-    "name": "Prius Prime",
-    "price": 32350,
-    "msrp": 36800,
-    "category": "Cars & Minivan",
-    "type": "plug-in-hybrid",
+    "id": "7",
+    "name": "Toyota RAV4 Prime",
+    "year": 2025,
+    "price": 33550,
+    "msrp": 33550,
+    "priceRange": "$33,550 - $40,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
     "badges": ["Plug-in Hybrid EV"],
-    "image": "/placeholder.svg"
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/rav4-prime/xse/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 51,
+        "highway": 47,
+        "combined": 49
+      },
+      "horsepower": 220,
+      "torque": "152 lb-ft",
+      "seating": 5,
+      "fuelType": "Plug-in Hybrid",
+      "engine": "2.0L 4-cylinder PHEV",
+      "transmission": "e-CVT",
+      "drivetrain": "FWD",
+      "cargoSpace": "16.8 cu ft",
+      "electricRange": "42 miles",
+      "dimensions": {
+        "length": "180.9 in",
+        "width": "73.0 in",
+        "height": "67.0 in",
+        "wheelbase": "105.9 in",
+        "groundClearance": "8.6 in",
+        "weight": "4300 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "302hp plug-in hybrid",
+      "42-mile EV range",
+      "Standard AWD",
+      "6.5s 0-60 mph",
+      "Fast charging"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["performance SUV", "EV transition", "tax credits", "fast hybrid"],
+    "pros": ["302hp!", "42-mile EV range", "Tax incentives", "Quick acceleration"],
+    "cons": ["Expensive", "Hard to find", "Less cargo space", "Charging needed"]
   },
   {
-    "id": "camry",
-    "name": "Camry",
-    "price": 26420,
-    "msrp": 30500,
+    "id": "8",
+    "name": "Toyota Crown",
+    "year": 2025,
+    "price": 42045,
+    "msrp": 42045,
+    "priceRange": "$42,045 - $55,000",
     "category": "Cars & Minivan",
     "type": "sedan",
-    "badges": [],
-    "image": "/placeholder.svg"
-  },
-  {
-    "id": "camry-hybrid",
-    "name": "Camry Hybrid",
-    "price": 29170,
-    "msrp": 33200,
-    "category": "Cars & Minivan",
-    "type": "hybrid",
     "badges": ["Hybrid EV"],
-    "image": "/placeholder.svg"
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/crown/xle/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 26,
+        "highway": 34,
+        "combined": 29
+      },
+      "horsepower": 236,
+      "torque": "295 lb-ft",
+      "seating": 5,
+      "fuelType": "Hybrid",
+      "engine": "2.4L turbocharged hybrid",
+      "transmission": "e-CVT",
+      "drivetrain": "AWD",
+      "cargoSpace": "15.2 cu ft",
+      "dimensions": {
+        "length": "193.1 in",
+        "width": "74.2 in",
+        "height": "58.7 in",
+        "wheelbase": "112.2 in",
+        "groundClearance": "5.8 in",
+        "weight": "4135 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Standard AWD",
+      "Premium interior",
+      "12.3-inch touchscreen",
+      "JBL premium audio",
+      "Adaptive suspension"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["luxury", "executives", "premium features", "AWD sedan"],
+    "pros": ["Unique styling", "Standard AWD", "Powerful hybrid", "Premium features"],
+    "cons": ["Polarizing design", "High price", "Limited appeal"]
   },
   {
-    "id": "rav4",
-    "name": "RAV4",
-    "price": 28475,
-    "msrp": 32100,
+    "id": "9",
+    "name": "Toyota GR86",
+    "year": 2025,
+    "price": 30495,
+    "msrp": 30495,
+    "priceRange": "$30,495 - $33,995",
+    "category": "Cars & Minivan",
+    "type": "sports-car",
+    "badges": ["Performance"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/gr86/base/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 20,
+        "highway": 30,
+        "combined": 24
+      },
+      "horsepower": 228,
+      "torque": "184 lb-ft",
+      "seating": 4,
+      "fuelType": "Gasoline",
+      "engine": "2.4L flat-4",
+      "transmission": "6-speed manual / 6-speed auto",
+      "drivetrain": "RWD",
+      "cargoSpace": "6.3 cu ft",
+      "dimensions": {
+        "length": "167.9 in",
+        "width": "69.9 in",
+        "height": "51.6 in",
+        "wheelbase": "101.2 in",
+        "groundClearance": "4.9 in",
+        "weight": "2815 lbs"
+      },
+      "safetyRating": 4
+    },
+    "features": [
+      "Rear-wheel drive",
+      "Track mode",
+      "Sport suspension",
+      "Limited-slip differential",
+      "Performance tires"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["enthusiasts", "weekend car", "driving pleasure", "track days"],
+    "pros": ["Pure driving joy", "RWD balance", "Affordable sports car", "Lightweight"],
+    "cons": ["Impractical", "Small interior", "Firm ride", "Limited cargo"]
+  },
+  {
+    "id": "10",
+    "name": "Toyota GR Supra",
+    "year": 2025,
+    "price": 47535,
+    "msrp": 47535,
+    "priceRange": "$47,535 - $66,000",
+    "category": "Cars & Minivan",
+    "type": "sports-car",
+    "badges": ["Performance"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/gr-supra/30/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 24,
+        "highway": 31,
+        "combined": 27
+      },
+      "horsepower": 382,
+      "torque": "368 lb-ft",
+      "seating": 2,
+      "fuelType": "Gasoline",
+      "engine": "3.0L turbocharged inline-6",
+      "transmission": "8-speed automatic",
+      "drivetrain": "RWD",
+      "cargoSpace": "10.2 cu ft",
+      "dimensions": {
+        "length": "172.5 in",
+        "width": "73.0 in",
+        "height": "50.9 in",
+        "wheelbase": "97.2 in",
+        "groundClearance": "4.5 in",
+        "weight": "3397 lbs"
+      },
+      "safetyRating": 4
+    },
+    "features": [
+      "382hp turbo six",
+      "Adaptive suspension",
+      "Launch control",
+      "Sport exhaust",
+      "BMW-derived chassis"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["performance", "enthusiasts", "BMW alternative", "track capable"],
+    "pros": ["Phenomenal performance", "Sharp handling", "Premium interior", "Iconic nameplate"],
+    "cons": ["No manual", "Expensive", "2-seater only", "BMW parts"]
+  },
+  {
+    "id": "11",
+    "name": "Toyota Sienna",
+    "year": 2025,
+    "price": 39485,
+    "msrp": 39485,
+    "priceRange": "$39,485 - $52,000",
+    "category": "Cars & Minivan",
+    "type": "minivan",
+    "badges": ["Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/sienna/le/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 36,
+        "highway": 36,
+        "combined": 36
+      },
+      "horsepower": 245,
+      "torque": "175 lb-ft",
+      "seating": 8,
+      "fuelType": "Hybrid",
+      "engine": "2.5L 4-cylinder hybrid",
+      "transmission": "e-CVT",
+      "drivetrain": "FWD/AWD",
+      "cargoSpace": "33.5 cu ft (up to 75.2 cu ft folded)",
+      "dimensions": {
+        "length": "203.9 in",
+        "width": "78.1 in",
+        "height": "68.9 in",
+        "wheelbase": "119.3 in",
+        "groundClearance": "6.5 in",
+        "weight": "4700 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Hybrid-only powertrain",
+      "Sliding rear doors",
+      "8-passenger seating",
+      "Entertainment system",
+      "Vacuum cleaner"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["large families", "carpooling", "road trips", "cargo hauling"],
+    "pros": ["36 MPG hybrid", "Spacious interior", "Sliding doors", "Reliable"],
+    "cons": ["Minivan stigma", "Expensive", "Poor handling", "Dated tech"]
+  },
+  {
+    "id": "12",
+    "name": "Toyota Corolla Cross",
+    "year": 2025,
+    "price": 25610,
+    "msrp": 25610,
+    "priceRange": "$25,610 - $32,000",
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": [],
-    "image": "/placeholder.svg"
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/corolla-cross/le/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 31,
+        "highway": 33,
+        "combined": 32
+      },
+      "horsepower": 169,
+      "torque": "151 lb-ft",
+      "seating": 5,
+      "fuelType": "Gasoline",
+      "engine": "2.0L 4-cylinder",
+      "transmission": "CVT",
+      "drivetrain": "FWD/AWD",
+      "cargoSpace": "26.5 cu ft (up to 66.8 cu ft folded)",
+      "dimensions": {
+        "length": "175.8 in",
+        "width": "71.3 in",
+        "height": "64.5 in",
+        "wheelbase": "103.9 in",
+        "groundClearance": "8.1 in",
+        "weight": "3225 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Toyota Safety Sense 2.5+",
+      "8-inch touchscreen",
+      "AWD available",
+      "High ground clearance",
+      "Roof rails"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["urban SUV", "compact space", "affordable", "versatility"],
+    "pros": ["Affordable SUV", "Good fuel economy", "Roomy interior", "Easy to drive"],
+    "cons": ["Slow acceleration", "Basic interior", "CVT feel"]
   },
   {
-    "id": "rav4-hybrid",
-    "name": "RAV4 Hybrid",
-    "price": 31050,
-    "msrp": 35200,
+    "id": "13",
+    "name": "Toyota Corolla Cross Hybrid",
+    "year": 2025,
+    "price": 29490,
+    "msrp": 29490,
+    "priceRange": "$29,490 - $34,000",
     "category": "Crossovers & SUVs",
-    "type": "hybrid",
+    "type": "suv",
     "badges": ["Hybrid EV"],
-    "image": "/placeholder.svg"
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/corolla-cross-hybrid/xle/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 44,
+        "highway": 37,
+        "combined": 41
+      },
+      "horsepower": 194,
+      "seating": 5,
+      "fuelType": "Hybrid",
+      "engine": "2.0L 4-cylinder hybrid",
+      "transmission": "e-CVT",
+      "drivetrain": "FWD/AWD",
+      "cargoSpace": "25.5 cu ft",
+      "dimensions": {
+        "length": "175.8 in",
+        "width": "71.3 in",
+        "height": "64.5 in",
+        "wheelbase": "103.9 in",
+        "groundClearance": "8.1 in",
+        "weight": "3460 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "41 combined MPG",
+      "Electronic AWD",
+      "8-inch touchscreen",
+      "Toyota Safety Sense",
+      "EV mode"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["eco SUV", "city driving", "fuel savings", "hybrid first-timer"],
+    "pros": ["Excellent MPG", "AWD available", "Affordable hybrid", "Practical"],
+    "cons": ["Slower than gas", "Less cargo space", "Higher price"]
   },
   {
-    "id": "rav4-prime",
-    "name": "RAV4 Prime",
-    "price": 42000,
-    "msrp": 46500,
+    "id": "14",
+    "name": "Toyota RAV4",
+    "year": 2025,
+    "price": 31697,
+    "msrp": 31697,
+    "priceRange": "$31,697 - $42,082",
     "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": [],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/rav4/le/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 27,
+        "highway": 35,
+        "combined": 30
+      },
+      "horsepower": 203,
+      "torque": "184 lb-ft",
+      "seating": 5,
+      "fuelType": "Gasoline",
+      "engine": "2.5L 4-cylinder",
+      "transmission": "8-speed automatic",
+      "drivetrain": "FWD/AWD",
+      "cargoSpace": "37.5 cu ft (up to 69.8 cu ft folded)",
+      "dimensions": {
+        "length": "180.9 in",
+        "width": "73.0 in",
+        "height": "67.0 in",
+        "wheelbase": "105.9 in",
+        "groundClearance": "8.6 in",
+        "weight": "3490 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Toyota Safety Sense 2.5+",
+      "8-inch touchscreen",
+      "AWD available",
+      "Power liftgate",
+      "Roof rails standard"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["families", "versatility", "AWD", "reliability", "best-seller"],
+    "pros": ["Spacious", "Reliable", "Great resale value", "AWD capable"],
+    "cons": ["Firm ride", "Road noise", "Dated interior"]
+  },
+  {
+    "id": "15",
+    "name": "Toyota RAV4 Hybrid",
+    "year": 2025,
+    "price": 35830,
+    "msrp": 35830,
+    "priceRange": "$35,830 - $44,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": ["Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/rav4-hybrid/xle/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 41,
+        "highway": 38,
+        "combined": 40
+      },
+      "horsepower": 219,
+      "torque": "163 lb-ft",
+      "seating": 5,
+      "fuelType": "Hybrid",
+      "engine": "2.5L 4-cylinder hybrid",
+      "transmission": "e-CVT",
+      "drivetrain": "AWD",
+      "cargoSpace": "37.5 cu ft",
+      "dimensions": {
+        "length": "180.9 in",
+        "width": "73.0 in",
+        "height": "67.0 in",
+        "wheelbase": "105.9 in",
+        "groundClearance": "8.6 in",
+        "weight": "3855 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Standard AWD",
+      "40 combined MPG",
+      "Electronic AWD",
+      "8-inch touchscreen",
+      "Power liftgate"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["eco families", "AWD hybrid", "fuel savings", "popular choice"],
+    "pros": ["40 MPG with AWD", "More power than gas", "Standard AWD", "Reliable"],
+    "cons": ["Higher price", "CVT transmission", "Limited availability"]
+  },
+  {
+    "id": "16",
+    "name": "Toyota RAV4 Prime",
+    "year": 2025,
+    "price": 44075,
+    "msrp": 44075,
+    "priceRange": "$44,075 - $50,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": ["Plug-in Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/rav4-prime/xse/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 38,
+        "highway": 36,
+        "combined": 38
+      },
+      "horsepower": 302,
+      "seating": 5,
+      "fuelType": "Plug-in Hybrid",
+      "engine": "2.5L 4-cylinder PHEV",
+      "transmission": "e-CVT",
+      "drivetrain": "AWD",
+      "cargoSpace": "33.5 cu ft",
+      "electricRange": "42 miles",
+      "dimensions": {
+        "length": "180.9 in",
+        "width": "73.0 in",
+        "height": "67.0 in",
+        "wheelbase": "105.9 in",
+        "groundClearance": "8.6 in",
+        "weight": "4300 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "302hp plug-in hybrid",
+      "42-mile EV range",
+      "Standard AWD",
+      "Fast charging",
+      "EV mode"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["performance SUV", "EV transition", "tax credits", "fast hybrid"],
+    "pros": ["302hp!", "42-mile EV range", "Tax incentives", "Quick acceleration"],
+    "cons": ["Expensive", "Hard to find", "Less cargo space", "Charging needed"]
+  },
+  {
+    "id": "17",
+    "name": "Toyota Venza",
+    "year": 2025,
+    "price": 36040,
+    "msrp": 36040,
+    "priceRange": "$36,040 - $43,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": ["Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/venza/le/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 40,
+        "highway": 37,
+        "combined": 39
+      },
+      "horsepower": 219,
+      "torque": "163 lb-ft",
+      "seating": 5,
+      "fuelType": "Hybrid",
+      "engine": "2.5L 4-cylinder hybrid",
+      "transmission": "e-CVT",
+      "drivetrain": "AWD",
+      "cargoSpace": "28.8 cu ft (up to 55.1 cu ft folded)",
+      "dimensions": {
+        "length": "186.6 in",
+        "width": "73.0 in",
+        "height": "65.9 in",
+        "wheelbase": "105.9 in",
+        "groundClearance": "7.9 in",
+        "weight": "4045 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Hybrid-only",
+      "Standard AWD",
+      "Star Gaze panoramic roof",
+      "Premium interior",
+      "12.3-inch touchscreen"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["premium hybrid", "style", "empty nesters", "efficiency"],
+    "pros": ["Upscale interior", "39 MPG", "Smooth ride", "Unique styling"],
+    "cons": ["Expensive", "Less cargo", "Discontinued for 2026", "Limited appeal"]
+  },
+  {
+    "id": "18",
+    "name": "Toyota Highlander",
+    "year": 2025,
+    "price": 40745,
+    "msrp": 40745,
+    "priceRange": "$40,745 - $52,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": [],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/highlander/le/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 21,
+        "highway": 29,
+        "combined": 24
+      },
+      "horsepower": 265,
+      "torque": "309 lb-ft",
+      "seating": 8,
+      "fuelType": "Gasoline",
+      "engine": "2.4L turbocharged 4-cylinder",
+      "transmission": "8-speed automatic",
+      "drivetrain": "FWD/AWD",
+      "cargoSpace": "16.0 cu ft (up to 84.3 cu ft folded)",
+      "dimensions": {
+        "length": "194.9 in",
+        "width": "76.0 in",
+        "height": "68.1 in",
+        "wheelbase": "112.2 in",
+        "groundClearance": "8.0 in",
+        "weight": "4430 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "3-row seating",
+      "8 passengers",
+      "Turbo engine",
+      "Power liftgate",
+      "Toyota Safety Sense 2.5+"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["large families", "3 rows", "road trips", "towing"],
+    "pros": ["Spacious 3-row", "Reliable", "Strong turbo", "Comfortable"],
+    "cons": ["Expensive", "Dated interior", "Fuel economy", "Firm ride"]
+  },
+  {
+    "id": "19",
+    "name": "Toyota Highlander Hybrid",
+    "year": 2025,
+    "price": 46370,
+    "msrp": 46370,
+    "priceRange": "$46,370 - $55,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": ["Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/highlander-hybrid/xle/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 36,
+        "highway": 35,
+        "combined": 36
+      },
+      "horsepower": 243,
+      "torque": "175 lb-ft",
+      "seating": 8,
+      "fuelType": "Hybrid",
+      "engine": "2.5L 4-cylinder hybrid",
+      "transmission": "e-CVT",
+      "drivetrain": "AWD",
+      "cargoSpace": "16.0 cu ft",
+      "dimensions": {
+        "length": "194.9 in",
+        "width": "76.0 in",
+        "height": "68.1 in",
+        "wheelbase": "112.2 in",
+        "groundClearance": "8.0 in",
+        "weight": "4705 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "36 combined MPG",
+      "Standard AWD",
+      "3-row seating",
+      "8 passengers",
+      "Quiet cabin"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["eco families", "3-row hybrid", "fuel savings", "large groups"],
+    "pros": ["36 MPG 3-row!", "Smooth powertrain", "Standard AWD", "Reliable"],
+    "cons": ["Very expensive", "Less power", "CVT transmission"]
+  },
+  {
+    "id": "20",
+    "name": "Toyota Grand Highlander",
+    "year": 2025,
+    "price": 45745,
+    "msrp": 45745,
+    "priceRange": "$45,745 - $60,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": [],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/grand-highlander/xle/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 21,
+        "highway": 28,
+        "combined": 24
+      },
+      "horsepower": 265,
+      "torque": "309 lb-ft",
+      "seating": 8,
+      "fuelType": "Gasoline",
+      "engine": "2.4L turbocharged 4-cylinder",
+      "transmission": "8-speed automatic",
+      "drivetrain": "FWD/AWD",
+      "cargoSpace": "25.3 cu ft (up to 97.5 cu ft folded)",
+      "dimensions": {
+        "length": "201.4 in",
+        "width": "78.3 in",
+        "height": "70.7 in",
+        "wheelbase": "118.1 in",
+        "groundClearance": "8.1 in",
+        "weight": "4855 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Larger than Highlander",
+      "3-row with more space",
+      "Premium interior",
+      "12.3-inch touchscreen",
+      "Panoramic moonroof available"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["extra space", "growing families", "premium 3-row", "comfort"],
+    "pros": ["Most spacious 3-row", "Premium feel", "Strong engine", "Comfortable"],
+    "cons": ["Expensive", "Large size", "Fuel economy", "New model"]
+  },
+  {
+    "id": "21",
+    "name": "Toyota Grand Highlander Hybrid",
+    "year": 2025,
+    "price": 51295,
+    "msrp": 51295,
+    "priceRange": "$51,295 - $63,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": ["Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/grand-highlander-hybrid/limited/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 27,
+        "highway": 29,
+        "combined": 28
+      },
+      "horsepower": 362,
+      "torque": "400 lb-ft",
+      "seating": 8,
+      "fuelType": "Hybrid",
+      "engine": "2.4L turbocharged hybrid",
+      "transmission": "6-speed automatic",
+      "drivetrain": "AWD",
+      "cargoSpace": "25.3 cu ft",
+      "dimensions": {
+        "length": "201.4 in",
+        "width": "78.3 in",
+        "height": "70.7 in",
+        "wheelbase": "118.1 in",
+        "groundClearance": "8.1 in",
+        "weight": "5290 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "362hp hybrid!",
+      "Turbocharged hybrid",
+      "Standard AWD",
+      "Luxury interior",
+      "Advanced tech"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["performance 3-row", "luxury hybrid", "power + efficiency", "towing"],
+    "pros": ["362hp!", "Quick for size", "Fuel-efficient", "Tows 5,000 lbs"],
+    "cons": ["Very expensive", "$50k+ price", "Complex powertrain"]
+  },
+  {
+    "id": "22",
+    "name": "Toyota 4Runner",
+    "year": 2025,
+    "price": 42690,
+    "msrp": 42690,
+    "priceRange": "$42,690 - $57,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": [],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/4runner/sr5/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 17,
+        "highway": 20,
+        "combined": 18
+      },
+      "horsepower": 278,
+      "torque": "317 lb-ft",
+      "seating": 7,
+      "fuelType": "Gasoline",
+      "engine": "2.4L turbocharged 4-cylinder",
+      "transmission": "8-speed automatic",
+      "drivetrain": "4WD",
+      "cargoSpace": "47.2 cu ft (up to 84.0 cu ft folded)",
+      "dimensions": {
+        "length": "193.3 in",
+        "width": "76.0 in",
+        "height": "71.9 in",
+        "wheelbase": "112.2 in",
+        "groundClearance": "9.6 in",
+        "weight": "5280 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Body-on-frame",
+      "Off-road capable",
+      "Part-time 4WD",
+      "Multi-terrain select",
+      "Crawl control"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["off-road", "adventure", "rugged", "towing", "outdoors"],
+    "pros": ["Off-road beast", "Rugged reliability", "Retains value", "Capable"],
+    "cons": ["Poor MPG", "Dated interior", "Truck-like ride", "Expensive"]
+  },
+  {
+    "id": "23",
+    "name": "Toyota Sequoia",
+    "year": 2025,
+    "price": 62005,
+    "msrp": 62005,
+    "priceRange": "$62,005 - $78,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": ["Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/sequoia/sr5/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 19,
+        "highway": 22,
+        "combined": 20
+      },
+      "horsepower": 437,
+      "torque": "583 lb-ft",
+      "seating": 8,
+      "fuelType": "Hybrid",
+      "engine": "3.5L twin-turbo V6 hybrid",
+      "transmission": "10-speed automatic",
+      "drivetrain": "4WD",
+      "cargoSpace": "22.3 cu ft (up to 120.1 cu ft folded)",
+      "dimensions": {
+        "length": "208.1 in",
+        "width": "79.9 in",
+        "height": "77.2 in",
+        "wheelbase": "122.0 in",
+        "groundClearance": "9.1 in",
+        "weight": "6220 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "437hp hybrid",
+      "Tows 9,000 lbs",
+      "3-row full-size",
+      "Luxury interior",
+      "14-inch touchscreen"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["maximum space", "towing", "large families", "luxury power"],
+    "pros": ["Massive space", "437hp!", "Tows 9,000 lbs", "Hybrid efficiency"],
+    "cons": ["Expensive", "Huge size", "Still thirsty", "$60k+ price"]
+  },
+  {
+    "id": "24",
+    "name": "Toyota Land Cruiser",
+    "year": 2025,
+    "price": 57345,
+    "msrp": 57345,
+    "priceRange": "$57,345 - $68,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": ["Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/land-cruiser/1958/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 17,
+        "highway": 22,
+        "combined": 19
+      },
+      "horsepower": 326,
+      "torque": "465 lb-ft",
+      "seating": 7,
+      "fuelType": "Hybrid",
+      "engine": "2.4L turbocharged 4-cylinder hybrid",
+      "transmission": "8-speed automatic",
+      "drivetrain": "4WD",
+      "cargoSpace": "42.0 cu ft",
+      "dimensions": {
+        "length": "192.5 in",
+        "width": "79.9 in",
+        "height": "74.6 in",
+        "wheelbase": "112.2 in",
+        "groundClearance": "8.9 in",
+        "weight": "5750 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Legendary off-road",
+      "326hp hybrid",
+      "Multi-terrain select",
+      "Crawl control",
+      "Premium interior"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["serious off-road", "adventure", "luxury capability", "heritage"],
+    "pros": ["Off-road legend", "Hybrid power", "Premium feel", "Capable"],
+    "cons": ["Very expensive", "Still thirsty", "Limited availability"]
+  },
+  {
+    "id": "25",
+    "name": "Toyota Tacoma",
+    "year": 2025,
+    "price": 33085,
+    "msrp": 33085,
+    "priceRange": "$33,085 - $50,000",
+    "category": "Trucks",
+    "type": "truck",
+    "badges": [],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/tacoma/sr5/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 20,
+        "highway": 24,
+        "combined": 22
+      },
+      "horsepower": 278,
+      "torque": "317 lb-ft",
+      "seating": 5,
+      "fuelType": "Gasoline",
+      "engine": "2.4L turbocharged 4-cylinder",
+      "transmission": "8-speed automatic",
+      "drivetrain": "4WD",
+      "cargoSpace": "6-foot bed",
+      "dimensions": {
+        "length": "225.5 in",
+        "width": "75.2 in",
+        "height": "71.6 in",
+        "wheelbase": "140.6 in",
+        "groundClearance": "9.4 in",
+        "weight": "4700 lbs"
+      },
+      "safetyRating": 4
+    },
+    "features": [
+      "278hp turbo",
+      "Tows 6,500 lbs",
+      "Off-road capable",
+      "Multi-terrain select",
+      "Payload: 1,440 lbs"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["work truck", "adventure", "off-road", "weekend projects"],
+    "pros": ["Legendary reliability", "Off-road ready", "Strong engine", "Holds value"],
+    "cons": ["Firm ride", "Interior quality", "Fuel economy", "Expensive"]
+  },
+  {
+    "id": "26",
+    "name": "Toyota Tundra",
+    "year": 2025,
+    "price": 42580,
+    "msrp": 42580,
+    "priceRange": "$42,580 - $68,000",
+    "category": "Trucks",
+    "type": "truck",
+    "badges": [],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/tundra/sr5/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 18,
+        "highway": 24,
+        "combined": 20
+      },
+      "horsepower": 389,
+      "torque": "479 lb-ft",
+      "seating": 6,
+      "fuelType": "Gasoline",
+      "engine": "3.5L twin-turbo V6",
+      "transmission": "10-speed automatic",
+      "drivetrain": "4WD",
+      "cargoSpace": "6.5-foot or 8.1-foot bed",
+      "dimensions": {
+        "length": "233.6 in",
+        "width": "80.2 in",
+        "height": "77.0 in",
+        "wheelbase": "145.7 in",
+        "groundClearance": "10.6 in",
+        "weight": "5680 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "389hp twin-turbo",
+      "Tows 12,000 lbs",
+      "Payload: 1,940 lbs",
+      "14-inch touchscreen",
+      "Coil-spring rear"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["heavy towing", "work", "large loads", "full-size needs"],
+    "pros": ["Tows 12,000 lbs", "Smooth ride", "Powerful engine", "Modern interior"],
+    "cons": ["Thirsty", "Expensive", "Large size", "Complex engine"]
+  },
+  {
+    "id": "27",
+    "name": "Toyota Tundra Hybrid",
+    "year": 2025,
+    "price": 51875,
+    "msrp": 51875,
+    "priceRange": "$51,875 - $73,000",
+    "category": "Trucks",
+    "type": "truck",
+    "badges": ["Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/tundra-hybrid/limited/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 20,
+        "highway": 24,
+        "combined": 22
+      },
+      "horsepower": 437,
+      "torque": "583 lb-ft",
+      "seating": 6,
+      "fuelType": "Hybrid",
+      "engine": "3.5L twin-turbo V6 hybrid",
+      "transmission": "10-speed automatic",
+      "drivetrain": "4WD",
+      "cargoSpace": "6.5-foot or 8.1-foot bed",
+      "dimensions": {
+        "length": "233.6 in",
+        "width": "80.2 in",
+        "height": "77.0 in",
+        "wheelbase": "145.7 in",
+        "groundClearance": "10.6 in",
+        "weight": "6025 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "437hp hybrid!",
+      "583 lb-ft torque",
+      "Tows 12,000 lbs",
+      "Better MPG",
+      "Electric boost"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["performance towing", "power + efficiency", "premium truck"],
+    "pros": ["437hp!", "Best towing", "Better MPG", "Powerful"],
+    "cons": ["Very expensive", "$50k+", "Still thirsty", "Heavy"]
+  },
+  {
+    "id": "28",
+    "name": "Toyota bZ4X",
+    "year": 2025,
+    "price": 44420,
+    "msrp": 44420,
+    "priceRange": "$44,420 - $52,000",
+    "category": "Electrified",
+    "type": "suv",
+    "badges": ["Electric"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/bz4x/xle/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 0,
+        "highway": 0,
+        "combined": 0
+      },
+      "horsepower": 214,
+      "torque": "248 lb-ft",
+      "seating": 5,
+      "fuelType": "Electric",
+      "engine": "Electric motor(s)",
+      "transmission": "Single-speed",
+      "drivetrain": "FWD/AWD",
+      "cargoSpace": "27.7 cu ft",
+      "electricRange": "252 miles (FWD) / 228 miles (AWD)",
+      "chargingTime": "9 hours (Level 2) / 30 min to 80% (DC fast)",
+      "dimensions": {
+        "length": "184.6 in",
+        "width": "73.2 in",
+        "height": "65.0 in",
+        "wheelbase": "112.2 in",
+        "groundClearance": "8.2 in",
+        "weight": "4235 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "252-mile range",
+      "Fast charging",
+      "AWD available",
+      "Regenerative braking",
+      "One Pedal Drive"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k battery",
+    "bestFor": ["EV transition", "eco-conscious", "charging access", "tech-forward"],
+    "pros": ["252-mile range", "Fast charging", "Tax credits", "AWD option"],
+    "cons": ["Expensive", "Charging infrastructure", "Less range than rivals"]
+  },
+  {
+    "id": "29",
+    "name": "Toyota Mirai",
+    "year": 2024,
+    "price": 50595,
+    "msrp": 50595,
+    "priceRange": "$50,595 - $67,000",
+    "category": "Electrified",
+    "type": "sedan",
+    "badges": ["Hydrogen"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/mirai/xle/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 0,
+        "highway": 0,
+        "combined": 0
+      },
+      "horsepower": 182,
+      "torque": "221 lb-ft",
+      "seating": 5,
+      "fuelType": "Hydrogen",
+      "engine": "Hydrogen fuel cell",
+      "transmission": "Single-speed",
+      "drivetrain": "RWD",
+      "cargoSpace": "9.8 cu ft",
+      "electricRange": "402 miles",
+      "chargingTime": "5 minutes refuel",
+      "dimensions": {
+        "length": "195.8 in",
+        "width": "71.9 in",
+        "height": "57.9 in",
+        "wheelbase": "112.2 in",
+        "groundClearance": "5.1 in",
+        "weight": "4255 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "402-mile range",
+      "5-minute refuel",
+      "Zero emissions",
+      "Premium interior",
+      "Futuristic tech"
+    ],
+    "warranty": "3yr/36k basic, 8yr/100k fuel cell",
+    "bestFor": ["hydrogen access", "future tech", "California", "zero emissions"],
+    "pros": ["402-mile range", "5-min refuel", "Zero emissions", "Quiet"],
+    "cons": ["Limited hydrogen stations", "Expensive", "California-only", "Small trunk"]
+  },
+  {
+    "id": "30",
+    "name": "Toyota Crown Signia",
+    "year": 2025,
+    "price": 45000,
+    "msrp": 45000,
+    "priceRange": "$45,000 - $54,000",
+    "category": "Crossovers & SUVs",
+    "type": "wagon",
+    "badges": ["Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/crown-signia/xle/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 37,
+        "highway": 34,
+        "combined": 36
+      },
+      "horsepower": 243,
+      "torque": "175 lb-ft",
+      "seating": 5,
+      "fuelType": "Hybrid",
+      "engine": "2.5L 4-cylinder hybrid",
+      "transmission": "e-CVT",
+      "drivetrain": "AWD",
+      "cargoSpace": "33.9 cu ft (up to 68.4 cu ft folded)",
+      "dimensions": {
+        "length": "192.5 in",
+        "width": "74.8 in",
+        "height": "65.0 in",
+        "wheelbase": "112.2 in",
+        "groundClearance": "7.3 in",
+        "weight": "4325 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Wagon/SUV hybrid",
+      "36 MPG",
+      "Standard AWD",
+      "Premium interior",
+      "Unique styling"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["wagon lovers", "style", "efficiency", "unique choice"],
+    "pros": ["Stylish wagon", "36 MPG", "Spacious cargo", "Smooth hybrid"],
+    "cons": ["Polarizing looks", "Expensive", "Niche market"]
+  },
+  {
+    "id": "31",
+    "name": "Toyota Camry XSE",
+    "year": 2025,
+    "price": 32400,
+    "msrp": 32400,
+    "priceRange": "$32,400 - $37,000",
+    "category": "Cars & Minivan",
+    "type": "sedan",
+    "badges": ["Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/camry/xse/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 28,
+        "highway": 39,
+        "combined": 32
+      },
+      "horsepower": 225,
+      "torque": "163 lb-ft",
+      "seating": 5,
+      "fuelType": "Hybrid",
+      "engine": "2.5L 4-cylinder Hybrid",
+      "transmission": "e-CVT",
+      "drivetrain": "FWD",
+      "cargoSpace": "15.1 cu ft",
+      "dimensions": {
+        "length": "192.7 in",
+        "width": "72.4 in",
+        "height": "56.9 in",
+        "wheelbase": "111.2 in",
+        "groundClearance": "5.5 in",
+        "weight": "3340 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Sport-tuned suspension",
+      "19-inch wheels",
+      "Sport seats",
+      "Red interior accents",
+      "Paddle shifters"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["sporty sedan", "style", "performance", "daily driver"],
+    "pros": ["Sporty look", "Good handling", "225hp", "Efficient"],
+    "cons": ["Firm ride", "Sport price premium", "CVT feel"]
+  },
+  {
+    "id": "32",
+    "name": "Toyota Avalon",
+    "year": 2025,
+    "price": 38000,
+    "msrp": 38000,
+    "priceRange": "$38,000 - $45,000",
+    "category": "Cars & Minivan",
+    "type": "sedan",
+    "badges": ["Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/avalon/limited/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 26,
+        "highway": 36,
+        "combined": 30
+      },
+      "horsepower": 215,
+      "torque": "163 lb-ft",
+      "seating": 5,
+      "fuelType": "Hybrid",
+      "engine": "2.5L 4-cylinder Hybrid",
+      "transmission": "e-CVT",
+      "drivetrain": "FWD",
+      "cargoSpace": "16.1 cu ft",
+      "dimensions": {
+        "length": "195.9 in",
+        "width": "72.8 in",
+        "height": "56.5 in",
+        "wheelbase": "111.0 in",
+        "groundClearance": "5.5 in",
+        "weight": "3560 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Spacious sedan",
+      "Premium interior",
+      "Quiet cabin",
+      "JBL audio",
+      "Adaptive cruise"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["comfortable cruising", "road trips", "senior drivers", "space"],
+    "pros": ["Spacious", "Comfortable", "Quiet", "Reliable"],
+    "cons": ["Boring styling", "Discontinued soon", "CVT", "Heavy"]
+  },
+  {
+    "id": "33",
+    "name": "Toyota RAV4 TRD Off-Road",
+    "year": 2025,
+    "price": 38650,
+    "msrp": 38650,
+    "priceRange": "$38,650 - $42,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": ["Performance"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/rav4/trd-off-road/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 25,
+        "highway": 32,
+        "combined": 28
+      },
+      "horsepower": 203,
+      "torque": "184 lb-ft",
+      "seating": 5,
+      "fuelType": "Gasoline",
+      "engine": "2.5L 4-cylinder",
+      "transmission": "8-speed automatic",
+      "drivetrain": "AWD",
+      "cargoSpace": "37.5 cu ft",
+      "dimensions": {
+        "length": "180.9 in",
+        "width": "73.0 in",
+        "height": "68.6 in",
+        "wheelbase": "105.9 in",
+        "groundClearance": "8.6 in",
+        "weight": "3650 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "TRD suspension",
+      "All-terrain tires",
+      "Skid plates",
+      "Multi-terrain select",
+      "Red TRD badging"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["adventure", "off-road", "outdoors", "weekend warrior"],
+    "pros": ["Off-road capable", "Practical SUV", "Good MPG", "Reliable"],
+    "cons": ["Premium pricing", "Firm ride", "Not extreme off-road"]
+  },
+  {
+    "id": "34",
+    "name": "Toyota 4Runner TRD Pro",
+    "year": 2025,
+    "price": 59995,
+    "msrp": 59995,
+    "priceRange": "$59,995 - $65,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": ["Performance"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/4runner/trd-pro/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 16,
+        "highway": 19,
+        "combined": 17
+      },
+      "horsepower": 278,
+      "torque": "317 lb-ft",
+      "seating": 7,
+      "fuelType": "Gasoline",
+      "engine": "2.4L turbocharged 4-cylinder",
+      "transmission": "8-speed automatic",
+      "drivetrain": "4WD",
+      "cargoSpace": "47.2 cu ft",
+      "dimensions": {
+        "length": "193.3 in",
+        "width": "76.0 in",
+        "height": "72.9 in",
+        "wheelbase": "112.2 in",
+        "groundClearance": "10.7 in",
+        "weight": "5480 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "Fox shocks",
+      "TRD Pro suspension",
+      "Extreme off-road",
+      "Skid plates",
+      "Locking rear diff"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["extreme off-road", "overlanding", "serious adventure", "capability"],
+    "pros": ["Ultimate off-road", "Fox shocks", "Iconic", "Capable"],
+    "cons": ["Very expensive", "Terrible MPG", "Rough ride", "$60k"]
+  },
+  {
+    "id": "35",
+    "name": "Toyota Tacoma TRD Pro",
+    "year": 2025,
+    "price": 56500,
+    "msrp": 56500,
+    "priceRange": "$56,500 - $60,000",
+    "category": "Trucks",
+    "type": "truck",
+    "badges": ["Performance"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/tacoma/trd-pro/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 18,
+        "highway": 22,
+        "combined": 20
+      },
+      "horsepower": 278,
+      "torque": "317 lb-ft",
+      "seating": 5,
+      "fuelType": "Gasoline",
+      "engine": "2.4L turbocharged 4-cylinder",
+      "transmission": "8-speed automatic",
+      "drivetrain": "4WD",
+      "cargoSpace": "5-foot bed",
+      "dimensions": {
+        "length": "212.3 in",
+        "width": "75.2 in",
+        "height": "72.8 in",
+        "wheelbase": "127.4 in",
+        "groundClearance": "11.6 in",
+        "weight": "5000 lbs"
+      },
+      "safetyRating": 4
+    },
+    "features": [
+      "Fox shocks",
+      "TRD Pro suspension",
+      "11.6-inch ground clearance",
+      "Crawl control",
+      "Multi-terrain select"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain",
+    "bestFor": ["off-road truck", "desert running", "extreme capability", "overlanding"],
+    "pros": ["Extreme off-road", "11.6-inch clearance", "Fox shocks", "Capable"],
+    "cons": ["Very expensive", "Rough ride", "Poor MPG", "Overkill for most"]
+  },
+  {
+    "id": "36",
+    "name": "Toyota Tundra TRD Pro",
+    "year": 2025,
+    "price": 73995,
+    "msrp": 73995,
+    "priceRange": "$73,995 - $78,000",
+    "category": "Trucks",
+    "type": "truck",
+    "badges": ["Performance", "Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/tundra/trd-pro/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 17,
+        "highway": 22,
+        "combined": 19
+      },
+      "horsepower": 437,
+      "torque": "583 lb-ft",
+      "seating": 6,
+      "fuelType": "Hybrid",
+      "engine": "3.5L twin-turbo V6 hybrid",
+      "transmission": "10-speed automatic",
+      "drivetrain": "4WD",
+      "cargoSpace": "6.5-foot bed",
+      "dimensions": {
+        "length": "233.6 in",
+        "width": "80.2 in",
+        "height": "78.0 in",
+        "wheelbase": "145.7 in",
+        "groundClearance": "11.6 in",
+        "weight": "6350 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "437hp hybrid",
+      "Fox shocks",
+      "TRD Pro suspension",
+      "Tows 11,175 lbs",
+      "Extreme capability"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["extreme towing", "off-road hauling", "ultimate capability", "luxury power"],
+    "pros": ["437hp!", "Extreme off-road", "Tows heavy", "Luxury features"],
+    "cons": ["$74k price", "Thirsty", "Massive size", "Overkill"]
+  },
+  {
+    "id": "37",
+    "name": "Toyota Sequoia TRD Pro",
+    "year": 2025,
+    "price": 79995,
+    "msrp": 79995,
+    "priceRange": "$79,995 - $83,000",
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": ["Performance", "Hybrid EV"],
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/sequoia/trd-pro/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 18,
+        "highway": 21,
+        "combined": 19
+      },
+      "horsepower": 437,
+      "torque": "583 lb-ft",
+      "seating": 8,
+      "fuelType": "Hybrid",
+      "engine": "3.5L twin-turbo V6 hybrid",
+      "transmission": "10-speed automatic",
+      "drivetrain": "4WD",
+      "cargoSpace": "22.3 cu ft",
+      "dimensions": {
+        "length": "208.1 in",
+        "width": "79.9 in",
+        "height": "78.2 in",
+        "wheelbase": "122.0 in",
+        "groundClearance": "10.1 in",
+        "weight": "6550 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "437hp hybrid",
+      "Fox shocks",
+      "8 passengers",
+      "Tows 8,980 lbs",
+      "Ultimate off-road SUV"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["family adventures", "extreme capability", "luxury + off-road", "ultimate SUV"],
+    "pros": ["437hp!", "Seats 8", "Extreme off-road", "Luxury"],
+    "cons": ["$80k price", "Massive", "Thirsty", "Overkill for most"]
+  },
+  {
+    "id": "38",
+    "name": "Toyota Prius Prime",
+    "year": 2025,
+    "price": 33550,
+    "msrp": 33550,
+    "priceRange": "$33,550 - $40,000",
+    "category": "Cars & Minivan",
     "type": "plug-in-hybrid",
     "badges": ["Plug-in Hybrid EV"],
-    "image": "/placeholder.svg"
-  },
-  {
-    "id": "highlander",
-    "name": "Highlander",
-    "price": 38420,
-    "msrp": 42800,
-    "category": "Crossovers & SUVs",
-    "type": "suv",
-    "badges": [],
-    "image": "/placeholder.svg"
-  },
-  {
-    "id": "highlander-hybrid",
-    "name": "Highlander Hybrid",
-    "price": 41620,
-    "msrp": 46100,
-    "category": "Crossovers & SUVs",
-    "type": "hybrid",
-    "badges": ["Hybrid EV"],
-    "image": "/placeholder.svg"
-  },
-  {
-    "id": "tacoma",
-    "name": "Tacoma",
-    "price": 28750,
-    "msrp": 32400,
-    "category": "Trucks",
-    "type": "truck",
-    "badges": [],
-    "image": "/placeholder.svg"
-  },
-  {
-    "id": "tundra",
-    "name": "Tundra",
-    "price": 39990,
-    "msrp": 44800,
-    "category": "Trucks",
-    "type": "truck",
-    "badges": ["Hybrid EV"],
-    "image": "/placeholder.svg"
-  },
-  {
-    "id": "bz4x",
-    "name": "bZ4X",
-    "price": 43215,
-    "msrp": 48500,
-    "category": "Electrified",
-    "type": "electric",
-    "badges": ["Electric"],
-    "image": "/placeholder.svg"
+    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/prius-prime/xse/1.png",
+    "specifications": {
+      "mpg": {
+        "city": 51,
+        "highway": 47,
+        "combined": 49
+      },
+      "horsepower": 220,
+      "torque": "152 lb-ft",
+      "seating": 5,
+      "fuelType": "Plug-in Hybrid",
+      "engine": "2.0L 4-cylinder PHEV",
+      "transmission": "e-CVT",
+      "drivetrain": "FWD",
+      "cargoSpace": "16.8 cu ft",
+      "electricRange": "44 miles",
+      "dimensions": {
+        "length": "181.1 in",
+        "width": "72.0 in",
+        "height": "56.7 in",
+        "wheelbase": "107.1 in",
+        "groundClearance": "5.3 in",
+        "weight": "3505 lbs"
+      },
+      "safetyRating": 5
+    },
+    "features": [
+      "44-mile EV range",
+      "Fast charging capable",
+      "12.3-inch touchscreen",
+      "Heat pump",
+      "Parking assist"
+    ],
+    "warranty": "3yr/36k basic, 5yr/60k powertrain, 10yr/150k hybrid",
+    "bestFor": ["EV transition", "short commutes", "charging access", "tax credits"],
+    "pros": ["44-mile EV range", "220hp", "Tax incentives", "Dual fuel flexibility"],
+    "cons": ["Expensive", "Less cargo space", "Charging required for best MPG"]
   }
 ]

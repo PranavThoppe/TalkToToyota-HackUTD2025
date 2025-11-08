@@ -33,19 +33,72 @@ const VehicleCard = ({ vehicle, index }: VehicleCardProps) => {
           />
         </div>
       </div>
-      <div className="p-6 text-center">
-        <p className="text-sm text-muted-foreground mb-1">
-          ${vehicle.msrp.toLocaleString()} as shown*
-        </p>
-        <h3 className="text-2xl font-bold mb-4 text-card-foreground">
-          {vehicle.name}
-        </h3>
-        <div className="space-y-1">
-          <p className="text-3xl font-bold text-card-foreground">
-            ${vehicle.price.toLocaleString()}
+      <div className="p-6">
+        <div className="text-center mb-4">
+          <p className="text-sm text-muted-foreground mb-1">
+            {vehicle.priceRange || `$${vehicle.msrp.toLocaleString()} as shown*`}
           </p>
-          <p className="text-sm text-muted-foreground">Starting MSRP*</p>
+          <h3 className="text-2xl font-bold mb-2 text-card-foreground">
+            {vehicle.name}
+          </h3>
+          {vehicle.year && (
+            <p className="text-sm text-muted-foreground mb-3">{vehicle.year}</p>
+          )}
+          <div className="space-y-1">
+            <p className="text-3xl font-bold text-card-foreground">
+              ${vehicle.price.toLocaleString()}
+            </p>
+            <p className="text-sm text-muted-foreground">Starting MSRP*</p>
+          </div>
         </div>
+        
+        {/* Key Specifications */}
+        {vehicle.specifications && (
+          <div className="border-t border-border pt-4 mt-4">
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              {vehicle.specifications.mpg?.combined && (
+                <div>
+                  <p className="text-muted-foreground">MPG (Combined)</p>
+                  <p className="font-semibold text-card-foreground">
+                    {vehicle.specifications.mpg.combined}
+                  </p>
+                </div>
+              )}
+              {vehicle.specifications.horsepower && (
+                <div>
+                  <p className="text-muted-foreground">Horsepower</p>
+                  <p className="font-semibold text-card-foreground">
+                    {vehicle.specifications.horsepower} hp
+                  </p>
+                </div>
+              )}
+              {vehicle.specifications.seating && (
+                <div>
+                  <p className="text-muted-foreground">Seating</p>
+                  <p className="font-semibold text-card-foreground">
+                    {vehicle.specifications.seating} passengers
+                  </p>
+                </div>
+              )}
+              {vehicle.specifications.fuelType && (
+                <div>
+                  <p className="text-muted-foreground">Fuel Type</p>
+                  <p className="font-semibold text-card-foreground">
+                    {vehicle.specifications.fuelType}
+                  </p>
+                </div>
+              )}
+            </div>
+            {vehicle.specifications.electricRange && (
+              <div className="mt-3 pt-3 border-t border-border">
+                <p className="text-muted-foreground text-sm">Electric Range</p>
+                <p className="font-semibold text-card-foreground">
+                  {vehicle.specifications.electricRange}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   );

@@ -40,22 +40,37 @@ const Index = () => {
     // Type filtering
     if (lowerQuery.includes("hybrid")) {
       return vehicles.filter(
-        (v) => v.type === "hybrid" || v.type === "plug-in-hybrid"
+        (v) => v.type === "hybrid" || 
+               v.type === "plug-in-hybrid" ||
+               v.specifications?.fuelType?.toLowerCase().includes("hybrid") ||
+               v.badges.some(b => b.toLowerCase().includes("hybrid"))
       );
     }
     if (lowerQuery.includes("electric")) {
-      return vehicles.filter((v) => v.type === "electric");
+      return vehicles.filter(
+        (v) => v.type === "electric" ||
+               v.specifications?.fuelType?.toLowerCase().includes("electric") ||
+               v.badges.some(b => b.toLowerCase().includes("electric"))
+      );
     }
     if (lowerQuery.includes("suv")) {
-      return vehicles.filter((v) => v.type === "suv");
+      return vehicles.filter((v) => v.type === "suv" || v.type === "wagon");
     }
     if (lowerQuery.includes("truck")) {
       return vehicles.filter((v) => v.type === "truck");
     }
+    if (lowerQuery.includes("sedan")) {
+      return vehicles.filter((v) => v.type === "sedan");
+    }
+    if (lowerQuery.includes("sports") || lowerQuery.includes("performance")) {
+      return vehicles.filter((v) => v.type === "sports-car" || v.badges.some(b => b.toLowerCase().includes("performance")));
+    }
 
-    // Name search
+    // Name and model search
     return vehicles.filter((v) =>
-      v.name.toLowerCase().includes(lowerQuery)
+      v.name.toLowerCase().includes(lowerQuery) ||
+      v.specifications?.fuelType?.toLowerCase().includes(lowerQuery) ||
+      (v.specifications?.engine && v.specifications.engine.toLowerCase().includes(lowerQuery))
     );
   };
 
