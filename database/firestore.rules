@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Vehicles collection - read-only for authenticated users
+    match /vehicles/{vehicleId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only admins can write (handled via Admin SDK)
+    }
+    
+    // User preferences collection
+    match /users/{userId}/preferences/{preferenceId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Conversation history collection
+    match /users/{userId}/conversations/{conversationId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}

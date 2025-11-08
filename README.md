@@ -1,73 +1,214 @@
-# Welcome to your Lovable project
+# TalkToToyota - HackUTD 2025
 
-## Project info
+A conversational AI car salesman application featuring voice interaction, intelligent vehicle recommendations, and real-time chat capabilities.
 
-**URL**: https://lovable.dev/projects/9fec24ae-77ee-4b12-9faa-67a3b93fd02d
+## 🚀 Features
 
-## How can I edit this code?
+- **Voice Assistant**: Interactive voice AI using ElevenLabs and OpenRouter APIs
+- **Chat Interface**: Text-based conversation with AI car salesman
+- **Vehicle Database**: Firebase Firestore integration for vehicle data
+- **Smart Search**: AI-powered vehicle search and filtering
+- **Authentication**: Auth0 integration for user management
+- **Modern UI**: Built with React, TypeScript, Tailwind CSS, and shadcn/ui
 
-There are several ways of editing your application.
+## 📁 Project Structure
 
-**Use Lovable**
+```
+TalkToToyota-HackUTD2025/
+├── frontend/          # React/TypeScript frontend application
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── ui/          # shadcn/ui components
+│   │   │   ├── vehicles/    # Vehicle-related components
+│   │   │   ├── voice/       # Voice assistant components
+│   │   │   └── chat/        # Chat interface components
+│   │   ├── services/        # Firebase, Auth0, API clients
+│   │   ├── hooks/           # Custom React hooks
+│   │   ├── types/           # TypeScript type definitions
+│   │   └── pages/           # Page components
+│   └── package.json
+│
+├── backend/           # Node.js/Express backend API
+│   ├── src/
+│   │   ├── routes/          # API routes
+│   │   ├── services/        # ElevenLabs, OpenRouter, AI services
+│   │   └── config/          # Configuration files
+│   └── package.json
+│
+├── database/          # Firebase configuration
+│   ├── firestore.rules      # Firestore security rules
+│   └── seed-data.json       # Initial vehicle data
+│
+└── README.md
+```
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/9fec24ae-77ee-4b12-9faa-67a3b93fd02d) and start prompting.
+## 🛠️ Setup Instructions
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js (v18 or higher)
+- npm or yarn
+- Firebase account
+- Auth0 account
+- ElevenLabs API key
+- OpenRouter API key
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 1. Install Dependencies
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```bash
+# Install root dependencies
+npm install
 
-Follow these steps:
+# Install frontend dependencies
+npm install --workspace=frontend
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Install backend dependencies
+npm install --workspace=backend
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Or use the convenience script:
 
-# Step 3: Install the necessary dependencies.
-npm i
+```bash
+npm run install:all
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### 2. Configure Environment Variables
+
+#### Frontend (.env file in `frontend/` directory)
+
+Create `frontend/.env`:
+
+```env
+# Firebase Configuration
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+
+# Auth0 Configuration
+VITE_AUTH0_DOMAIN=your_auth0_domain
+VITE_AUTH0_CLIENT_ID=your_auth0_client_id
+VITE_AUTH0_AUDIENCE=your_auth0_audience
+
+# Backend API
+VITE_API_BASE_URL=http://localhost:3001/api
+```
+
+#### Backend (.env file in `backend/` directory)
+
+Create `backend/.env`:
+
+```env
+# Server Configuration
+PORT=3001
+NODE_ENV=development
+APP_URL=http://localhost:8080
+
+# OpenRouter API (for AI conversations and transcriptions)
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+
+# ElevenLabs API (for text-to-speech)
+ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
+ELEVENLABS_VOICE_ID=21m00Tcm4TlvDq8ikWAM
+```
+
+### 3. Setup Firebase
+
+1. Create a new Firebase project at [Firebase Console](https://console.firebase.google.com/)
+2. Enable Firestore Database
+3. Copy your Firebase config to `frontend/.env`
+4. Deploy Firestore rules:
+   ```bash
+   firebase deploy --only firestore:rules
+   ```
+5. Import seed data from `database/seed-data.json` into Firestore `vehicles` collection
+
+### 4. Setup Auth0
+
+1. Create an Auth0 account at [Auth0](https://auth0.com/)
+2. Create a new application (Single Page Application)
+3. Configure allowed callback URLs, logout URLs, and web origins
+4. Copy your Auth0 credentials to `frontend/.env`
+
+### 5. Run the Application
+
+#### Development Mode (both frontend and backend)
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+#### Run Frontend Only
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+npm run dev:frontend
+```
 
-**Use GitHub Codespaces**
+#### Run Backend Only
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+npm run dev:backend
+```
 
-## What technologies are used for this project?
+The frontend will be available at `http://localhost:8080`
+The backend API will be available at `http://localhost:3001`
 
-This project is built with:
+## 📝 API Endpoints
 
-- Vite
+### Backend API
+
+- `GET /health` - Health check endpoint
+- `POST /api/voice/transcribe` - Transcribe audio to text
+- `POST /api/voice/speak` - Convert text to speech
+- `POST /api/ai/conversation` - Get AI conversation response
+
+## 🔧 Technologies Used
+
+### Frontend
+- React 18
 - TypeScript
-- React
-- shadcn-ui
+- Vite
 - Tailwind CSS
+- shadcn/ui
+- Firebase SDK
+- Auth0 React SDK
+- Framer Motion
+- React Query
 
-## How can I deploy this project?
+### Backend
+- Node.js
+- Express
+- TypeScript
+- ElevenLabs SDK
+- OpenRouter API
+- Axios
 
-Simply open [Lovable](https://lovable.dev/projects/9fec24ae-77ee-4b12-9faa-67a3b93fd02d) and click on Share -> Publish.
+### Database
+- Firebase Firestore
 
-## Can I connect a custom domain to my Lovable project?
+## 🎯 Features in Development
 
-Yes, you can!
+- [ ] Extended vehicle specifications
+- [ ] User preferences storage
+- [ ] Conversation history
+- [ ] Vehicle comparison feature
+- [ ] Advanced search filters
+- [ ] Image uploads for vehicles
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 📄 License
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+ISC
+
+## 👥 Contributors
+
+HackUTD 2025 Team
+
+## 🤝 Contributing
+
+This is a hackathon project. Feel free to fork and modify as needed!
+
+## 📞 Support
+
+For issues or questions, please open an issue on GitHub.

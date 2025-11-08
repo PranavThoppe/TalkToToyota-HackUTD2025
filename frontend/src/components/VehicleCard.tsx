@@ -1,16 +1,6 @@
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-
-interface Vehicle {
-  id: string;
-  name: string;
-  price: number;
-  msrp: number;
-  category: string;
-  type: string;
-  badges: string[];
-  image: string;
-}
+import { Vehicle } from "@/types/vehicle";
 
 interface VehicleCardProps {
   vehicle: Vehicle;

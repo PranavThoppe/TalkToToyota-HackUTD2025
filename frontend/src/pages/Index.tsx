@@ -3,24 +3,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import VehicleCard from "@/components/VehicleCard";
 import SearchBar from "@/components/SearchBar";
 import CategoryTabs from "@/components/CategoryTabs";
-import vehiclesData from "@/data/vehicles.json";
+import VoiceAssistant from "@/components/voice/VoiceAssistant";
+import ChatInterface from "@/components/chat/ChatInterface";
+import VehicleList from "@/components/vehicles/VehicleList";
+import { useVehicles } from "@/hooks/useFirebase";
 import { useToast } from "@/hooks/use-toast";
-
-interface Vehicle {
-  id: string;
-  name: string;
-  price: number;
-  msrp: number;
-  category: string;
-  type: string;
-  badges: string[];
-  image: string;
-}
+import { Vehicle } from "@/types/vehicle";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState("Cars & Minivan");
   const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
+  const { vehicles, loading } = useVehicles(activeCategory);
 
   const categories = [
     "Cars & Minivan",
@@ -65,11 +60,8 @@ const Index = () => {
   };
 
   const filteredVehicles = useMemo(() => {
-    const categoryFiltered = (vehiclesData as Vehicle[]).filter(
-      (v) => v.category === activeCategory
-    );
-    return filterVehicles(categoryFiltered, searchQuery);
-  }, [activeCategory, searchQuery]);
+    return filterVehicles(vehicles, searchQuery);
+  }, [vehicles, searchQuery]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -111,33 +103,30 @@ const Index = () => {
         </div>
 
         {/* Vehicle Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`${activeCategory}-${searchQuery}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {filteredVehicles.map((vehicle, index) => (
-              <VehicleCard key={vehicle.id} vehicle={vehicle} index={index} />
-            ))}
-          </motion.div>
-        </AnimatePresence>
-
-        {filteredVehicles.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-16"
-          >
-            <p className="text-xl text-muted-foreground">
-              No vehicles found. Try a different search.
-            </p>
-          </motion.div>
-        )}
+        <VehicleList vehicles={filteredVehicles} loading={loading} />
       </main>
+
+      {/* AI Assistant Section */}
+      <div className="container mx-auto px-4 py-8">
+        <Tabs defaultValue="voice" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="voice">Voice Assistant</TabsTrigger>
+            <TabsTrigger value="chat">Chat</TabsTrigger>
+          </TabsList>
+          <TabsContent value="voice" className="mt-4">
+            <VoiceAssistant
+              vehicles={vehicles}
+              currentCategory={activeCategory}
+            />
+          </TabsContent>
+          <TabsContent value="chat" className="mt-4">
+            <ChatInterface
+              vehicles={vehicles}
+              currentCategory={activeCategory}
+            />
+          </TabsContent>
+        </Tabs>
+      </div>
 
       {/* Persistent Search Bar */}
       <SearchBar onSearch={handleSearch} />
