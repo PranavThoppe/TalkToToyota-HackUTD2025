@@ -18,6 +18,9 @@ interface FinanceCalculationParams {
     downPayment?: number;
     savings?: number;
     totalCostChange?: number;
+    amountFinanced?: number;
+    totalCost?: number;
+    apr?: number;
     type?: AlternativeType;
   }
   
@@ -116,6 +119,9 @@ interface FinanceCalculationParams {
         loanTermMonths: longerTerm,
         savings: roundCurrency(savings),
         totalCostChange: Math.round(totalCost - baseTotalCost),
+        amountFinanced: Math.round(baseAmountFinanced),
+        totalCost: Math.round(totalCost),
+        apr,
         type: "longer-term",
       });
     }
@@ -163,6 +169,9 @@ interface FinanceCalculationParams {
             downPayment: suggestedDownPayment,
             savings: roundCurrency(savings),
             totalCostChange: Math.round(totalCost - baseTotalCost),
+            amountFinanced: Math.round(amountFinancedHigherDown),
+            totalCost: Math.round(totalCost),
+            apr,
             type: "higher-down",
           });
         }
@@ -185,6 +194,9 @@ interface FinanceCalculationParams {
           loanTermMonths: shorterTerm,
           savings: -roundCurrency(difference), // negative savings = paying more per month
           totalCostChange: Math.round(totalCost - baseTotalCost),
+          amountFinanced: Math.round(baseAmountFinanced),
+          totalCost: Math.round(totalCost),
+          apr,
           type: "shorter-term",
         });
       }
@@ -309,11 +321,14 @@ function generateRecommendation(
       downPayment,
       savings: 0,
       totalCostChange: 0,
+      amountFinanced: Math.round(amountFinanced),
+      totalCost: Math.round(monthlyPayment * loanTermMonths),
+      apr,
       type: "base",
     };
 
     const generatedAlternatives = generateAlternatives(params, monthlyPayment, apr);
-    const alternatives = [baseAlternative, ...generatedAlternatives];
+    const alternatives = [baseAlternative, ...generatedAlternatives].slice(0, 3);
   
     // Generate recommendation with alternatives
     const recommendation = generateRecommendation(

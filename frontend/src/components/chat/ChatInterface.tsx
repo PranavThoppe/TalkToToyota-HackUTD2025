@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send, Loader2 } from "lucide-react";
-import { getAIResponse, type FinancingState } from "@/services/api";
+import { getAIResponse, type FinancingState, type FinancingResults } from "@/services/api";
 import { Vehicle } from "@/types/vehicle";
 import MessageBubble from "./MessageBubble";
 
@@ -34,6 +34,7 @@ export default function ChatInterface({
     Array<{ role: "user" | "assistant" | "system"; content: string }>
   >([]);
   const [financingState, setFinancingState] = useState<FinancingState>({});
+  const [financingResults, setFinancingResults] = useState<FinancingResults | null>(null);
 
   const [hasWelcomed, setHasWelcomed] = React.useState(false);
 
@@ -44,12 +45,14 @@ export default function ChatInterface({
       setConversationHistory([]);
       setHasWelcomed(false);
       setFinancingState({});
+      setFinancingResults(null);
     } else {
       // Clear messages when no vehicle is selected
       setMessages([]);
       setConversationHistory([]);
       setHasWelcomed(false);
       setFinancingState({});
+      setFinancingResults(null);
     }
   }, [selectedVehicle?.id]);
 
@@ -68,6 +71,26 @@ export default function ChatInterface({
       setHasWelcomed(true);
     }
   }, [selectedVehicle, hasWelcomed, messages.length]);
+
+  const currencyFormatter = React.useMemo(
+    () =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }),
+    []
+  );
+
+  const aprFormatter = React.useMemo(
+    () =>
+      new Intl.NumberFormat("en-US", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 1,
+      }),
+    []
+  );
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
@@ -104,34 +127,30 @@ export default function ChatInterface({
 
       const updatedFinancingState = aiResponse.financingState ?? financingState;
       setFinancingState(updatedFinancingState);
+      setFinancingResults(aiResponse.financingResults ?? null);
 
       let assistantContent = aiResponse.response;
 
       if (aiResponse.financingResults) {
         const result = aiResponse.financingResults;
-        const formatter = new Intl.NumberFormat("en-US", {
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 0,
-        });
-
         const [baseAlt, ...otherAlternatives] = result.alternatives || [];
 
         const baseAltText = baseAlt
-          ? `• ${baseAlt.description}: $${formatter.format(baseAlt.monthlyPayment)}/mo`
+          ? `• ${baseAlt.description}: $${currencyFormatter.format(baseAlt.monthlyPayment)}/mo`
           : null;
 
         const altText = otherAlternatives
           .map((alt, idx) => {
-            const payment = formatter.format(alt.monthlyPayment);
+            const payment = currencyFormatter.format(alt.monthlyPayment);
             const monthlyChange =
               alt.savings !== undefined && alt.savings !== null && alt.savings !== 0
-                ? `${alt.savings > 0 ? "saves" : "adds"} $${formatter.format(Math.abs(alt.savings))}/mo`
+                ? `${alt.savings > 0 ? "saves" : "adds"} $${currencyFormatter.format(Math.abs(alt.savings))}/mo`
                 : null;
             const totalChange =
               alt.totalCostChange !== undefined &&
               alt.totalCostChange !== null &&
               alt.totalCostChange !== 0
-                ? `${alt.totalCostChange < 0 ? "saves" : "adds"} $${formatter.format(Math.abs(alt.totalCostChange))}/total`
+                ? `${alt.totalCostChange < 0 ? "saves" : "adds"} $${currencyFormatter.format(Math.abs(alt.totalCostChange))}/total`
                 : null;
 
             const changes = [monthlyChange, totalChange].filter(Boolean).join(", ");
@@ -142,10 +161,10 @@ export default function ChatInterface({
 
         assistantContent +=
           `\n\nFinancing Summary:\n` +
-          `- Monthly Payment: $${formatter.format(result.monthlyPayment)}\n` +
+          `- Monthly Payment: ${currencyFormatter.format(result.monthlyPayment)}\n` +
           `- APR: ${result.apr}%\n` +
-          `- Total Cost: $${formatter.format(result.totalCost)}\n` +
-          `- Amount Financed: $${formatter.format(result.amountFinanced)}\n` +
+          `- Total Cost: ${currencyFormatter.format(result.totalCost)}\n` +
+          `- Amount Financed: ${currencyFormatter.format(result.amountFinanced)}\n` +
           (result.recommendation ? `\n${result.recommendation}\n` : "") +
           (baseAltText ? `\nAlternative Options:\n${baseAltText}` : "") +
           (altText ? `\nSuggested Adjustments:\n${altText}` : "");
@@ -212,33 +231,80 @@ export default function ChatInterface({
             </div>
           )}
         </div>
-        <div className="border rounded-lg p-3 mb-4 bg-muted/40">
-          <p className="text-sm font-semibold mb-2">Financing Checklist</p>
-          <ul className="text-xs space-y-1 text-muted-foreground">
-            <li>
-              {financingState.creditScore !== undefined ? "✅" : "⬜"} Credit Score{" "}
-              {financingState.creditScore !== undefined && `( ${financingState.creditScore} )`}
-            </li>
-            <li>
-              {financingState.downPayment !== undefined ? "✅" : "⬜"} Down Payment{" "}
-              {financingState.downPayment !== undefined &&
-                `( $${new Intl.NumberFormat("en-US").format(financingState.downPayment)} )`}
-            </li>
-            <li>
-              {financingState.loanTermMonths !== undefined ? "✅" : "⬜"} Loan Term{" "}
-              {financingState.loanTermMonths !== undefined && `( ${financingState.loanTermMonths} months )`}
-            </li>
-            <li>
-              {financingState.tradeInValue !== undefined ? "✅" : "⬜"} Trade-In Value{" "}
-              {financingState.tradeInValue !== undefined &&
-                `( $${new Intl.NumberFormat("en-US").format(financingState.tradeInValue)} )`}
-            </li>
-            <li>
-              {financingState.salesTaxRate !== undefined ? "✅" : "⬜"} Sales Tax Rate{" "}
-              {financingState.salesTaxRate !== undefined && `( ${financingState.salesTaxRate}% )`}
-            </li>
-          </ul>
-        </div>
+        {!financingResults && (
+          <div className="border rounded-lg p-3 mb-4 bg-muted/40">
+            <p className="text-sm font-semibold mb-2">Financing Checklist</p>
+            <ul className="text-xs space-y-1 text-muted-foreground">
+              <li>
+                {financingState.creditScore !== undefined ? "✅" : "⬜"} Credit Score{" "}
+                {financingState.creditScore !== undefined && `( ${financingState.creditScore} )`}
+              </li>
+              <li>
+                {financingState.downPayment !== undefined ? "✅" : "⬜"} Down Payment{" "}
+                {financingState.downPayment !== undefined &&
+                  `( $${new Intl.NumberFormat("en-US").format(financingState.downPayment)} )`}
+              </li>
+              <li>
+                {financingState.loanTermMonths !== undefined ? "✅" : "⬜"} Loan Term{" "}
+                {financingState.loanTermMonths !== undefined && `( ${financingState.loanTermMonths} months )`}
+              </li>
+              <li>
+                {financingState.tradeInValue !== undefined ? "✅" : "⬜"} Trade-In Value{" "}
+                {financingState.tradeInValue !== undefined &&
+                  `( $${new Intl.NumberFormat("en-US").format(financingState.tradeInValue)} )`}
+              </li>
+              <li>
+                {financingState.salesTaxRate !== undefined ? "✅" : "⬜"} Sales Tax Rate{" "}
+                {financingState.salesTaxRate !== undefined && `( ${financingState.salesTaxRate}% )`}
+              </li>
+            </ul>
+          </div>
+        )}
+        {financingResults && financingResults.alternatives?.length > 0 && (
+          <Card className="mb-4 bg-muted/30">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-semibold">Financing Options</CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-3 md:grid-cols-3">
+              {financingResults.alternatives.map((option, index) => (
+                <div
+                  key={`${option.description}-${index}`}
+                  className="rounded-lg border border-border bg-background p-3 shadow-sm"
+                >
+                  <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                    Option {index + 1}
+                    {option.type === "base" ? " • Current selection" : ""}
+                  </p>
+                  <p className="text-sm font-semibold mt-1">{option.description}</p>
+                  <div className="mt-3 space-y-1 text-sm">
+                    <div>
+                      <span className="font-medium">Monthly Payment:</span>{" "}
+                      {currencyFormatter.format(option.monthlyPayment)}
+                    </div>
+                    <div>
+                      <span className="font-medium">APR:</span>{" "}
+                      {option.apr !== undefined
+                        ? `${aprFormatter.format(option.apr)}%`
+                        : `${aprFormatter.format(financingResults.apr)}%`}
+                    </div>
+                    <div>
+                      <span className="font-medium">Total Cost:</span>{" "}
+                      {currencyFormatter.format(
+                        option.totalCost ?? financingResults.totalCost
+                      )}
+                    </div>
+                    <div>
+                      <span className="font-medium">Amount Financed:</span>{" "}
+                      {currencyFormatter.format(
+                        option.amountFinanced ?? financingResults.amountFinanced
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        )}
         <div className="flex space-x-2">
           <Input
             value={input}

@@ -20,6 +20,10 @@ export interface FinancingAlternative {
   downPayment?: number;
   savings?: number;
   totalCostChange?: number;
+  amountFinanced?: number;
+  totalCost?: number;
+  apr?: number;
+  type?: "base" | "longer-term" | "higher-down" | "shorter-term";
 }
 
 export interface FinancingResults {
