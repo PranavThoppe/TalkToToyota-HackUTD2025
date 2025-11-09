@@ -1,5 +1,6 @@
-import { useState } from "react";
 import * as React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,7 @@ export default function ChatInterface({
   selectedVehicle,
   className,
 }: ChatInterfaceProps) {
+  const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -204,6 +206,26 @@ export default function ChatInterface({
     }
   };
 
+  const handleOptionSelect = (option: FinancingResults["alternatives"][number]) => {
+    if (!selectedVehicle || !financingResults) {
+      return;
+    }
+
+    navigate("/checkout", {
+      state: {
+        vehicle: selectedVehicle,
+        option,
+        summary: {
+          monthlyPayment: financingResults.monthlyPayment,
+          apr: financingResults.apr,
+          totalCost: financingResults.totalCost,
+          amountFinanced: financingResults.amountFinanced,
+          recommendation: financingResults.recommendation,
+        },
+      },
+    });
+  };
+
   return (
     <Card className={`${className} h-full flex flex-col`}>
       <CardHeader>
@@ -267,9 +289,11 @@ export default function ChatInterface({
             </CardHeader>
             <CardContent className="grid gap-3 md:grid-cols-3">
               {financingResults.alternatives.map((option, index) => (
-                <div
+                <button
                   key={`${option.description}-${index}`}
-                  className="rounded-lg border border-border bg-background p-3 shadow-sm"
+                  type="button"
+                  onClick={() => handleOptionSelect(option)}
+                  className="rounded-lg border border-border bg-background p-3 text-left shadow-sm transition hover:border-primary hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 >
                   <p className="text-xs uppercase tracking-wide text-muted-foreground">
                     Option {index + 1}
@@ -300,7 +324,7 @@ export default function ChatInterface({
                       )}
                     </div>
                   </div>
-                </div>
+                </button>
               ))}
             </CardContent>
           </Card>
