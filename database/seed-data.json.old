@@ -1,0 +1,152 @@
+[
+  {
+    "id": "corolla",
+    "name": "Corolla",
+    "price": 22725,
+    "msrp": 28440,
+    "category": "Cars & Minivan",
+    "type": "sedan",
+    "badges": [],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "corolla-hybrid",
+    "name": "Corolla Hybrid",
+    "price": 24575,
+    "msrp": 28415,
+    "category": "Cars & Minivan",
+    "type": "hybrid",
+    "badges": ["Hybrid EV"],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "corolla-hatchback",
+    "name": "Corolla Hatchback",
+    "price": 24180,
+    "msrp": 26780,
+    "category": "Cars & Minivan",
+    "type": "hatchback",
+    "badges": [],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "prius",
+    "name": "Prius",
+    "price": 28875,
+    "msrp": 32500,
+    "category": "Cars & Minivan",
+    "type": "hybrid",
+    "badges": ["Hybrid EV"],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "prius-prime",
+    "name": "Prius Prime",
+    "price": 32350,
+    "msrp": 36800,
+    "category": "Cars & Minivan",
+    "type": "plug-in-hybrid",
+    "badges": ["Plug-in Hybrid EV"],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "camry",
+    "name": "Camry",
+    "price": 26420,
+    "msrp": 30500,
+    "category": "Cars & Minivan",
+    "type": "sedan",
+    "badges": [],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "camry-hybrid",
+    "name": "Camry Hybrid",
+    "price": 29170,
+    "msrp": 33200,
+    "category": "Cars & Minivan",
+    "type": "hybrid",
+    "badges": ["Hybrid EV"],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "rav4",
+    "name": "RAV4",
+    "price": 28475,
+    "msrp": 32100,
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": [],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "rav4-hybrid",
+    "name": "RAV4 Hybrid",
+    "price": 31050,
+    "msrp": 35200,
+    "category": "Crossovers & SUVs",
+    "type": "hybrid",
+    "badges": ["Hybrid EV"],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "rav4-prime",
+    "name": "RAV4 Prime",
+    "price": 42000,
+    "msrp": 46500,
+    "category": "Crossovers & SUVs",
+    "type": "plug-in-hybrid",
+    "badges": ["Plug-in Hybrid EV"],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "highlander",
+    "name": "Highlander",
+    "price": 38420,
+    "msrp": 42800,
+    "category": "Crossovers & SUVs",
+    "type": "suv",
+    "badges": [],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "highlander-hybrid",
+    "name": "Highlander Hybrid",
+    "price": 41620,
+    "msrp": 46100,
+    "category": "Crossovers & SUVs",
+    "type": "hybrid",
+    "badges": ["Hybrid EV"],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "tacoma",
+    "name": "Tacoma",
+    "price": 28750,
+    "msrp": 32400,
+    "category": "Trucks",
+    "type": "truck",
+    "badges": [],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "tundra",
+    "name": "Tundra",
+    "price": 39990,
+    "msrp": 44800,
+    "category": "Trucks",
+    "type": "truck",
+    "badges": ["Hybrid EV"],
+    "image": "/placeholder.svg"
+  },
+  {
+    "id": "bz4x",
+    "name": "bZ4X",
+    "price": 43215,
+    "msrp": 48500,
+    "category": "Electrified",
+    "type": "electric",
+    "badges": ["Electric"],
+    "image": "/placeholder.svg"
+  }
+]
