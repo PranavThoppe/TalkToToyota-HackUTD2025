@@ -46,6 +46,30 @@ export interface AIResponsePayload {
   }>;
 }
 
+export interface CheckoutContext {
+  vehicle?: any;
+  financingSummary?: {
+    monthlyPayment?: number;
+    apr?: number;
+    totalCost?: number;
+    amountFinanced?: number;
+    recommendation?: string;
+  };
+  appliedOffer?: {
+    title: string;
+    savingsAmount: number;
+    deadlineHours: number;
+  };
+}
+
+export interface CheckoutAIResponse {
+  response: string;
+  conversationHistory?: Array<{
+    role: "user" | "assistant" | "system";
+    content: string;
+  }>;
+}
+
 interface ConversationRequest {
   message: string;
   context?: {
@@ -89,6 +113,39 @@ export async function getAIResponse(request: ConversationRequest): Promise<AIRes
   } catch (error) {
     if (error instanceof TypeError && error.message.includes("Failed to fetch")) {
       throw new Error("Backend server is not running. Please start the backend server or configure the API URL.");
+    }
+    throw error;
+  }
+}
+
+export async function getCheckoutAIResponse(request: {
+  message: string;
+  context?: CheckoutContext;
+  conversationHistory?: Array<{
+    role: "user" | "assistant" | "system";
+    content: string;
+  }>;
+}): Promise<CheckoutAIResponse> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/ai/checkout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Backend API returned ${response.status}: ${response.statusText}`);
+    }
+
+    const data: CheckoutAIResponse = await response.json();
+    return data;
+  } catch (error) {
+    if (error instanceof TypeError && error.message.includes("Failed to fetch")) {
+      throw new Error(
+        "Backend server is not running. Please start the backend server or configure the API URL."
+      );
     }
     throw error;
   }
