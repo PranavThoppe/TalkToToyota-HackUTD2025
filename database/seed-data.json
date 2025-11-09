@@ -9,7 +9,7 @@
     "category": "Cars & Minivan",
     "type": "sedan",
     "badges": [],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/corolla/xse/1.png",
+  "image": "/images/vehicles/image1.png",
     "specifications": {
       "mpg": {
         "city": 31,
@@ -56,7 +56,7 @@
     "category": "Cars & Minivan",
     "type": "sedan",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/corolla-hybrid/le/1.png",
+  "image": "/images/vehicles/image2.png",
     "specifications": {
       "mpg": {
         "city": 53,
@@ -103,7 +103,7 @@
     "category": "Cars & Minivan",
     "type": "sedan",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/camry/xse/1.png",
+  "image": "/images/vehicles/image3.png",
     "specifications": {
       "mpg": {
         "city": 28,
@@ -150,7 +150,7 @@
     "category": "Cars & Minivan",
     "type": "hatchback",
     "badges": [],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/corolla-hatchback/se/1.png",
+  "image": "/images/vehicles/image4.png",
     "specifications": {
       "mpg": {
         "city": 30,
@@ -197,7 +197,7 @@
     "category": "Cars & Minivan",
     "type": "hatchback",
     "badges": ["Performance"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/gr-corolla/core/1.png",
+  "image": "/images/vehicles/image5.png",
     "specifications": {
       "mpg": {
         "city": 21,
@@ -244,7 +244,7 @@
     "category": "Cars & Minivan",
     "type": "hatchback",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/prius/xle/1.png",
+  "image": "/images/vehicles/image6.png",
     "specifications": {
       "mpg": {
         "city": 57,
@@ -291,7 +291,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": ["Plug-in Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/rav4-prime/xse/1.png",
+  "image": "/images/vehicles/image7.png",
     "specifications": {
       "mpg": {
         "city": 51,
@@ -339,7 +339,7 @@
     "category": "Cars & Minivan",
     "type": "sedan",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/crown/xle/1.png",
+  "image": "/images/vehicles/image8.png",
     "specifications": {
       "mpg": {
         "city": 26,
@@ -386,7 +386,7 @@
     "category": "Cars & Minivan",
     "type": "sports-car",
     "badges": ["Performance"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/gr86/base/1.png",
+  "image": "/images/vehicles/image9.png",
     "specifications": {
       "mpg": {
         "city": 20,
@@ -433,7 +433,7 @@
     "category": "Cars & Minivan",
     "type": "sports-car",
     "badges": ["Performance"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/gr-supra/30/1.png",
+  "image": "/images/vehicles/image10.png",
     "specifications": {
       "mpg": {
         "city": 24,
@@ -480,7 +480,7 @@
     "category": "Cars & Minivan",
     "type": "minivan",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/sienna/le/1.png",
+  "image": "/images/vehicles/image11.png",
     "specifications": {
       "mpg": {
         "city": 36,
@@ -527,7 +527,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": [],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/corolla-cross/le/1.png",
+  "image": "/images/vehicles/image12.png",
     "specifications": {
       "mpg": {
         "city": 31,
@@ -574,7 +574,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/corolla-cross-hybrid/xle/1.png",
+  "image": "/images/vehicles/image13.png",
     "specifications": {
       "mpg": {
         "city": 44,
@@ -620,7 +620,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": [],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/rav4/le/1.png",
+  "image": "/images/vehicles/image14.png",
     "specifications": {
       "mpg": {
         "city": 27,
@@ -667,7 +667,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/rav4-hybrid/xle/1.png",
+  "image": "/images/vehicles/image15.png",
     "specifications": {
       "mpg": {
         "city": 41,
@@ -714,7 +714,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": ["Plug-in Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/rav4-prime/xse/1.png",
+  "image": "/images/vehicles/image16.png",
     "specifications": {
       "mpg": {
         "city": 38,
@@ -761,7 +761,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/venza/le/1.png",
+  "image": "/images/vehicles/image17.png",
     "specifications": {
       "mpg": {
         "city": 40,
@@ -808,7 +808,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": [],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/highlander/le/1.png",
+  "image": "/images/vehicles/image18.png",
     "specifications": {
       "mpg": {
         "city": 21,
@@ -855,7 +855,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/highlander-hybrid/xle/1.png",
+  "image": "/images/vehicles/image19.png",
     "specifications": {
       "mpg": {
         "city": 36,
@@ -902,7 +902,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": [],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/grand-highlander/xle/1.png",
+  "image": "/images/vehicles/image20.png",
     "specifications": {
       "mpg": {
         "city": 21,
@@ -949,7 +949,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/grand-highlander-hybrid/limited/1.png",
+  "image": "/images/vehicles/image21.png",
     "specifications": {
       "mpg": {
         "city": 27,
@@ -996,7 +996,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": [],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/4runner/sr5/1.png",
+  "image": "/images/vehicles/image22.png",
     "specifications": {
       "mpg": {
         "city": 17,
@@ -1043,7 +1043,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/sequoia/sr5/1.png",
+  "image": "/images/vehicles/image23.png",
     "specifications": {
       "mpg": {
         "city": 19,
@@ -1090,7 +1090,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/land-cruiser/1958/1.png",
+  "image": "/images/vehicles/image24.png",
     "specifications": {
       "mpg": {
         "city": 17,
@@ -1137,7 +1137,7 @@
     "category": "Trucks",
     "type": "truck",
     "badges": [],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/tacoma/sr5/1.png",
+  "image": "/images/vehicles/image25.png",
     "specifications": {
       "mpg": {
         "city": 20,
@@ -1184,7 +1184,7 @@
     "category": "Trucks",
     "type": "truck",
     "badges": [],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/tundra/sr5/1.png",
+  "image": "/images/vehicles/image26.png",
     "specifications": {
       "mpg": {
         "city": 18,
@@ -1231,7 +1231,7 @@
     "category": "Trucks",
     "type": "truck",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/tundra-hybrid/limited/1.png",
+  "image": "/images/vehicles/image27.png",
     "specifications": {
       "mpg": {
         "city": 20,
@@ -1278,7 +1278,7 @@
     "category": "Electrified",
     "type": "suv",
     "badges": ["Electric"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/bz4x/xle/1.png",
+  "image": "/images/vehicles/image28.png",
     "specifications": {
       "mpg": {
         "city": 0,
@@ -1327,7 +1327,7 @@
     "category": "Electrified",
     "type": "sedan",
     "badges": ["Hydrogen"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2024/mirai/xle/1.png",
+  "image": "/images/vehicles/image29.png",
     "specifications": {
       "mpg": {
         "city": 0,
@@ -1376,7 +1376,7 @@
     "category": "Crossovers & SUVs",
     "type": "wagon",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/crown-signia/xle/1.png",
+  "image": "/images/vehicles/image30.png",
     "specifications": {
       "mpg": {
         "city": 37,
@@ -1423,7 +1423,7 @@
     "category": "Cars & Minivan",
     "type": "sedan",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/camry/xse/1.png",
+  "image": "/images/vehicles/image31.png",
     "specifications": {
       "mpg": {
         "city": 28,
@@ -1470,7 +1470,7 @@
     "category": "Cars & Minivan",
     "type": "sedan",
     "badges": ["Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/avalon/limited/1.png",
+  "image": "/images/vehicles/image32.png",
     "specifications": {
       "mpg": {
         "city": 26,
@@ -1517,7 +1517,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": ["Performance"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/rav4/trd-off-road/1.png",
+  "image": "/images/vehicles/image33.png",
     "specifications": {
       "mpg": {
         "city": 25,
@@ -1564,7 +1564,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": ["Performance"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/4runner/trd-pro/1.png",
+  "image": "/images/vehicles/image34.png",
     "specifications": {
       "mpg": {
         "city": 16,
@@ -1611,7 +1611,7 @@
     "category": "Trucks",
     "type": "truck",
     "badges": ["Performance"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/tacoma/trd-pro/1.png",
+  "image": "/images/vehicles/image35.png",
     "specifications": {
       "mpg": {
         "city": 18,
@@ -1658,7 +1658,7 @@
     "category": "Trucks",
     "type": "truck",
     "badges": ["Performance", "Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/tundra/trd-pro/1.png",
+  "image": "/images/vehicles/image36.png",
     "specifications": {
       "mpg": {
         "city": 17,
@@ -1705,7 +1705,7 @@
     "category": "Crossovers & SUVs",
     "type": "suv",
     "badges": ["Performance", "Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/sequoia/trd-pro/1.png",
+  "image": "/images/vehicles/image37.png",
     "specifications": {
       "mpg": {
         "city": 18,
@@ -1752,7 +1752,7 @@
     "category": "Cars & Minivan",
     "type": "plug-in-hybrid",
     "badges": ["Plug-in Hybrid EV"],
-    "image": "https://www.toyota.com/imgix/content/dam/toyota/jellies/max/2025/prius-prime/xse/1.png",
+    "image": "/images/vehicles/image38.png",
     "specifications": {
       "mpg": {
         "city": 51,

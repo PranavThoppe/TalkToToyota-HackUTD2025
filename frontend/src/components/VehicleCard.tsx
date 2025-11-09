@@ -15,23 +15,29 @@ const VehicleCard = ({ vehicle, index, onClick }: VehicleCardProps) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
-      className="bg-card rounded-lg overflow-hidden hover:shadow-[var(--shadow-hover)] transition-shadow cursor-pointer"
+      className="bg-card rounded-lg overflow-hidden hover:shadow-[var(--shadow-hover)] transition-shadow cursor-pointer relative z-0"
       style={{ boxShadow: "var(--shadow-card)" }}
       onClick={onClick}
     >
       <div className="relative">
         {vehicle.badges.length > 0 && (
-          <div className="absolute top-4 left-4 z-10">
-            <Badge className="bg-accent text-accent-foreground font-medium">
+          <div className="absolute top-4 left-4 z-[1]">
+            <Badge className="bg-accent text-accent-foreground font-medium shadow-sm">
               {vehicle.badges[0]}
             </Badge>
           </div>
         )}
-        <div className="aspect-[4/3] bg-muted flex items-center justify-center p-8">
+        <div className="aspect-[4/3] bg-white flex items-center justify-center p-8">
           <img
-            src={vehicle.image}
+            src={`${import.meta.env.BASE_URL}${vehicle.image.startsWith('/') ? vehicle.image.slice(1) : vehicle.image}`}
             alt={vehicle.name}
-            className="w-full h-full object-contain"
+            className="w-full h-full object-contain mix-blend-multiply"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              console.error(`Failed to load image for ${vehicle.name}:`, target.src);
+              target.onerror = null; // Prevent infinite loop
+              target.src = '/images/vehicles/placeholder.png'; // You can add a placeholder image if needed
+            }}
           />
         </div>
       </div>

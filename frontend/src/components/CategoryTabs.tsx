@@ -12,7 +12,7 @@ const CategoryTabs = ({
   onCategoryChange,
 }: CategoryTabsProps) => {
   return (
-    <div className="border-b border-border">
+    <div className="border-b border-border sticky top-0 bg-background z-50">
       <div className="container mx-auto px-4">
         <div className="flex gap-8 overflow-x-auto">
           {categories.map((category) => (
