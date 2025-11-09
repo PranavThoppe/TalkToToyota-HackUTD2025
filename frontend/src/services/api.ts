@@ -19,6 +19,7 @@ export interface FinancingAlternative {
   loanTermMonths?: number;
   downPayment?: number;
   savings?: number;
+  totalCostChange?: number;
 }
 
 export interface FinancingResults {

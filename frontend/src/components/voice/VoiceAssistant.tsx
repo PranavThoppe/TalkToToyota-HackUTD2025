@@ -79,14 +79,29 @@ export default function VoiceAssistant({
               maximumFractionDigits: 0,
             });
 
-            const altText = result.alternatives
+            const [baseAlt, ...otherAlternatives] = result.alternatives || [];
+
+            const baseAltText = baseAlt
+              ? `• ${baseAlt.description}: $${formatter.format(baseAlt.monthlyPayment)}/mo`
+              : null;
+
+            const altText = otherAlternatives
               .map((alt, idx) => {
                 const payment = formatter.format(alt.monthlyPayment);
-                const savings =
-                  alt.savings !== undefined && alt.savings !== null
-                    ? ` (${alt.savings >= 0 ? "saves" : "adds"} $${Math.abs(alt.savings)}/mo)`
-                    : "";
-                return `${idx + 1}. ${alt.description}: $${payment}/mo${savings}`;
+                const monthlyChange =
+                  alt.savings !== undefined && alt.savings !== null && alt.savings !== 0
+                    ? `${alt.savings > 0 ? "saves" : "adds"} $${formatter.format(Math.abs(alt.savings))}/mo`
+                    : null;
+                const totalChange =
+                  alt.totalCostChange !== undefined &&
+                  alt.totalCostChange !== null &&
+                  alt.totalCostChange !== 0
+                    ? `${alt.totalCostChange < 0 ? "saves" : "adds"} $${formatter.format(Math.abs(alt.totalCostChange))}/total`
+                    : null;
+
+                const changes = [monthlyChange, totalChange].filter(Boolean).join(", ");
+                const changeText = changes ? ` (${changes})` : "";
+                return `${idx + 1}. ${alt.description}: $${payment}/mo${changeText}`;
               })
               .join("\n");
 
@@ -97,7 +112,8 @@ export default function VoiceAssistant({
               `- Total Cost: $${formatter.format(result.totalCost)}\n` +
               `- Amount Financed: $${formatter.format(result.amountFinanced)}\n` +
               (result.recommendation ? `\n${result.recommendation}\n` : "") +
-              (altText ? `\nAlternative Options:\n${altText}` : "");
+              (baseAltText ? `\nAlternative Options:\n${baseAltText}` : "") +
+              (altText ? `\nSuggested Adjustments:\n${altText}` : "");
           }
 
           // Add AI message

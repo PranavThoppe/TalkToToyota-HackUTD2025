@@ -9,12 +9,16 @@ interface FinanceCalculationParams {
     salesTaxRate?: number; // decimal format: 0.08 for 8%
   }
   
+  type AlternativeType = "base" | "longer-term" | "higher-down" | "shorter-term";
+  
   interface AlternativeOption {
     description: string;
     monthlyPayment: number;
     loanTermMonths?: number;
     downPayment?: number;
     savings?: number;
+    totalCostChange?: number;
+    type?: AlternativeType;
   }
   
   interface FinanceCalculationResult {
@@ -90,72 +94,98 @@ interface FinanceCalculationParams {
     } = params;
   
     const alternatives: AlternativeOption[] = [];
+  const baseAmountFinanced = calculateAmountFinanced(
+    vehiclePrice,
+    downPayment,
+    tradeInValue,
+    salesTaxRate
+  );
+    const baseTotalCost = currentMonthlyPayment * loanTermMonths;
+  const roundCurrency = (value: number): number => Math.round(value);
   
     // Alternative 1: Longer loan term (if not already at 72 months)
     if (loanTermMonths < 72) {
       const longerTerm = loanTermMonths === 36 ? 48 : loanTermMonths === 48 ? 60 : 72;
-      const amountFinanced = calculateAmountFinanced(
-        vehiclePrice,
-        downPayment,
-        tradeInValue,
-        salesTaxRate
-      );
-      const longerTermPayment = calculateMonthlyPayment(amountFinanced, apr, longerTerm);
+    const longerTermPayment = calculateMonthlyPayment(baseAmountFinanced, apr, longerTerm);
       const savings = currentMonthlyPayment - longerTermPayment;
       
+      const totalCost = longerTermPayment * longerTerm;
       alternatives.push({
         description: `${longerTerm}-month plan`,
-        monthlyPayment: Math.round(longerTermPayment),
+        monthlyPayment: roundCurrency(longerTermPayment),
         loanTermMonths: longerTerm,
-        savings: Math.round(savings),
+        savings: roundCurrency(savings),
+        totalCostChange: Math.round(totalCost - baseTotalCost),
+        type: "longer-term",
       });
     }
   
     // Alternative 2: Higher down payment
-    const additionalDown = downPayment < 5000 ? 5000 : 5000;
-    const newDownPayment = downPayment + additionalDown;
-    
-    if (newDownPayment < vehiclePrice * 0.5) { // Don't suggest more than 50% down
-      const amountFinancedHigherDown = calculateAmountFinanced(
-        vehiclePrice,
-        newDownPayment,
-        tradeInValue,
-        salesTaxRate
-      );
-      const higherDownPayment = calculateMonthlyPayment(
-        amountFinancedHigherDown,
-        apr,
-        loanTermMonths
-      );
-      const savings = currentMonthlyPayment - higherDownPayment;
-      
-      alternatives.push({
-        description: `${newDownPayment.toLocaleString()} down payment (+$${additionalDown.toLocaleString()})`,
-        monthlyPayment: Math.round(higherDownPayment),
-        downPayment: newDownPayment,
-        savings: Math.round(savings),
-      });
+  if (vehiclePrice > 0) {
+    const currentDownPercent = downPayment / vehiclePrice;
+    let targetDownPercent: number | null = null;
+
+    if (currentDownPercent < 0.1) {
+      targetDownPercent = 0.1;
+    } else if (currentDownPercent < 0.2) {
+      targetDownPercent = 0.2;
     }
+
+    if (targetDownPercent !== null) {
+      let suggestedDownPayment = vehiclePrice * targetDownPercent;
+      suggestedDownPayment = Math.min(suggestedDownPayment, vehiclePrice * 0.5);
+      suggestedDownPayment = Math.max(suggestedDownPayment, downPayment + 500);
+      suggestedDownPayment = Math.round(suggestedDownPayment / 100) * 100;
+
+      const additionalDown = suggestedDownPayment - downPayment;
+
+      if (additionalDown >= 500) {
+        const amountFinancedHigherDown = calculateAmountFinanced(
+          vehiclePrice,
+          suggestedDownPayment,
+          tradeInValue,
+          salesTaxRate
+        );
+        const higherDownPayment = calculateMonthlyPayment(
+          amountFinancedHigherDown,
+          apr,
+          loanTermMonths
+        );
+        const savings = currentMonthlyPayment - higherDownPayment;
+        const totalCost = higherDownPayment * loanTermMonths;
+
+        const isShorterTermBase = loanTermMonths <= 36;
+
+        if (higherDownPayment < currentMonthlyPayment || isShorterTermBase) {
+          alternatives.push({
+            description: `${loanTermMonths}-month plan with $${suggestedDownPayment.toLocaleString()} down (+$${additionalDown.toLocaleString()})`,
+            monthlyPayment: roundCurrency(higherDownPayment),
+            downPayment: suggestedDownPayment,
+            savings: roundCurrency(savings),
+            totalCostChange: Math.round(totalCost - baseTotalCost),
+            type: "higher-down",
+          });
+        }
+      }
+    }
+  }
   
     // Alternative 3: Shorter loan term with current payment range (if not already at 36 months)
     if (loanTermMonths > 36) {
       const shorterTerm = loanTermMonths === 72 ? 60 : loanTermMonths === 60 ? 48 : 36;
-      const amountFinanced = calculateAmountFinanced(
-        vehiclePrice,
-        downPayment,
-        tradeInValue,
-        salesTaxRate
-      );
-      const shorterTermPayment = calculateMonthlyPayment(amountFinanced, apr, shorterTerm);
-      const difference = shorterTermPayment - currentMonthlyPayment;
+    const shorterTermPayment = calculateMonthlyPayment(baseAmountFinanced, apr, shorterTerm);
+    const difference = shorterTermPayment - currentMonthlyPayment;
       
       // Only show if the increase is reasonable (less than $150/month more)
       if (difference < 150) {
+        const totalCost = shorterTermPayment * shorterTerm;
         alternatives.push({
           description: `${shorterTerm}-month plan (pay off faster)`,
-          monthlyPayment: Math.round(shorterTermPayment),
+          monthlyPayment: roundCurrency(shorterTermPayment),
           loanTermMonths: shorterTerm,
-          savings: -Math.round(difference), // negative savings = paying more per month
+          savings: -roundCurrency(difference), // negative savings = paying more per month
+          totalCostChange: Math.round(totalCost - baseTotalCost),
+          type: "shorter-term",
         });
       }
     }
@@ -164,9 +194,8 @@ interface FinanceCalculationParams {
   }
   
   // Generate recommendation with alternatives
-  function generateRecommendation(
+function generateRecommendation(
     creditScore: number,
-    currentMonthlyPayment: number,
     alternatives: AlternativeOption[]
   ): string {
     let recommendation = "";
@@ -189,13 +218,30 @@ interface FinanceCalculationParams {
       recommendation += `Here are your options:\n\n`;
       
       alternatives.forEach((alt, index) => {
-        const savingsText = alt.savings && alt.savings > 0 
-          ? ` (saves $${alt.savings}/month)` 
-          : alt.savings && alt.savings < 0
-          ? ` (+$${Math.abs(alt.savings)}/month)`
-          : '';
-        
-        recommendation += `${index + 1}. ${alt.description}: $${alt.monthlyPayment}/month${savingsText}\n`;
+        const monthlyText = (() => {
+          if (alt.savings === undefined || alt.savings === 0) {
+            return "";
+          }
+          return alt.savings > 0
+            ? ` (saves $${alt.savings}/month`
+            : ` (+$${Math.abs(alt.savings!)}/month`;
+        })();
+
+        const totalCostText = (() => {
+          if (alt.totalCostChange === undefined || alt.totalCostChange === 0) {
+            return "";
+          }
+          return alt.totalCostChange > 0
+            ? `${monthlyText ? ", " : " ("}adds $${Math.abs(alt.totalCostChange)}/total`
+            : `${monthlyText ? ", " : " ("}saves $${Math.abs(alt.totalCostChange)}/total`;
+        })();
+
+        const suffix =
+          monthlyText || totalCostText
+            ? `${monthlyText}${totalCostText})`
+            : "";
+
+        recommendation += `${index + 1}. ${alt.description}: $${alt.monthlyPayment}/month${suffix}\n`;
       });
     }
   
@@ -256,12 +302,22 @@ interface FinanceCalculationParams {
     const totalInterest = totalCost - amountFinanced;
   
     // Generate alternatives
-    const alternatives = generateAlternatives(params, monthlyPayment, apr);
+    const baseAlternative: AlternativeOption = {
+      description: `${loanTermMonths}-month plan (current selection)`,
+      monthlyPayment: Math.round(monthlyPayment),
+      loanTermMonths,
+      downPayment,
+      savings: 0,
+      totalCostChange: 0,
+      type: "base",
+    };
+
+    const generatedAlternatives = generateAlternatives(params, monthlyPayment, apr);
+    const alternatives = [baseAlternative, ...generatedAlternatives];
   
     // Generate recommendation with alternatives
     const recommendation = generateRecommendation(
       creditScore,
-      monthlyPayment,
       alternatives
     );
   
