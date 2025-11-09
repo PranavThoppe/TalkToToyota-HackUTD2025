@@ -19,6 +19,8 @@ interface ChatInterfaceProps {
   vehicles: Vehicle[];
   currentCategory?: string;
   selectedVehicle?: Vehicle | null;
+  selectedVehicles?: Vehicle[];
+  isComparison?: boolean;
   className?: string;
 }
 
@@ -26,6 +28,8 @@ export default function ChatInterface({
   vehicles,
   currentCategory,
   selectedVehicle,
+  selectedVehicles,
+  isComparison,
   className,
 }: ChatInterfaceProps) {
   const navigate = useNavigate();
@@ -60,19 +64,53 @@ export default function ChatInterface({
 
   // Send welcome message once when vehicle is selected
   React.useEffect(() => {
-    if (selectedVehicle && !hasWelcomed && messages.length === 0) {
-      const welcomeMessage: Message = {
-        role: "assistant",
-        content: `Hi! I see you're interested in the ${selectedVehicle.name}! To help you with financing options, I'll need to gather some information. First, could you please tell me your credit score? This will help me find the best rates available for you. You can enter a number between 300-850, or if you're not sure, I can explain how to check it.`,
-        timestamp: new Date(),
-      };
+    if (!hasWelcomed && messages.length === 0) {
+      let welcomeMessage: Message;
+      
+      if (isComparison && selectedVehicles && selectedVehicles.length === 2) {
+        // Find similar vehicles to the ones being compared
+        const similarVehicles = vehicles.filter(v => 
+          v.id !== selectedVehicles[0].id && 
+          v.id !== selectedVehicles[1].id &&
+          (v.type === selectedVehicles[0].type || v.type === selectedVehicles[1].type) &&
+          (Math.abs(v.price - selectedVehicles[0].price) < 10000 || Math.abs(v.price - selectedVehicles[1].price) < 10000)
+        ).slice(0, 3);
+
+        const similarVehiclesText = similarVehicles.length > 0 
+          ? `\n\nBased on your interests, you might also want to consider:\n${
+              similarVehicles.map(v => `• ${v.name} (${currencyFormatter.format(v.price)})`).join('\n')
+            }`
+          : '';
+
+        welcomeMessage = {
+          role: "assistant",
+          content: `I see you're comparing the ${selectedVehicles[0].name} and the ${selectedVehicles[1].name}! I can help you make the best choice based on your needs. What's most important to you in a vehicle? For example:
+- Fuel efficiency and environmental impact
+- Performance and driving experience
+- Interior space and comfort
+- Safety features and technology
+- Budget and financing options
+
+Let me know your priorities, and I'll provide a detailed comparison focusing on what matters most to you.${similarVehiclesText}`,
+          timestamp: new Date(),
+        };
+      } else if (selectedVehicle) {
+        welcomeMessage = {
+          role: "assistant",
+          content: `Hi! I see you're interested in the ${selectedVehicle.name}! To help you with financing options, I'll need to gather some information. First, could you please tell me your credit score? This will help me find the best rates available for you. You can enter a number between 300-850, or if you're not sure, I can explain how to check it.`,
+          timestamp: new Date(),
+        };
+      } else {
+        return;
+      }
+
       setMessages([welcomeMessage]);
       setConversationHistory([
         { role: "assistant", content: welcomeMessage.content }
       ]);
       setHasWelcomed(true);
     }
-  }, [selectedVehicle, hasWelcomed, messages.length]);
+  }, [selectedVehicle, selectedVehicles, isComparison, hasWelcomed, messages.length]);
 
   const currencyFormatter = React.useMemo(
     () =>
@@ -122,6 +160,8 @@ export default function ChatInterface({
           vehicles,
           currentCategory,
           selectedVehicle,
+          selectedVehicles,
+          isComparison,
           financingState,
         },
         conversationHistory: limitedHistory,
@@ -183,6 +223,46 @@ export default function ChatInterface({
         ...newHistory,
         { role: "assistant" as const, content: assistantContent },
       ]);
+
+      // Proactive suggestions: if the user mentioned electrified keywords, suggest electric/hybrid vehicles
+      try {
+        const inputLower = userMessage.content.toLowerCase();
+        const electrifiedKeywords = ["electric", "ev", "battery", "plug-in", "plug in", "phev", "electrified", "hybrid"];
+        const matched = electrifiedKeywords.some((k) => inputLower.includes(k));
+        if (matched && vehicles && vehicles.length > 0) {
+          const evs = vehicles
+            .filter((v) =>
+              v.type === "electric" ||
+              v.badges?.some((b) => b.toLowerCase().includes("electric")) ||
+              (v.specifications?.fuelType && v.specifications.fuelType.toLowerCase().includes("electric")) ||
+              (v.specifications?.fuelType && v.specifications.fuelType.toLowerCase().includes("hybrid")) ||
+              v.type === "hybrid" || v.type === "plug-in-hybrid"
+            )
+            .slice(0, 3);
+
+          if (evs.length > 0) {
+            const suggestionContent =
+              `Since you mentioned electrified vehicles, here are a few you might like:\n` +
+              evs.map((v) => `• ${v.name} (${currencyFormatter.format(v.price)})`).join("\n");
+
+            const suggestionMessage: Message = {
+              role: "assistant",
+              content: suggestionContent,
+              timestamp: new Date(),
+            };
+
+            setMessages((prev) => [...prev, suggestionMessage]);
+            setConversationHistory((prev) => [
+              ...prev,
+              { role: "assistant", content: suggestionContent },
+            ]);
+          }
+        }
+      } catch (e) {
+        // non-fatal: don't block main flow
+        // eslint-disable-next-line no-console
+        console.error("Suggestion generation failed", e);
+      }
     } catch (error) {
       console.error("Error getting AI response:", error);
       const errorMsg = error instanceof Error ? error.message : "Unknown error";

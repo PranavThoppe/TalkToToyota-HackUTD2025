@@ -8,22 +8,57 @@ interface VehicleCardProps {
   onClick?: () => void;
 }
 
+import { useComparison } from "@/context/ComparisonContext";
+import { Plus, Check, ArrowLeftRight } from "lucide-react";
+
 const VehicleCard = ({ vehicle, index, onClick }: VehicleCardProps) => {
+  const { compareMode, selectedVehicles, addToComparison, removeFromComparison } = useComparison();
+
+  const isSelected = selectedVehicles.some(v => v.id === vehicle.id);
+
+  const handleClick = () => {
+    if (compareMode) {
+      if (isSelected) {
+        removeFromComparison(vehicle.id);
+      } else {
+        addToComparison(vehicle);
+      }
+    } else {
+      onClick?.();
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
-      className="bg-card rounded-lg overflow-hidden hover:shadow-[var(--shadow-hover)] transition-shadow cursor-pointer relative z-0"
+      className={`bg-card rounded-lg overflow-hidden hover:shadow-[var(--shadow-hover)] transition-all duration-200 cursor-pointer relative z-0 ${
+        isSelected ? 'ring-2 ring-primary' : ''
+      }`}
       style={{ boxShadow: "var(--shadow-card)" }}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <div className="relative">
-        {vehicle.badges.length > 0 && (
-          <div className="absolute top-4 left-4 z-[1]">
+        <div className="absolute top-4 left-4 z-[1] flex gap-2">
+          {vehicle.badges.length > 0 && (
             <Badge className="bg-accent text-accent-foreground font-medium shadow-sm">
               {vehicle.badges[0]}
+            </Badge>
+          )}
+        </div>
+        {compareMode && (
+          <div className="absolute top-4 right-4 z-[1]">
+            <Badge 
+              className={`${
+                isSelected 
+                  ? 'bg-primary text-primary-foreground' 
+                  : 'bg-muted text-muted-foreground'
+              } font-medium shadow-sm flex items-center gap-1`}
+            >
+              {isSelected ? <Check className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+              {isSelected ? 'Selected' : 'Compare'}
             </Badge>
           </div>
         )}

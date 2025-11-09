@@ -118,11 +118,13 @@ function IndexContent() {
   return (
     <div className="min-h-screen bg-background pb-[15vh] relative">
       {compareMode && selectedVehicles.length === 2 ? (
-        <ComparisonView
-          vehicles={selectedVehicles}
-          onClose={handleCloseComparison}
-          className="w-full"
-        />
+        <div className="container mx-auto px-4 py-8">
+          <ComparisonView
+            vehicles={selectedVehicles}
+            onClose={handleCloseComparison}
+            className="w-full"
+          />
+        </div>
       ) : selectedVehicle ? (
         <>
           {/* Vehicle Detail Panel - Left Side */}
