@@ -6,19 +6,28 @@ interface VehicleCardProps {
   vehicle: Vehicle;
   index: number;
   onClick?: () => void;
+  isSelected?: boolean;
 }
 
-const VehicleCard = ({ vehicle, index, onClick }: VehicleCardProps) => {
+const VehicleCard = ({ vehicle, index, onClick, isSelected }: VehicleCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
-      className="bg-card rounded-lg overflow-hidden hover:shadow-[var(--shadow-hover)] transition-shadow cursor-pointer relative z-0"
-      style={{ boxShadow: "var(--shadow-card)" }}
+      className={[
+        "bg-card rounded-lg overflow-hidden transition-shadow cursor-pointer relative z-0 border",
+        isSelected
+          ? "border-primary shadow-[var(--shadow-hover)] ring-2 ring-primary/60"
+          : "border-transparent hover:shadow-[var(--shadow-hover)]",
+      ].join(" ")}
+      style={{ boxShadow: isSelected ? "var(--shadow-hover)" : "var(--shadow-card)" }}
       onClick={onClick}
     >
+      {isSelected && (
+        <div className="absolute inset-0 bg-primary/5 pointer-events-none z-[2]" />
+      )}
       <div className="relative">
         {vehicle.badges.length > 0 && (
           <div className="absolute top-4 left-4 z-[1]">

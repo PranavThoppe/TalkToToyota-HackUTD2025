@@ -77,6 +77,7 @@ interface ConversationRequest {
     vehicles?: any[];
     currentCategory?: string;
     selectedVehicle?: any;
+    compareVehicles?: any[];
     userPreferences?: Record<string, any>;
     financingState?: FinancingState;
   };

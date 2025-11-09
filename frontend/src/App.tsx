@@ -7,6 +7,8 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { auth0Config } from "@/services/auth0";
 import Index from "./pages/Index";
 import Checkout from "./pages/Checkout";
+import Compare from "./pages/Compare";
+import CompareResults from "./pages/CompareResults";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +23,8 @@ const AppContent = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/compare" element={<Compare />} />
+          <Route path="/compare/results" element={<CompareResults />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

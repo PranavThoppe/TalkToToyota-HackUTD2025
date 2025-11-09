@@ -11,6 +11,8 @@ import { useVehicles } from "@/hooks/useFirebase";
 import { useToast } from "@/hooks/use-toast";
 import { Vehicle } from "@/types/vehicle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState("Cars & Minivan");
@@ -18,6 +20,7 @@ const Index = () => {
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const { toast } = useToast();
   const { vehicles, loading } = useVehicles(activeCategory);
+  const navigate = useNavigate();
 
   const categories = [
     "Cars & Minivan",
@@ -149,8 +152,11 @@ const Index = () => {
         <>
           {/* Header */}
           <header className="border-b border-border bg-card sticky top-0 z-30">
-            <div className="container mx-auto px-4 py-6">
+            <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-6">
               <h1 className="text-4xl font-bold text-foreground">Toyota</h1>
+              <Button variant="outline" onClick={() => navigate("/compare")}>
+                Compare Vehicles
+              </Button>
             </div>
           </header>
 
