@@ -8,6 +8,7 @@ export interface FinancingState {
   creditScore?: number;
   downPayment?: number;
   loanTermMonths?: number;
+  loanTerm?: number;
   tradeInValue?: number;
   salesTaxRate?: number;
   isComplete?: boolean;

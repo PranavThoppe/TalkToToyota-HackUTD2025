@@ -147,8 +147,22 @@ export default function ChatInterface({
         conversationHistory: limitedHistory,
       });
 
-      const updatedFinancingState = aiResponse.financingState ?? financingState;
-      setFinancingState(updatedFinancingState);
+      const incomingState = aiResponse.financingState ?? {};
+      const normalizedFinancingState: FinancingState = {
+        ...financingState,
+        ...incomingState,
+      };
+
+      if (
+        incomingState.loanTerm !== undefined &&
+        normalizedFinancingState.loanTermMonths === undefined
+      ) {
+        normalizedFinancingState.loanTermMonths = Number(incomingState.loanTerm);
+      }
+
+      delete normalizedFinancingState.loanTerm;
+
+      setFinancingState(normalizedFinancingState);
       setFinancingResults(aiResponse.financingResults ?? null);
 
       let assistantContent = aiResponse.response;
