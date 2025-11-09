@@ -6,6 +6,7 @@ import CategoryTabs from "@/components/CategoryTabs";
 import VoiceAssistant from "@/components/voice/VoiceAssistant";
 import ChatInterface from "@/components/chat/ChatInterface";
 import VehicleList from "@/components/vehicles/VehicleList";
+import VehicleDetail from "@/components/vehicles/VehicleDetail";
 import { useVehicles } from "@/hooks/useFirebase";
 import { useToast } from "@/hooks/use-toast";
 import { Vehicle } from "@/types/vehicle";
@@ -14,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState("Cars & Minivan");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const { toast } = useToast();
   const { vehicles, loading } = useVehicles(activeCategory);
 
@@ -86,65 +88,128 @@ const Index = () => {
     });
   };
 
+  const handleVehicleClick = (vehicle: Vehicle) => {
+    setSelectedVehicle(vehicle);
+  };
+
+  const handleCloseDetail = () => {
+    setSelectedVehicle(null);
+  };
+
+  const handleAddToCart = () => {
+    if (selectedVehicle) {
+      toast({
+        title: "Added to Cart",
+        description: `${selectedVehicle.name} has been added to your cart!`,
+      });
+      // Here you would typically add to cart state/context
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-background pb-[15vh]">
-      {/* Header */}
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-6">
-          <h1 className="text-4xl font-bold text-foreground">Toyota</h1>
-        </div>
-      </header>
+    <div className="min-h-screen bg-background pb-[15vh] relative">
+      {/* Split View Mode - When vehicle is selected */}
+      {selectedVehicle ? (
+        <>
+          {/* Vehicle Detail Panel - Left Side */}
+          <VehicleDetail
+            vehicle={selectedVehicle}
+            onClose={handleCloseDetail}
+            onAddToCart={handleAddToCart}
+          />
+          
+          {/* AI Salesman Section - Right Side */}
+          <div className="fixed right-0 top-0 h-screen w-full lg:w-[calc(100%-450px)] bg-background z-30 flex flex-col">
+            <div className="border-b border-border bg-card p-4 flex-shrink-0">
+              <h2 className="text-2xl font-bold text-foreground">
+                Talk to our AI Salesman about {selectedVehicle.name}
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                Ask questions, learn about features, and get personalized recommendations
+              </p>
+            </div>
+            <div className="flex-1 overflow-hidden p-4 min-h-0">
+              <ChatInterface
+                vehicles={vehicles}
+                currentCategory={activeCategory}
+                selectedVehicle={selectedVehicle}
+                className="h-full"
+              />
+            </div>
+          </div>
+          
+          {/* Overlay for mobile */}
+          <div
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={handleCloseDetail}
+          />
+        </>
+      ) : (
+        /* Normal View Mode - When no vehicle selected */
+        <>
+          {/* Header */}
+          <header className="border-b border-border bg-card sticky top-0 z-30">
+            <div className="container mx-auto px-4 py-6">
+              <h1 className="text-4xl font-bold text-foreground">Toyota</h1>
+            </div>
+          </header>
 
-      {/* Category Tabs */}
-      <CategoryTabs
-        categories={categories}
-        activeCategory={activeCategory}
-        onCategoryChange={(cat) => {
-          setActiveCategory(cat);
-          setSearchQuery("");
-        }}
-      />
+          {/* Category Tabs */}
+          <CategoryTabs
+            categories={categories}
+            activeCategory={activeCategory}
+            onCategoryChange={(cat) => {
+              setActiveCategory(cat);
+              setSearchQuery("");
+            }}
+          />
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-12">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-foreground mb-2">
-            {activeCategory}
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Images do not depict actual vehicles being offered by dealers and
-            are shown for illustrative purposes only.
-          </p>
-        </div>
+          {/* Vehicle Grid Section */}
+          <main className="container mx-auto px-4 py-12">
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-foreground mb-2">
+                {activeCategory}
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Images do not depict actual vehicles being offered by dealers and
+                are shown for illustrative purposes only.
+              </p>
+            </div>
 
-        {/* Vehicle Grid */}
-        <VehicleList vehicles={filteredVehicles} loading={loading} />
-      </main>
-
-      {/* AI Assistant Section */}
-      <div className="container mx-auto px-4 py-8">
-        <Tabs defaultValue="voice" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="voice">Voice Assistant</TabsTrigger>
-            <TabsTrigger value="chat">Chat</TabsTrigger>
-          </TabsList>
-          <TabsContent value="voice" className="mt-4">
-            <VoiceAssistant
-              vehicles={vehicles}
-              currentCategory={activeCategory}
+            {/* Vehicle Grid */}
+            <VehicleList
+              vehicles={filteredVehicles}
+              loading={loading}
+              onVehicleClick={handleVehicleClick}
             />
-          </TabsContent>
-          <TabsContent value="chat" className="mt-4">
-            <ChatInterface
-              vehicles={vehicles}
-              currentCategory={activeCategory}
-            />
-          </TabsContent>
-        </Tabs>
-      </div>
+          </main>
 
-      {/* Persistent Search Bar */}
-      <SearchBar onSearch={handleSearch} />
+          {/* AI Assistant Section */}
+          <div className="container mx-auto px-4 py-8">
+            <Tabs defaultValue="voice" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="voice">Voice Assistant</TabsTrigger>
+                <TabsTrigger value="chat">Chat</TabsTrigger>
+              </TabsList>
+              <TabsContent value="voice" className="mt-4">
+                <VoiceAssistant
+                  vehicles={vehicles}
+                  currentCategory={activeCategory}
+                />
+              </TabsContent>
+              <TabsContent value="chat" className="mt-4">
+                <ChatInterface
+                  vehicles={vehicles}
+                  currentCategory={activeCategory}
+                />
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          {/* Persistent Search Bar */}
+          <SearchBar onSearch={handleSearch} />
+        </>
+      )}
     </div>
   );
 };

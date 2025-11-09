@@ -13,6 +13,7 @@ interface ConversationRequest {
   context?: {
     vehicles?: any[];
     currentCategory?: string;
+    selectedVehicle?: any;
     userPreferences?: Record<string, any>;
   };
   conversationHistory?: Array<{

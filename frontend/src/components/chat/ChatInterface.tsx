@@ -1,4 +1,5 @@
 import { useState } from "react";
+import * as React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -16,12 +17,14 @@ export interface Message {
 interface ChatInterfaceProps {
   vehicles: Vehicle[];
   currentCategory?: string;
+  selectedVehicle?: Vehicle | null;
   className?: string;
 }
 
 export default function ChatInterface({
   vehicles,
   currentCategory,
+  selectedVehicle,
   className,
 }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -30,6 +33,38 @@ export default function ChatInterface({
   const [conversationHistory, setConversationHistory] = useState<
     Array<{ role: "user" | "assistant" | "system"; content: string }>
   >([]);
+
+  const [hasWelcomed, setHasWelcomed] = React.useState(false);
+
+  // Reset conversation when vehicle changes
+  React.useEffect(() => {
+    if (selectedVehicle) {
+      setMessages([]);
+      setConversationHistory([]);
+      setHasWelcomed(false);
+    } else {
+      // Clear messages when no vehicle is selected
+      setMessages([]);
+      setConversationHistory([]);
+      setHasWelcomed(false);
+    }
+  }, [selectedVehicle?.id]);
+
+  // Send welcome message once when vehicle is selected
+  React.useEffect(() => {
+    if (selectedVehicle && !hasWelcomed && messages.length === 0) {
+      const welcomeMessage: Message = {
+        role: "assistant",
+        content: `Hi! I'm excited to tell you about the ${selectedVehicle.name}! This is an excellent choice. What would you like to know about this vehicle? I can tell you about its features, specifications, pricing, and help you decide if it's the perfect fit for you.`,
+        timestamp: new Date(),
+      };
+      setMessages([welcomeMessage]);
+      setConversationHistory([
+        { role: "assistant", content: welcomeMessage.content }
+      ]);
+      setHasWelcomed(true);
+    }
+  }, [selectedVehicle, hasWelcomed, messages.length]);
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
@@ -56,6 +91,7 @@ export default function ChatInterface({
         context: {
           vehicles,
           currentCategory,
+          selectedVehicle,
         },
         conversationHistory: newHistory,
       });
@@ -95,13 +131,17 @@ export default function ChatInterface({
   };
 
   return (
-    <Card className={className}>
+    <Card className={`${className} h-full flex flex-col`}>
       <CardHeader>
-        <CardTitle>Chat with AI Salesman</CardTitle>
+        <CardTitle>
+          {selectedVehicle 
+            ? `Chat about ${selectedVehicle.name}` 
+            : "Chat with AI Salesman"}
+        </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col h-[500px]">
+      <CardContent className="flex flex-col flex-1 min-h-0">
         <div className="flex-1 overflow-y-auto space-y-4 mb-4">
-          {messages.length === 0 && (
+          {messages.length === 0 && !selectedVehicle && (
             <div className="text-center text-muted-foreground py-8">
               <p>Start a conversation with our AI car salesman!</p>
               <p className="text-sm mt-2">Ask about vehicles, get recommendations, or compare models.</p>

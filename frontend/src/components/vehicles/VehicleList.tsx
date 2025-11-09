@@ -5,9 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 interface VehicleListProps {
   vehicles: Vehicle[];
   loading?: boolean;
+  onVehicleClick?: (vehicle: Vehicle) => void;
 }
 
-export default function VehicleList({ vehicles, loading }: VehicleListProps) {
+export default function VehicleList({ vehicles, loading, onVehicleClick }: VehicleListProps) {
   if (loading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -36,7 +37,12 @@ export default function VehicleList({ vehicles, loading }: VehicleListProps) {
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         {vehicles.map((vehicle, index) => (
-          <VehicleCard key={vehicle.id} vehicle={vehicle} index={index} />
+          <VehicleCard 
+            key={vehicle.id} 
+            vehicle={vehicle} 
+            index={index}
+            onClick={() => onVehicleClick?.(vehicle)}
+          />
         ))}
       </motion.div>
     </AnimatePresence>

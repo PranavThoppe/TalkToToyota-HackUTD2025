@@ -5,17 +5,19 @@ import { Vehicle } from "@/types/vehicle";
 interface VehicleCardProps {
   vehicle: Vehicle;
   index: number;
+  onClick?: () => void;
 }
 
-const VehicleCard = ({ vehicle, index }: VehicleCardProps) => {
+const VehicleCard = ({ vehicle, index, onClick }: VehicleCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
-      className="bg-card rounded-lg overflow-hidden hover:shadow-[var(--shadow-hover)] transition-shadow"
+      className="bg-card rounded-lg overflow-hidden hover:shadow-[var(--shadow-hover)] transition-shadow cursor-pointer"
       style={{ boxShadow: "var(--shadow-card)" }}
+      onClick={onClick}
     >
       <div className="relative">
         {vehicle.badges.length > 0 && (
