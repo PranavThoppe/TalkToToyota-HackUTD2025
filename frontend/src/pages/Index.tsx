@@ -13,7 +13,12 @@ import { useVehicles } from "@/hooks/useFirebase";
 import { useToast } from "@/hooks/use-toast";
 import { Vehicle } from "@/types/vehicle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+<<<<<<< HEAD
 import { ArrowLeftRight } from "lucide-react";
+=======
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+>>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
 
 function IndexContent() {
   const [activeCategory, setActiveCategory] = useState("Cars & Minivan");
@@ -21,7 +26,11 @@ function IndexContent() {
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const { toast } = useToast();
   const { vehicles, loading } = useVehicles(activeCategory);
+<<<<<<< HEAD
   const { compareMode, selectedVehicles, clearComparison, setCompareMode } = useComparison();
+=======
+  const navigate = useNavigate();
+>>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
 
   const categories = [
     "Cars & Minivan",
@@ -163,8 +172,11 @@ function IndexContent() {
         <>
           {/* Header */}
           <header className="border-b border-border bg-card sticky top-0 z-30">
-            <div className="container mx-auto px-4 py-6">
+            <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-6">
               <h1 className="text-4xl font-bold text-foreground">Toyota</h1>
+              <Button variant="outline" onClick={() => navigate("/compare")}>
+                Compare Vehicles
+              </Button>
             </div>
           </header>
 

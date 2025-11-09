@@ -10,6 +10,7 @@ interface ConversationContext {
   userPreferences?: Record<string, any>;
   currentCategory?: string;
   selectedVehicle?: any;
+  compareVehicles?: any[];
   financingState?: FinancingState;
 }
 
@@ -65,12 +66,74 @@ When recommending vehicles:
 Keep responses concise, friendly, and helpful.`;
 
 // System prompt for sales-focused AI when a specific vehicle is selected
-function createSalesPrompt(vehicle: any, financingState?: FinancingState): string {
+function formatVehicleSnapshot(vehicle: any): string {
   const specs = vehicle.specifications || {};
   const pros = vehicle.pros || [];
   const features = vehicle.features || [];
   const bestFor = vehicle.bestFor || [];
-  
+
+  return `
+NAME: ${vehicle.name}
+PRICE: $${vehicle.price.toLocaleString()} (MSRP: $${vehicle.msrp.toLocaleString()}${vehicle.priceRange ? `, Range: ${vehicle.priceRange}` : ""})
+${vehicle.year ? `YEAR: ${vehicle.year}` : ""}
+${pros.length ? `TOP HIGHLIGHTS:\n${pros.map((p: string) => `- ${p}`).join("\n")}` : ""}
+${features.length ? `KEY FEATURES:\n${features.map((f: string) => `- ${f}`).join("\n")}` : ""}
+${bestFor.length ? `IDEAL FOR:\n${bestFor.map((b: string) => `- ${b}`).join("\n")}` : ""}
+${specs.horsepower ? `HORSEPOWER: ${specs.horsepower} hp` : ""}
+${specs.mpg?.combined ? `COMBINED MPG: ${specs.mpg.combined}` : ""}
+${specs.seating ? `SEATING: ${specs.seating}` : ""}
+${specs.fuelType ? `FUEL TYPE: ${specs.fuelType}` : ""}
+${specs.engine ? `ENGINE: ${specs.engine}` : ""}
+${specs.electricRange ? `ELECTRIC RANGE: ${specs.electricRange}` : ""}
+${vehicle.warranty ? `WARRANTY: ${vehicle.warranty}` : ""}`.trim();
+}
+
+function financingChecklistInstructions(financingState?: FinancingState): string {
+  return `
+
+---FINANCING CHECKLIST MODE---
+
+You must gather these details conversationally:
+1. Credit Score (300-850)
+2. Down Payment amount (can be $0)
+3. Preferred Loan Term in months (36, 48, 60, 72)
+
+Optional, ask when the moment feels natural:
+4. Trade-in value (defaults to $0 if none)
+5. Local sales tax rate (defaults to 8% if unsure)
+
+CURRENT CHECKLIST STATUS:
+${financingState?.creditScore ? `✓ Credit Score: ${financingState.creditScore}` : `✗ Credit Score: not collected`}
+${financingState?.downPayment !== undefined ? `✓ Down Payment: $${financingState.downPayment.toLocaleString()}` : `✗ Down Payment: not collected`}
+${financingState?.loanTermMonths ? `✓ Loan Term: ${financingState.loanTermMonths} months` : `✗ Loan Term: not collected`}
+${financingState?.tradeInValue !== undefined ? `○ Trade-in: $${financingState.tradeInValue.toLocaleString()}` : `○ Trade-in: optional`}
+${financingState?.salesTaxRate !== undefined ? `○ Sales Tax: ${financingState.salesTaxRate}%` : `○ Sales Tax: optional (use 8% if unknown)`}
+
+GUIDANCE:
+- Stay warm, curious, and helpful—make it feel like a one-on-one consultation.
+- Ask ONE checklist item at a time.
+- Explain why each item helps the shopper compare realistic monthly payments.
+- Extract numbers when the customer mentions them naturally.
+- Whenever the customer gives you checklist data, append it exactly like this at the END of your reply:
+  [FINANCING_DATA: {"creditScore": 720, "downPayment": 5000}]
+- Only include fields the customer mentioned in that turn.
+- When all required fields are complete, append [CALCULATE_FINANCING] to trigger the quote.
+${!financingState?.creditScore ? `
+NEXT ITEM: Credit score (e.g. "To line up the best rates, where does your credit score fall? Most shoppers are between 650-750.")`
+: !financingState?.downPayment && financingState.downPayment !== 0 ? `
+NEXT ITEM: Down payment (e.g. "Great! How much are you thinking of putting down? Even $0 is okay—many buyers set aside $3K-$5K.")`
+: !financingState?.loanTermMonths ? `
+NEXT ITEM: Loan term (e.g. "Got it. Do you prefer 36, 48, 60, or 72 months? Longer terms drop the monthly amount.")`
+: !financingState?.tradeInValue && financingState.tradeInValue !== 0 ? `
+OPTIONAL: Trade-in (e.g. "Do you have a car you might trade in? If so, roughly what's it worth?")`
+: !financingState?.salesTaxRate ? `
+OPTIONAL: Sales tax (e.g. "What’s your local sales tax rate? If you’re unsure we’ll use 8%.")`
+: `
+ALL REQUIRED ITEMS COMPLETE — let them know you’ll calculate the numbers, then add [CALCULATE_FINANCING].`}
+  `.trim();
+}
+
+function createSalesPrompt(vehicle: any, financingState?: FinancingState): string {
   const basePrompt = `You are an enthusiastic, persuasive Toyota car salesman AI. Your PRIMARY GOAL is to help the customer with the ${vehicle.name} and guide them through financing options.
 
 CURRENT VEHICLE: ${vehicle.name}
@@ -79,116 +142,55 @@ ${vehicle.priceRange ? `PRICE RANGE: ${vehicle.priceRange}` : ''}
 ${vehicle.year ? `YEAR: ${vehicle.year}` : ''}
 
 VEHICLE HIGHLIGHTS & SELLING POINTS:
-${pros.length > 0 ? `PROS:\n${pros.map((p: string) => `- ${p}`).join('\n')}` : ''}
+${(vehicle.pros || []).length > 0 ? `PROS:\n${(vehicle.pros || []).map((p: string) => `- ${p}`).join('\n')}` : ''}
 
-${features.length > 0 ? `KEY FEATURES:\n${features.map((f: string) => `- ${f}`).join('\n')}` : ''}
+${(vehicle.features || []).length > 0 ? `KEY FEATURES:\n${(vehicle.features || []).map((f: string) => `- ${f}`).join('\n')}` : ''}
 
-${bestFor.length > 0 ? `PERFECT FOR:\n${bestFor.map((b: string) => `- ${b}`).join(', ')}` : ''}
+${(vehicle.bestFor || []).length > 0 ? `PERFECT FOR:\n${(vehicle.bestFor || []).map((b: string) => `- ${b}`).join(', ')}` : ''}
 
 SPECIFICATIONS:
-${specs.horsepower ? `- Horsepower: ${specs.horsepower} hp` : ''}
-${specs.mpg?.combined ? `- MPG (Combined): ${specs.mpg.combined}` : ''}
-${specs.seating ? `- Seating: ${specs.seating} passengers` : ''}
-${specs.fuelType ? `- Fuel Type: ${specs.fuelType}` : ''}
-${specs.engine ? `- Engine: ${specs.engine}` : ''}
-${specs.cargoSpace ? `- Cargo Space: ${specs.cargoSpace}` : ''}
-${specs.electricRange ? `- Electric Range: ${specs.electricRange}` : ''}
+${vehicle.specifications?.horsepower ? `- Horsepower: ${vehicle.specifications.horsepower} hp` : ''}
+${vehicle.specifications?.mpg?.combined ? `- MPG (Combined): ${vehicle.specifications.mpg.combined}` : ''}
+${vehicle.specifications?.seating ? `- Seating: ${vehicle.specifications.seating} passengers` : ''}
+${vehicle.specifications?.fuelType ? `- Fuel Type: ${vehicle.specifications.fuelType}` : ''}
+${vehicle.specifications?.engine ? `- Engine: ${vehicle.specifications.engine}` : ''}
+${vehicle.specifications?.cargoSpace ? `- Cargo Space: ${vehicle.specifications.cargoSpace}` : ''}
+${vehicle.specifications?.electricRange ? `- Electric Range: ${vehicle.specifications.electricRange}` : ''}
 ${vehicle.warranty ? `- Warranty: ${vehicle.warranty}` : ''}`;
 
-  // Add financing collection instructions
-  const financingPrompt = `
+  return basePrompt + financingChecklistInstructions(financingState);
+}
 
----FINANCING COLLECTION MODE---
+function createComparePrompt(vehicles: any[], financingState?: FinancingState): string {
+  const [primary, secondary] = vehicles;
 
-You need to collect the following information from the customer to calculate their financing options:
+  const header = `You are an insightful Toyota product specialist helping a shopper compare two vehicles side-by-side. Stay personable, celebrate the strengths of each vehicle, and guide them toward a confident choice.`;
 
-REQUIRED FIELDS:
-1. Credit Score (300-850)
-2. Down Payment (dollar amount, can be $0)
-3. Loan Term (36, 48, 60, or 72 months)
+  const comparisonOverview = `
+VEHICLE A SNAPSHOT:
+${formatVehicleSnapshot(primary)}
 
-OPTIONAL FIELDS:
-4. Trade-in Value (dollar amount, default to $0 if none)
-5. Sales Tax Rate (percentage, default to 8% if unknown)
+---
 
-CURRENT FINANCING STATE:
-${financingState?.creditScore ? `✓ Credit Score: ${financingState.creditScore}` : `✗ Credit Score: NOT COLLECTED`}
-${financingState?.downPayment !== undefined ? `✓ Down Payment: $${financingState.downPayment.toLocaleString()}` : `✗ Down Payment: NOT COLLECTED`}
-${financingState?.loanTermMonths ? `✓ Loan Term: ${financingState.loanTermMonths} months` : `✗ Loan Term: NOT COLLECTED`}
-${financingState?.tradeInValue !== undefined ? `✓ Trade-in: $${financingState.tradeInValue.toLocaleString()}` : `○ Trade-in: Optional`}
-${financingState?.salesTaxRate !== undefined ? `✓ Sales Tax: ${financingState.salesTaxRate}%` : `○ Sales Tax: Optional (default 8%)`}
+VEHICLE B SNAPSHOT:
+${formatVehicleSnapshot(secondary)}
 
-INSTRUCTIONS FOR COLLECTING FINANCING INFO:
+---
 
-1. **Be conversational and natural** - Don't make it feel like a form
-2. **Ask ONE question at a time** - Don't overwhelm the customer
-3. **Explain WHY you need each piece of info** - Build trust
-4. **Validate inputs** - If something seems off, politely confirm
-5. **Offer examples/defaults** - Help customers who are unsure
-6. **Extract data from natural language** - If they say "I have good credit around 720", extract 720
-
-WHEN YOU COLLECT DATA:
-- When the customer provides a credit score, down payment, or loan term, you MUST output it in this EXACT format at the END of your response:
-  [FINANCING_DATA: {"creditScore": 720, "downPayment": 5000, "loanTermMonths": 60}]
-- Only include the fields that were mentioned in this message
-- This allows the system to track what's been collected
-
-CONVERSATION FLOW:
-${!financingState?.creditScore ? `
-NEXT: Ask about credit score
-Example: "To get you the best financing rates, I'll need to know your credit score. What's your current credit score? Most customers are in the 650-750 range."
-` : !financingState?.downPayment && financingState.downPayment !== 0 ? `
-NEXT: Ask about down payment
-Example: "Great! With a ${financingState.creditScore} credit score, you'll get excellent rates. How much would you like to put down as a down payment? Many customers put down $3,000-$5,000, but you can put down any amount you're comfortable with, or even $0."
-` : !financingState?.loanTermMonths ? `
-NEXT: Ask about loan term
-Example: "Perfect! Now, how many months would you like to finance for? Most customers choose:
-- 36 months (pay off faster, higher monthly payment)
-- 48 months (balanced option)
-- 60 months (most popular, lower monthly payment)
-- 72 months (lowest monthly payment)
-
-Which term works best for your budget?"
-` : !financingState?.tradeInValue && financingState.tradeInValue !== 0 ? `
-NEXT: Ask about trade-in (optional)
-Example: "Almost there! Do you have a vehicle to trade in? If so, what's its estimated value? If not, just say 'no trade-in' and we'll skip that."
-` : !financingState?.salesTaxRate ? `
-NEXT: Ask about sales tax (optional)
-Example: "Last question - what's your local sales tax rate? If you're not sure, I can use the standard 8% rate."
-` : `
-ALL DATA COLLECTED! 
-Say: "Perfect! I have all the information I need. Let me calculate your financing options..."
-Then output: [CALCULATE_FINANCING]
-The system will automatically calculate and show the results.
-`}
-
-EXAMPLES OF EXTRACTING DATA:
-
-User: "My credit score is 720"
-Your response: "Excellent credit! That qualifies you for great rates around 5-6% APR. [FINANCING_DATA: {"creditScore": 720}]"
-
-User: "I can put down $5,000"
-Your response: "Perfect! A $5,000 down payment will really help lower your monthly payments. [FINANCING_DATA: {"downPayment": 5000}]"
-
-User: "I want a 5 year loan"
-Your response: "Great choice! A 60-month term is our most popular option. [FINANCING_DATA: {"loanTermMonths": 60}]"
-
-User: "I don't have a trade-in"
-Your response: "No problem! We can work without a trade-in. [FINANCING_DATA: {"tradeInValue": 0}]"
-
-User: "My credit score is around 680, I have $3000 for down payment, and I want the 60 month option"
-Your response: "Fantastic! Let me get that calculated for you. Good credit at 680 will get you competitive rates, and that $3,000 down payment is great. [FINANCING_DATA: {"creditScore": 680, "downPayment": 3000, "loanTermMonths": 60}]"
-
-REMEMBER:
-- Be friendly and enthusiastic
-- Explain the benefits of their choices
-- Make them feel confident about the ${vehicle.name}
-- Guide them naturally through the process
-- ALWAYS output [FINANCING_DATA: {...}] when you extract any financial information
-- ALWAYS output [CALCULATE_FINANCING] when all required fields are collected
+COMPARISON TIPS:
+- Call out where each vehicle shines (performance, efficiency, tech, cargo, etc.).
+- Help the shopper weigh trade-offs based on their lifestyle comments.
+- Offer friendly suggestions like "If you love X, the ${primary.name} really delivers, while the ${secondary.name} gives you Y."
 `;
 
-  return basePrompt + financingPrompt;
+  const financingInstructions = `
+FINANCING FOCUS:
+- Let them know you can surface monthly payment estimates for BOTH vehicles once you gather the checklist info.
+- Reinforce that sharing credit score, down payment, and term lets you compare affordability apples-to-apples.
+${financingChecklistInstructions(financingState)}
+`;
+
+  return [header, comparisonOverview, financingInstructions].join("\n\n");
 }
 
 // Extract financing data from AI response
@@ -245,7 +247,9 @@ export async function generateAIResponse({
     let contextInfo = "";
 
     // If a specific vehicle is selected, use sales-focused prompt with financing
-    if (context?.selectedVehicle) {
+    if (context?.compareVehicles && context.compareVehicles.length >= 2) {
+      systemPrompt = createComparePrompt(context.compareVehicles.slice(0, 2), financingState);
+    } else if (context?.selectedVehicle) {
       systemPrompt = createSalesPrompt(context.selectedVehicle, financingState);
     } else {
       // Otherwise use general prompt

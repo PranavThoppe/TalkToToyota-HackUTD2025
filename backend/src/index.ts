@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Root route
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   res.json({ 
     message: "TalkToToyota Backend API",
     status: "running",
@@ -28,7 +28,8 @@ app.get("/", (req, res) => {
         speak: "POST /api/voice/speak"
       },
       ai: {
-        conversation: "POST /api/ai/conversation"
+        conversation: "POST /api/ai/conversation",
+        checkout: "POST /api/ai/checkout"
       },
       finance: {
         calculate: "POST /api/finance/calculate",
@@ -45,7 +46,7 @@ app.use("/api/ai", aiRoutes);
 app.use("/api/finance", financeRoutes);
 
 // Health check
-app.get("/health", (req, res) => {
+app.get("/health", (_req, res) => {
   res.json({ status: "ok", message: "TalkToToyota Backend API" });
 });
 

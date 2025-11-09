@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { generateAIResponse } from "../services/ai.js";
+import { generateCheckoutAIResponse } from "../services/checkout-ai.js";
 
 const router = Router();
 
@@ -66,6 +67,52 @@ router.post("/conversation", async (req, res) => {
     } else {
       return res.status(500).json({ error: "Failed to generate AI response" });
     }
+  }
+});
+
+// Checkout-focused AI conversation
+router.post("/checkout", async (req, res) => {
+  try {
+    const { message, context, conversationHistory } = req.body;
+
+    if (!message) {
+      return res.status(400).json({ error: "Message is required" });
+    }
+
+    if (context && typeof context !== "object") {
+      return res.status(400).json({ error: "Context must be an object" });
+    }
+
+    if (conversationHistory && !Array.isArray(conversationHistory)) {
+      return res.status(400).json({ error: "Conversation history must be an array" });
+    }
+
+    const limitedHistory = Array.isArray(conversationHistory)
+      ? conversationHistory.slice(-12)
+      : undefined;
+
+    const result = await generateCheckoutAIResponse({
+      message,
+      context,
+      conversationHistory: limitedHistory,
+    });
+
+    const updatedHistory = [
+      ...(limitedHistory || []),
+      { role: "user" as const, content: message },
+      { role: "assistant" as const, content: result.response },
+    ];
+
+    return res.json({
+      response: result.response,
+      conversationHistory: updatedHistory,
+    });
+  } catch (error) {
+    console.error("Checkout AI conversation error:", error);
+    if (error instanceof Error) {
+      return res.status(500).json({ error: error.message });
+    }
+    return res.status(500).json({ error: "Failed to generate checkout AI response" });
   }
 });
 

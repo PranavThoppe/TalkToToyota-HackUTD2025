@@ -19,8 +19,12 @@ interface ChatInterfaceProps {
   vehicles: Vehicle[];
   currentCategory?: string;
   selectedVehicle?: Vehicle | null;
+<<<<<<< HEAD
   selectedVehicles?: Vehicle[];
   isComparison?: boolean;
+=======
+  compareVehicles?: Vehicle[];
+>>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
   className?: string;
 }
 
@@ -28,8 +32,12 @@ export default function ChatInterface({
   vehicles,
   currentCategory,
   selectedVehicle,
+<<<<<<< HEAD
   selectedVehicles,
   isComparison,
+=======
+  compareVehicles,
+>>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
   className,
 }: ChatInterfaceProps) {
   const navigate = useNavigate();
@@ -43,27 +51,32 @@ export default function ChatInterface({
   const [financingResults, setFinancingResults] = useState<FinancingResults | null>(null);
 
   const [hasWelcomed, setHasWelcomed] = React.useState(false);
+  const compareKey = React.useMemo(
+    () => (compareVehicles && compareVehicles.length > 0 ? compareVehicles.map((v) => v.id).join(",") : null),
+    [compareVehicles]
+  );
+  const isCompareMode = !!compareKey;
+  const compareNames = React.useMemo(
+    () =>
+      compareVehicles && compareVehicles.length > 0
+        ? compareVehicles.map((vehicle) => vehicle.name)
+        : [],
+    [compareVehicles]
+  );
+  const primaryVehicle = selectedVehicle ?? compareVehicles?.[0] ?? null;
 
   // Reset conversation when vehicle changes
   React.useEffect(() => {
-    if (selectedVehicle) {
-      setMessages([]);
-      setConversationHistory([]);
-      setHasWelcomed(false);
-      setFinancingState({});
-      setFinancingResults(null);
-    } else {
-      // Clear messages when no vehicle is selected
-      setMessages([]);
-      setConversationHistory([]);
-      setHasWelcomed(false);
-      setFinancingState({});
-      setFinancingResults(null);
-    }
-  }, [selectedVehicle?.id]);
+    setMessages([]);
+    setConversationHistory([]);
+    setHasWelcomed(false);
+    setFinancingState({});
+    setFinancingResults(null);
+  }, [selectedVehicle?.id, compareKey]);
 
   // Send welcome message once when vehicle is selected
   React.useEffect(() => {
+<<<<<<< HEAD
     if (!hasWelcomed && messages.length === 0) {
       let welcomeMessage: Message;
       
@@ -104,13 +117,35 @@ Let me know your priorities, and I'll provide a detailed comparison focusing on 
         return;
       }
 
+=======
+    if (hasWelcomed || messages.length > 0) return;
+
+    if (isCompareMode && compareVehicles && compareVehicles.length >= 2) {
+      const [first, second] = compareVehicles;
+      const welcomeMessage: Message = {
+        role: "assistant",
+        content: `Hey there! You're sizing up the ${first.name} against the ${second.name}—great choices. I can walk you through the differences and estimate monthly payments. To keep things apples-to-apples, let's start with your credit score. Where does it fall? Even a ballpark number (300-850) helps me hunt down the best rates.`,
+        timestamp: new Date(),
+      };
       setMessages([welcomeMessage]);
-      setConversationHistory([
-        { role: "assistant", content: welcomeMessage.content }
-      ]);
+      setConversationHistory([{ role: "assistant", content: welcomeMessage.content }]);
+      setHasWelcomed(true);
+    } else if (selectedVehicle) {
+      const welcomeMessage: Message = {
+        role: "assistant",
+        content: `Hi! I see you're interested in the ${selectedVehicle.name}! To help you with financing options, I'll need to gather some information. First, could you please tell me your credit score? This will help me find the best rates available for you. You can enter a number between 300-850, or if you're not sure, I can explain how to check it.`,
+        timestamp: new Date(),
+      };
+>>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
+      setMessages([welcomeMessage]);
+      setConversationHistory([{ role: "assistant", content: welcomeMessage.content }]);
       setHasWelcomed(true);
     }
+<<<<<<< HEAD
   }, [selectedVehicle, selectedVehicles, isComparison, hasWelcomed, messages.length]);
+=======
+  }, [isCompareMode, compareVehicles, selectedVehicle, hasWelcomed, messages.length]);
+>>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
 
   const currencyFormatter = React.useMemo(
     () =>
@@ -159,9 +194,14 @@ Let me know your priorities, and I'll provide a detailed comparison focusing on 
         context: {
           vehicles,
           currentCategory,
+<<<<<<< HEAD
           selectedVehicle,
           selectedVehicles,
           isComparison,
+=======
+          selectedVehicle: selectedVehicle ?? compareVehicles?.[0],
+          compareVehicles,
+>>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
           financingState,
         },
         conversationHistory: limitedHistory,
@@ -287,13 +327,13 @@ Let me know your priorities, and I'll provide a detailed comparison focusing on 
   };
 
   const handleOptionSelect = (option: FinancingResults["alternatives"][number]) => {
-    if (!selectedVehicle || !financingResults) {
+    if ((!selectedVehicle && !isCompareMode) || !financingResults) {
       return;
     }
 
     navigate("/checkout", {
       state: {
-        vehicle: selectedVehicle,
+        vehicle: selectedVehicle ?? primaryVehicle,
         option,
         summary: {
           monthlyPayment: financingResults.monthlyPayment,
@@ -310,10 +350,12 @@ Let me know your priorities, and I'll provide a detailed comparison focusing on 
     <Card className={`${className} h-full flex flex-col shadow-lg border-border/50`}>
       <CardHeader className="border-b bg-card">
         <CardTitle className="flex items-center gap-2 text-lg">
-          {selectedVehicle ? (
+          {primaryVehicle ? (
             <>
               <span className="text-primary">•</span>
-              {selectedVehicle.name}
+              {isCompareMode && compareNames.length >= 2
+                ? `${compareNames[0]} vs ${compareNames[1]}`
+                : primaryVehicle.name}
             </>
           ) : (
             <>
@@ -331,7 +373,7 @@ Let me know your priorities, and I'll provide a detailed comparison focusing on 
       </CardHeader>
       <CardContent className="flex flex-col flex-1 min-h-0 p-0">
         <div className="flex-1 overflow-y-auto px-4 py-4">
-          {messages.length === 0 && !selectedVehicle && (
+          {messages.length === 0 && !primaryVehicle && (
             <div className="text-center py-12">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
@@ -376,7 +418,7 @@ Let me know your priorities, and I'll provide a detailed comparison focusing on 
             </div>
           )}
         </div>
-        {selectedVehicle && !financingResults && (
+        {primaryVehicle && !financingResults && (
           <div className="px-4 mb-2">
             <div className="rounded-xl border border-border/50 bg-card p-2 shadow-sm">
               <div className="flex items-center gap-2 mb-2">
