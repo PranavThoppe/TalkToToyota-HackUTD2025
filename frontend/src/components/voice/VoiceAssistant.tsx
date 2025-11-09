@@ -3,7 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Mic, MicOff, Volume2, Loader2 } from "lucide-react";
 import { useVoice } from "@/hooks/useVoice";
-import { getAIResponse, textToSpeech } from "@/services/api";
+import {
+  getAIResponse,
+  textToSpeech,
+  type FinancingState,
+} from "@/services/api";
 import { Vehicle } from "@/types/vehicle";
 
 interface VoiceAssistantProps {
@@ -28,6 +32,7 @@ export default function VoiceAssistant({
   const [conversationHistory, setConversationHistory] = useState<
     Array<{ role: "user" | "assistant" | "system"; content: string }>
   >([]);
+  const [financingState, setFinancingState] = useState<FinancingState>({});
 
   const { isListening, isProcessing, transcript, startListening, stopListening, speak } =
     useVoice({
@@ -47,6 +52,7 @@ export default function VoiceAssistant({
           ...conversationHistory,
           { role: "user" as const, content: transcriptText },
         ];
+        const limitedHistory = newHistory.slice(-10);
         setConversationHistory(newHistory);
 
         try {
@@ -56,14 +62,48 @@ export default function VoiceAssistant({
             context: {
               vehicles,
               currentCategory,
+              financingState,
             },
-            conversationHistory: newHistory,
+            conversationHistory: limitedHistory,
           });
+
+          const updatedFinancingState = aiResponse.financingState ?? financingState;
+          setFinancingState(updatedFinancingState);
+
+          let assistantContent = aiResponse.response;
+
+          if (aiResponse.financingResults) {
+            const result = aiResponse.financingResults;
+            const formatter = new Intl.NumberFormat("en-US", {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            });
+
+            const altText = result.alternatives
+              .map((alt, idx) => {
+                const payment = formatter.format(alt.monthlyPayment);
+                const savings =
+                  alt.savings !== undefined && alt.savings !== null
+                    ? ` (${alt.savings >= 0 ? "saves" : "adds"} $${Math.abs(alt.savings)}/mo)`
+                    : "";
+                return `${idx + 1}. ${alt.description}: $${payment}/mo${savings}`;
+              })
+              .join("\n");
+
+            assistantContent +=
+              `\n\nFinancing Summary:\n` +
+              `- Monthly Payment: $${formatter.format(result.monthlyPayment)}\n` +
+              `- APR: ${result.apr}%\n` +
+              `- Total Cost: $${formatter.format(result.totalCost)}\n` +
+              `- Amount Financed: $${formatter.format(result.amountFinanced)}\n` +
+              (result.recommendation ? `\n${result.recommendation}\n` : "") +
+              (altText ? `\nAlternative Options:\n${altText}` : "");
+          }
 
           // Add AI message
           const assistantMessage: Message = {
             role: "assistant",
-            content: aiResponse,
+            content: assistantContent,
             timestamp: new Date(),
           };
           setMessages((prev) => [...prev, assistantMessage]);
@@ -71,12 +111,12 @@ export default function VoiceAssistant({
           // Update conversation history
           setConversationHistory([
             ...newHistory,
-            { role: "assistant" as const, content: aiResponse },
+            { role: "assistant" as const, content: assistantContent },
           ]);
 
           // Speak the response
           try {
-            await speak(aiResponse);
+            await speak(assistantContent);
           } catch (speakError) {
             console.warn("Could not speak response:", speakError);
             // Continue even if speech fails
@@ -113,6 +153,7 @@ export default function VoiceAssistant({
     if (isActive) {
       setIsActive(false);
       stopListening();
+      setFinancingState({});
     } else {
       setIsActive(true);
       startListening();

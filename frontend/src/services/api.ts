@@ -4,8 +4,41 @@ interface TranscriptionResponse {
   transcription: string;
 }
 
-interface AIResponse {
+export interface FinancingState {
+  creditScore?: number;
+  downPayment?: number;
+  loanTermMonths?: number;
+  tradeInValue?: number;
+  salesTaxRate?: number;
+  isComplete?: boolean;
+}
+
+export interface FinancingAlternative {
+  description: string;
+  monthlyPayment: number;
+  loanTermMonths?: number;
+  downPayment?: number;
+  savings?: number;
+}
+
+export interface FinancingResults {
+  monthlyPayment: number;
+  apr: number;
+  totalInterest: number;
+  totalCost: number;
+  amountFinanced: number;
+  recommendation: string;
+  alternatives: FinancingAlternative[];
+}
+
+export interface AIResponsePayload {
   response: string;
+  financingState?: FinancingState;
+  financingResults?: FinancingResults | null;
+  conversationHistory?: Array<{
+    role: "user" | "assistant" | "system";
+    content: string;
+  }>;
 }
 
 interface ConversationRequest {
@@ -15,6 +48,7 @@ interface ConversationRequest {
     currentCategory?: string;
     selectedVehicle?: any;
     userPreferences?: Record<string, any>;
+    financingState?: FinancingState;
   };
   conversationHistory?: Array<{
     role: "user" | "assistant" | "system";
@@ -31,7 +65,7 @@ export async function transcribeAudio(audioBlob: Blob): Promise<string> {
 }
 
 // Get AI conversation response
-export async function getAIResponse(request: ConversationRequest): Promise<string> {
+export async function getAIResponse(request: ConversationRequest): Promise<AIResponsePayload> {
   try {
     const response = await fetch(`${API_BASE_URL}/ai/conversation`, {
       method: "POST",
@@ -45,8 +79,8 @@ export async function getAIResponse(request: ConversationRequest): Promise<strin
       throw new Error(`Backend API returned ${response.status}: ${response.statusText}`);
     }
 
-    const data: AIResponse = await response.json();
-    return data.response;
+    const data: AIResponsePayload = await response.json();
+    return data;
   } catch (error) {
     if (error instanceof TypeError && error.message.includes("Failed to fetch")) {
       throw new Error("Backend server is not running. Please start the backend server or configure the API URL.");
