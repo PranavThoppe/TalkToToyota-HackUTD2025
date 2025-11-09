@@ -15,6 +15,7 @@ interface CheckoutConversationContext {
   };
   appliedOffer?: {
     title: string;
+    description?: string;
     savingsAmount: number;
     deadlineHours: number;
   };
@@ -35,6 +36,21 @@ interface CheckoutAIResponse {
   response: string;
 }
 
+const INCENTIVE_PLAYBOOK = `
+Incentive Playbook (use whichever is most persuasive based on the conversation):
+- College Graduate Rebate: $750 for recent graduates who finalize during this event.
+- Military Appreciation Bonus: $1,000 bonus cash for active duty, reservists, or veterans.
+- Flash Sales Bonus: $500 when the customer completes checkout before the weekend.
+- Trade-In Bonus: Up to $1,500 additional trade-in value if they bring their current vehicle this week.
+- Toyota Loyalty Cash: $750 for current Toyota owners upgrading to a new model.
+- Hybrid & EV Rebate: $1,000 rebate on select hybrid or electric models for eco-focused shoppers.
+- Limited Stock Priority Offer: Priority delivery and promotional APR when inventory is running low.
+- Partner Financing Special: 0% APR for 36 months on select trims through our finance partner.
+- Refer-a-Friend Bonus: $250 service credit for the customer and their referral.
+- ToyotaCare Plus Upgrade: Complimentary extra year of scheduled maintenance when they finalize this week.
+
+Always tailor the incentive pitch to the customer's situation, reference urgency using the deadline window, and invite them to press "Complete Checkout" to secure it.`;
+
 function buildCheckoutPrompt(context?: CheckoutConversationContext): string {
   const basePrompt = `You are a proactive Toyota checkout specialist. Your primary goal is to guide the customer to complete their vehicle purchase today.
 
@@ -50,7 +66,9 @@ Guidelines:
 `;
 
   if (!context) {
-    return basePrompt;
+    return `${basePrompt}
+
+${INCENTIVE_PLAYBOOK}`;
   }
 
   const vehicle = context.vehicle;
@@ -83,6 +101,7 @@ ${financing.recommendation ? `- Recommendation: ${financing.recommendation}` : "
 Active Incentive:
 - ${offer.title} worth $${offer.savingsAmount.toLocaleString()}
 - Must complete checkout within ${offer.deadlineHours} hours to keep this incentive.
+${offer.description ? `- Details: ${offer.description}` : ""}
 `
     : "";
 
@@ -94,7 +113,9 @@ Conversation Objectives:
 - Always end with a clear call-to-action toward completing checkout now.
 `;
 
-  return basePrompt + vehicleDetails + financingDetails + offerDetails + closingGuidance;
+  return `${basePrompt}
+
+${INCENTIVE_PLAYBOOK}` + vehicleDetails + financingDetails + offerDetails + closingGuidance;
 }
 
 export async function generateCheckoutAIResponse({

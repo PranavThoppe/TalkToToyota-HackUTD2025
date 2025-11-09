@@ -57,6 +57,7 @@ export interface CheckoutContext {
   };
   appliedOffer?: {
     title: string;
+    description?: string;
     savingsAmount: number;
     deadlineHours: number;
   };
