@@ -19,12 +19,9 @@ interface ChatInterfaceProps {
   vehicles: Vehicle[];
   currentCategory?: string;
   selectedVehicle?: Vehicle | null;
-<<<<<<< HEAD
   selectedVehicles?: Vehicle[];
   isComparison?: boolean;
-=======
   compareVehicles?: Vehicle[];
->>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
   className?: string;
 }
 
@@ -32,12 +29,9 @@ export default function ChatInterface({
   vehicles,
   currentCategory,
   selectedVehicle,
-<<<<<<< HEAD
   selectedVehicles,
   isComparison,
-=======
   compareVehicles,
->>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
   className,
 }: ChatInterfaceProps) {
   const navigate = useNavigate();
@@ -51,19 +45,18 @@ export default function ChatInterface({
   const [financingResults, setFinancingResults] = useState<FinancingResults | null>(null);
 
   const [hasWelcomed, setHasWelcomed] = React.useState(false);
-  const compareKey = React.useMemo(
-    () => (compareVehicles && compareVehicles.length > 0 ? compareVehicles.map((v) => v.id).join(",") : null),
-    [compareVehicles]
+
+  // Normalize compare list and compare mode so the component accepts either prop name
+  const compareList = React.useMemo(
+    () => compareVehicles ?? selectedVehicles ?? [],
+    [compareVehicles, selectedVehicles]
   );
-  const isCompareMode = !!compareKey;
-  const compareNames = React.useMemo(
-    () =>
-      compareVehicles && compareVehicles.length > 0
-        ? compareVehicles.map((vehicle) => vehicle.name)
-        : [],
-    [compareVehicles]
+  const isCompareMode = React.useMemo(
+    () => (isComparison !== undefined ? isComparison : compareList.length >= 2),
+    [isComparison, compareList]
   );
-  const primaryVehicle = selectedVehicle ?? compareVehicles?.[0] ?? null;
+  const compareNames = React.useMemo(() => (compareList.length > 0 ? compareList.map((v) => v.name) : []), [compareList]);
+  const primaryVehicle = selectedVehicle ?? compareList?.[0] ?? null;
 
   // Reset conversation when vehicle changes
   React.useEffect(() => {
@@ -72,56 +65,14 @@ export default function ChatInterface({
     setHasWelcomed(false);
     setFinancingState({});
     setFinancingResults(null);
-  }, [selectedVehicle?.id, compareKey]);
+  }, [selectedVehicle?.id, compareList.map((v) => v.id).join(",")]);
 
   // Send welcome message once when vehicle is selected
   React.useEffect(() => {
-<<<<<<< HEAD
-    if (!hasWelcomed && messages.length === 0) {
-      let welcomeMessage: Message;
-      
-      if (isComparison && selectedVehicles && selectedVehicles.length === 2) {
-        // Find similar vehicles to the ones being compared
-        const similarVehicles = vehicles.filter(v => 
-          v.id !== selectedVehicles[0].id && 
-          v.id !== selectedVehicles[1].id &&
-          (v.type === selectedVehicles[0].type || v.type === selectedVehicles[1].type) &&
-          (Math.abs(v.price - selectedVehicles[0].price) < 10000 || Math.abs(v.price - selectedVehicles[1].price) < 10000)
-        ).slice(0, 3);
-
-        const similarVehiclesText = similarVehicles.length > 0 
-          ? `\n\nBased on your interests, you might also want to consider:\n${
-              similarVehicles.map(v => `• ${v.name} (${currencyFormatter.format(v.price)})`).join('\n')
-            }`
-          : '';
-
-        welcomeMessage = {
-          role: "assistant",
-          content: `I see you're comparing the ${selectedVehicles[0].name} and the ${selectedVehicles[1].name}! I can help you make the best choice based on your needs. What's most important to you in a vehicle? For example:
-- Fuel efficiency and environmental impact
-- Performance and driving experience
-- Interior space and comfort
-- Safety features and technology
-- Budget and financing options
-
-Let me know your priorities, and I'll provide a detailed comparison focusing on what matters most to you.${similarVehiclesText}`,
-          timestamp: new Date(),
-        };
-      } else if (selectedVehicle) {
-        welcomeMessage = {
-          role: "assistant",
-          content: `Hi! I see you're interested in the ${selectedVehicle.name}! To help you with financing options, I'll need to gather some information. First, could you please tell me your credit score? This will help me find the best rates available for you. You can enter a number between 300-850, or if you're not sure, I can explain how to check it.`,
-          timestamp: new Date(),
-        };
-      } else {
-        return;
-      }
-
-=======
     if (hasWelcomed || messages.length > 0) return;
 
-    if (isCompareMode && compareVehicles && compareVehicles.length >= 2) {
-      const [first, second] = compareVehicles;
+    if (isCompareMode && compareList.length >= 2) {
+      const [first, second] = compareList;
       const welcomeMessage: Message = {
         role: "assistant",
         content: `Hey there! You're sizing up the ${first.name} against the ${second.name}—great choices. I can walk you through the differences and estimate monthly payments. To keep things apples-to-apples, let's start with your credit score. Where does it fall? Even a ballpark number (300-850) helps me hunt down the best rates.`,
@@ -136,16 +87,11 @@ Let me know your priorities, and I'll provide a detailed comparison focusing on 
         content: `Hi! I see you're interested in the ${selectedVehicle.name}! To help you with financing options, I'll need to gather some information. First, could you please tell me your credit score? This will help me find the best rates available for you. You can enter a number between 300-850, or if you're not sure, I can explain how to check it.`,
         timestamp: new Date(),
       };
->>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
       setMessages([welcomeMessage]);
       setConversationHistory([{ role: "assistant", content: welcomeMessage.content }]);
       setHasWelcomed(true);
     }
-<<<<<<< HEAD
-  }, [selectedVehicle, selectedVehicles, isComparison, hasWelcomed, messages.length]);
-=======
-  }, [isCompareMode, compareVehicles, selectedVehicle, hasWelcomed, messages.length]);
->>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
+  }, [isCompareMode, compareList, selectedVehicle, hasWelcomed, messages.length]);
 
   const currencyFormatter = React.useMemo(
     () =>
@@ -194,14 +140,8 @@ Let me know your priorities, and I'll provide a detailed comparison focusing on 
         context: {
           vehicles,
           currentCategory,
-<<<<<<< HEAD
-          selectedVehicle,
-          selectedVehicles,
-          isComparison,
-=======
-          selectedVehicle: selectedVehicle ?? compareVehicles?.[0],
-          compareVehicles,
->>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
+          selectedVehicle: selectedVehicle ?? compareList?.[0],
+          compareVehicles: compareList,
           financingState,
         },
         conversationHistory: limitedHistory,

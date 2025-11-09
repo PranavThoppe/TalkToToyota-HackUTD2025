@@ -8,8 +8,6 @@ interface VehicleCardProps {
   onClick?: () => void;
   isSelected?: boolean;
 }
-
-<<<<<<< HEAD
 import { useComparison } from "@/context/ComparisonContext";
 import { Plus, Check, ArrowLeftRight } from "lucide-react";
 
@@ -29,23 +27,12 @@ const VehicleCard = ({ vehicle, index, onClick }: VehicleCardProps) => {
       onClick?.();
     }
   };
-
-=======
-const VehicleCard = ({ vehicle, index, onClick, isSelected }: VehicleCardProps) => {
->>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
-<<<<<<< HEAD
-      className={`bg-card rounded-lg overflow-hidden hover:shadow-[var(--shadow-hover)] transition-all duration-200 cursor-pointer relative z-0 ${
-        isSelected ? 'ring-2 ring-primary' : ''
-      }`}
-      style={{ boxShadow: "var(--shadow-card)" }}
-      onClick={handleClick}
-=======
       className={[
         "bg-card rounded-lg overflow-hidden transition-shadow cursor-pointer relative z-0 border",
         isSelected
@@ -53,8 +40,7 @@ const VehicleCard = ({ vehicle, index, onClick, isSelected }: VehicleCardProps) 
           : "border-transparent hover:shadow-[var(--shadow-hover)]",
       ].join(" ")}
       style={{ boxShadow: isSelected ? "var(--shadow-hover)" : "var(--shadow-card)" }}
-      onClick={onClick}
->>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
+      onClick={handleClick}
     >
       {isSelected && (
         <div className="absolute inset-0 bg-primary/5 pointer-events-none z-[2]" />

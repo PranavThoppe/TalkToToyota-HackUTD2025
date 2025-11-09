@@ -77,12 +77,10 @@ interface ConversationRequest {
     vehicles?: any[];
     currentCategory?: string;
     selectedVehicle?: any;
-<<<<<<< HEAD
-    selectedVehicles?: any[];
-    isComparison?: boolean;
-=======
-    compareVehicles?: any[];
->>>>>>> ac04022b2550b4c64930b8c1821ddd0e0892a9a6
+  // Support both old and new naming for comparison lists
+  selectedVehicles?: any[];
+  compareVehicles?: any[];
+  isComparison?: boolean;
     userPreferences?: Record<string, any>;
     financingState?: FinancingState;
   };
