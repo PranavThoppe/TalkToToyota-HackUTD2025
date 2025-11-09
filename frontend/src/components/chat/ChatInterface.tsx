@@ -63,7 +63,7 @@ export default function ChatInterface({
     if (selectedVehicle && !hasWelcomed && messages.length === 0) {
       const welcomeMessage: Message = {
         role: "assistant",
-        content: `Hi! I'm excited to tell you about the ${selectedVehicle.name}! This is an excellent choice. What would you like to know about this vehicle? I can tell you about its features, specifications, pricing, and help you decide if it's the perfect fit for you.`,
+        content: `Hi! I see you're interested in the ${selectedVehicle.name}! To help you with financing options, I'll need to gather some information. First, could you please tell me your credit score? This will help me find the best rates available for you. You can enter a number between 300-850, or if you're not sure, I can explain how to check it.`,
         timestamp: new Date(),
       };
       setMessages([welcomeMessage]);
@@ -227,59 +227,168 @@ export default function ChatInterface({
   };
 
   return (
-    <Card className={`${className} h-full flex flex-col`}>
-      <CardHeader>
-        <CardTitle>
-          {selectedVehicle 
-            ? `Chat about ${selectedVehicle.name}` 
-            : "Chat with AI Salesman"}
+    <Card className={`${className} h-full flex flex-col shadow-lg border-border/50`}>
+      <CardHeader className="border-b bg-card">
+        <CardTitle className="flex items-center gap-2 text-lg">
+          {selectedVehicle ? (
+            <>
+              <span className="text-primary">•</span>
+              {selectedVehicle.name}
+            </>
+          ) : (
+            <>
+              <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v-4"/>
+                  <path d="M12 8h.01"/>
+                </svg>
+              </span>
+              Toyota AI Assistant
+            </>
+          )}
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col flex-1 min-h-0">
-        <div className="flex-1 overflow-y-auto space-y-4 mb-4">
+      <CardContent className="flex flex-col flex-1 min-h-0 p-0">
+        <div className="flex-1 overflow-y-auto px-4 py-4">
           {messages.length === 0 && !selectedVehicle && (
-            <div className="text-center text-muted-foreground py-8">
-              <p>Start a conversation with our AI car salesman!</p>
-              <p className="text-sm mt-2">Ask about vehicles, get recommendations, or compare models.</p>
+            <div className="text-center py-12">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v-4"/>
+                  <path d="M12 8h.01"/>
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold mb-2">Welcome to TalkToToyota</h3>
+              <p className="text-muted-foreground mb-4">I'm your personal Toyota assistant. How can I help you today?</p>
+              <div className="grid gap-2 max-w-sm mx-auto text-sm">
+                <button 
+                  onClick={() => setInput("What vehicles do you recommend for a family?")}
+                  className="p-2 rounded-lg border border-border/50 hover:border-primary/30 hover:bg-primary/5 transition-colors duration-200"
+                >
+                  🚗 Find family-friendly vehicles
+                </button>
+                <button 
+                  onClick={() => setInput("What hybrid options are available?")}
+                  className="p-2 rounded-lg border border-border/50 hover:border-primary/30 hover:bg-primary/5 transition-colors duration-200"
+                >
+                  🔋 Explore hybrid vehicles
+                </button>
+                <button 
+                  onClick={() => setInput("What's your most affordable SUV?")}
+                  className="p-2 rounded-lg border border-border/50 hover:border-primary/30 hover:bg-primary/5 transition-colors duration-200"
+                >
+                  💰 Find budget-friendly SUVs
+                </button>
+              </div>
             </div>
           )}
-          {messages.map((message, index) => (
-            <MessageBubble key={index} message={message} />
-          ))}
+          <div className="space-y-2">
+            {messages.map((message, index) => (
+              <MessageBubble key={index} message={message} />
+            ))}
+          </div>
           {isLoading && (
-            <div className="flex items-center space-x-2 text-muted-foreground">
-              <Loader2 className="h-4 w-4 animate-spin" />
-              <span className="text-sm">AI is thinking...</span>
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30 animate-pulse">
+              <Loader2 className="h-4 w-4 animate-spin text-primary" />
+              <span className="text-sm">Toyota Assistant is typing...</span>
             </div>
           )}
         </div>
-        {!financingResults && (
-          <div className="border rounded-lg p-3 mb-4 bg-muted/40">
-            <p className="text-sm font-semibold mb-2">Financing Checklist</p>
-            <ul className="text-xs space-y-1 text-muted-foreground">
-              <li>
-                {financingState.creditScore !== undefined ? "✅" : "⬜"} Credit Score{" "}
-                {financingState.creditScore !== undefined && `( ${financingState.creditScore} )`}
-              </li>
-              <li>
-                {financingState.downPayment !== undefined ? "✅" : "⬜"} Down Payment{" "}
-                {financingState.downPayment !== undefined &&
-                  `( $${new Intl.NumberFormat("en-US").format(financingState.downPayment)} )`}
-              </li>
-              <li>
-                {financingState.loanTermMonths !== undefined ? "✅" : "⬜"} Loan Term{" "}
-                {financingState.loanTermMonths !== undefined && `( ${financingState.loanTermMonths} months )`}
-              </li>
-              <li>
-                {financingState.tradeInValue !== undefined ? "✅" : "⬜"} Trade-In Value{" "}
-                {financingState.tradeInValue !== undefined &&
-                  `( $${new Intl.NumberFormat("en-US").format(financingState.tradeInValue)} )`}
-              </li>
-              <li>
-                {financingState.salesTaxRate !== undefined ? "✅" : "⬜"} Sales Tax Rate{" "}
-                {financingState.salesTaxRate !== undefined && `( ${financingState.salesTaxRate}% )`}
-              </li>
-            </ul>
+        {selectedVehicle && !financingResults && (
+          <div className="px-4 mb-2">
+            <div className="rounded-xl border border-border/50 bg-card p-2 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                  <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
+                  <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
+                  <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>
+                </svg>
+                <h3 className="font-semibold text-sm">Financing Checklist</h3>
+              </div>
+              <div className="grid grid-cols-2 gap-1 text-xs">
+                <div className={`p-2 rounded-lg transition-all duration-200 ${
+                  financingState.creditScore !== undefined 
+                    ? 'bg-primary/10 border border-primary/20' 
+                    : 'bg-muted/30 border border-border/50 hover:border-primary/20'
+                }`}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-medium">Credit Score</span>
+                      <p className="text-[10px] text-muted-foreground">Required • Step 1</p>
+                    </div>
+                    {financingState.creditScore !== undefined ? (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium">
+                        {financingState.creditScore}
+                      </span>
+                    ) : (
+                      <span className="text-[10px] text-muted-foreground">Pending</span>
+                    )}
+                  </div>
+                </div>
+
+                <div className={`p-2 rounded-lg transition-all duration-200 ${
+                  financingState.downPayment !== undefined 
+                    ? 'bg-primary/10 border border-primary/20' 
+                    : 'bg-muted/30 border border-border/50 hover:border-primary/20'
+                }`}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-medium">Down Payment</span>
+                      <p className="text-[10px] text-muted-foreground">Required • Step 2</p>
+                    </div>
+                    {financingState.downPayment !== undefined ? (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium">
+                        ${new Intl.NumberFormat("en-US").format(financingState.downPayment)}
+                      </span>
+                    ) : (
+                      <span className="text-[10px] text-muted-foreground">Pending</span>
+                    )}
+                  </div>
+                </div>
+
+                <div className={`p-2 rounded-lg transition-all duration-200 ${
+                  financingState.loanTermMonths !== undefined 
+                    ? 'bg-primary/10 border border-primary/20' 
+                    : 'bg-muted/30 border border-border/50 hover:border-primary/20'
+                }`}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-medium">Loan Term</span>
+                      <p className="text-[10px] text-muted-foreground">Required • Step 3</p>
+                    </div>
+                    {financingState.loanTermMonths !== undefined ? (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium">
+                        {financingState.loanTermMonths} months
+                      </span>
+                    ) : (
+                      <span className="text-[10px] text-muted-foreground">Pending</span>
+                    )}
+                  </div>
+                </div>
+
+                <div className={`p-2 rounded-lg transition-all duration-200 ${
+                  financingState.tradeInValue !== undefined 
+                    ? 'bg-primary/10 border border-primary/20' 
+                    : 'bg-muted/30 border border-border/50 hover:border-primary/20'
+                }`}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-medium">Trade-In Value</span>
+                      <p className="text-[10px] text-muted-foreground">Optional • Step 4</p>
+                    </div>
+                    {financingState.tradeInValue !== undefined ? (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium">
+                        ${new Intl.NumberFormat("en-US").format(financingState.tradeInValue)}
+                      </span>
+                    ) : (
+                      <span className="text-[10px] text-muted-foreground">Not set</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
         {financingResults && financingResults.alternatives?.length > 0 && (
@@ -329,21 +438,35 @@ export default function ChatInterface({
             </CardContent>
           </Card>
         )}
-        <div className="flex space-x-2">
-          <Input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Ask about vehicles..."
-            disabled={isLoading}
-          />
-          <Button onClick={sendMessage} disabled={isLoading || !input.trim()}>
-            {isLoading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Send className="h-4 w-4" />
-            )}
-          </Button>
+        <div className="p-4 border-t border-border/50 bg-card">
+          <div className="flex gap-2">
+            <div className="flex-1 relative group">
+              <Input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder={selectedVehicle 
+                  ? "Ask about features, financing, or specifications..." 
+                  : "Ask about vehicles, compare models, or get recommendations..."}
+                disabled={isLoading}
+                className="pr-24 transition-all duration-200 border-border/50 hover:border-primary/30 focus:border-primary bg-background rounded-xl"
+              />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                Press Enter ↵
+              </div>
+            </div>
+            <Button 
+              onClick={sendMessage} 
+              disabled={isLoading || !input.trim()}
+              className="rounded-xl shadow-sm hover:shadow-md transition-all duration-200 bg-primary hover:bg-primary/90"
+            >
+              {isLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Send className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>
