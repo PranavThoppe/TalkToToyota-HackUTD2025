@@ -43,8 +43,9 @@ export default function VehicleDetail({
         <div className="p-6 space-y-6">
           {/* Image */}
           <div className="relative aspect-video bg-muted rounded-lg overflow-hidden">
-            <img
-              src={vehicle.image}
+            <motion.img
+              layoutId={`vehicle-image-${vehicle.id}`}
+              src={vehicle.image.startsWith('/') ? `${import.meta.env.BASE_URL}${vehicle.image.slice(1)}` : vehicle.image}
               alt={vehicle.name}
               className="w-full h-full object-contain"
             />
@@ -65,14 +66,14 @@ export default function VehicleDetail({
           {/* Title and Price */}
           <div>
             <h1 className="text-3xl font-bold text-card-foreground mb-2">
-              {vehicle.name}
+              <motion.span layoutId={`vehicle-title-${vehicle.id}`}>{vehicle.name}</motion.span>
             </h1>
             {vehicle.year && (
               <p className="text-muted-foreground mb-4">{vehicle.year}</p>
             )}
             <div className="space-y-2">
               <p className="text-4xl font-bold text-card-foreground">
-                ${vehicle.price.toLocaleString()}
+                <motion.span layoutId={`vehicle-price-${vehicle.id}`}>${vehicle.price.toLocaleString()}</motion.span>
               </p>
               {vehicle.priceRange && (
                 <p className="text-sm text-muted-foreground">

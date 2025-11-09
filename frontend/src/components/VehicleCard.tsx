@@ -68,7 +68,8 @@ const VehicleCard = ({ vehicle, index, onClick }: VehicleCardProps) => {
           </div>
         )}
         <div className="aspect-[4/3] bg-white flex items-center justify-center p-8">
-          <img
+          <motion.img
+            layoutId={`vehicle-image-${vehicle.id}`}
             src={`${import.meta.env.BASE_URL}${vehicle.image.startsWith('/') ? vehicle.image.slice(1) : vehicle.image}`}
             alt={vehicle.name}
             className="w-full h-full object-contain mix-blend-multiply"
@@ -87,14 +88,14 @@ const VehicleCard = ({ vehicle, index, onClick }: VehicleCardProps) => {
             {vehicle.priceRange || `$${vehicle.msrp.toLocaleString()} as shown*`}
           </p>
           <h3 className="text-2xl font-bold mb-2 text-card-foreground">
-            {vehicle.name}
+            <motion.span layoutId={`vehicle-title-${vehicle.id}`}>{vehicle.name}</motion.span>
           </h3>
           {vehicle.year && (
             <p className="text-sm text-muted-foreground mb-3">{vehicle.year}</p>
           )}
           <div className="space-y-1">
             <p className="text-3xl font-bold text-card-foreground">
-              ${vehicle.price.toLocaleString()}
+              <motion.span layoutId={`vehicle-price-${vehicle.id}`}>${vehicle.price.toLocaleString()}</motion.span>
             </p>
             <p className="text-sm text-muted-foreground">Starting MSRP*</p>
           </div>
