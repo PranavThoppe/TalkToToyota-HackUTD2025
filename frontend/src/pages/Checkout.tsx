@@ -152,6 +152,8 @@ const Checkout = () => {
   const [isSending, setIsSending] = useState(false);
   const [appliedOffer, setAppliedOffer] = useState<IncentiveOffer | null>(null);
   const [pendingOffer, setPendingOffer] = useState<IncentiveOffer | null>(null);
+  const [isCompleting, setIsCompleting] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   const currencyFormatter = useMemo(
     () =>
@@ -628,8 +630,22 @@ const Checkout = () => {
                     <li>• Schedule pickup or delivery</li>
                     <li>• Sign electronically or in-dealership</li>
                   </ul>
-                  <Button className="w-full" size="lg">
-                    Complete Checkout
+                  <Button
+                    className="w-full"
+                    size="lg"
+                    onClick={async () => {
+                      // small UX: simulate finalizing and then show the celebration overlay
+                      setIsCompleting(true);
+                      try {
+                        // simulate a short network/process delay
+                        await new Promise((res) => setTimeout(res, 900));
+                        setShowCelebration(true);
+                      } finally {
+                        setIsCompleting(false);
+                      }
+                    }}
+                  >
+                    {isCompleting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Complete Checkout"}
                   </Button>
                 </CardContent>
               </Card>
@@ -637,6 +653,64 @@ const Checkout = () => {
           </Card>
         </div>
       </div>
+
+      {showCelebration && (
+        <div className="celebration-overlay fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowCelebration(false)} />
+          <div className="relative z-10 w-full max-w-xl px-6">
+            <div className="rounded-2xl bg-white p-8 text-center shadow-2xl">
+              <div className="mb-4 text-5xl">🎉</div>
+              <h2 className="mb-2 text-2xl font-bold">Thank you for your purchase!</h2>
+              <p className="mb-4 text-sm text-muted-foreground">
+                Your {vehicle.name} will arrive in approximately 7–9 days. We're processing your order and will
+                send updates about pickup and delivery.
+              </p>
+              <div className="flex justify-center gap-3">
+                <Button variant="default" onClick={() => navigate("/")}>Continue Shopping</Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    setShowCelebration(false);
+                    navigate(-1);
+                  }}
+                >
+                  View Order
+                </Button>
+              </div>
+            </div>
+
+            {/* simple falling confetti using emoji positioned across the screen */}
+            <div aria-hidden className="pointer-events-none relative h-0">
+              {Array.from({ length: 14 }).map((_, i) => (
+                <span key={i} className={`confetti absolute top-0 text-2xl`}>{i % 3 === 0 ? "🎊" : "🎉"}</span>
+              ))}
+
+              <style>{`
+                .celebration-overlay .confetti { position: absolute; top: -8vh; animation: confetti-fall 1600ms linear forwards; }
+                .celebration-overlay .confetti:nth-child(1)  { left: 4%;  animation-delay: 0ms; }
+                .celebration-overlay .confetti:nth-child(2)  { left: 11%; animation-delay: 80ms; }
+                .celebration-overlay .confetti:nth-child(3)  { left: 18%; animation-delay: 160ms; }
+                .celebration-overlay .confetti:nth-child(4)  { left: 25%; animation-delay: 240ms; }
+                .celebration-overlay .confetti:nth-child(5)  { left: 32%; animation-delay: 320ms; }
+                .celebration-overlay .confetti:nth-child(6)  { left: 39%; animation-delay: 400ms; }
+                .celebration-overlay .confetti:nth-child(7)  { left: 46%; animation-delay: 480ms; }
+                .celebration-overlay .confetti:nth-child(8)  { left: 53%; animation-delay: 560ms; }
+                .celebration-overlay .confetti:nth-child(9)  { left: 60%; animation-delay: 640ms; }
+                .celebration-overlay .confetti:nth-child(10) { left: 67%; animation-delay: 720ms; }
+                .celebration-overlay .confetti:nth-child(11) { left: 74%; animation-delay: 800ms; }
+                .celebration-overlay .confetti:nth-child(12) { left: 81%; animation-delay: 880ms; }
+                .celebration-overlay .confetti:nth-child(13) { left: 88%; animation-delay: 960ms; }
+                .celebration-overlay .confetti:nth-child(14) { left: 95%; animation-delay: 1040ms; }
+
+                @keyframes confetti-fall {
+                  0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+                  100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+                }
+              `}</style>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
