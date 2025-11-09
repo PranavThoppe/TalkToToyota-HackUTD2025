@@ -1,8 +1,11 @@
+// backend/src/index.ts
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import voiceRoutes from "./routes/voice.js";
 import aiRoutes from "./routes/ai.js";
+import financeRoutes from "./routes/finance.js";
 
 dotenv.config();
 
@@ -26,6 +29,10 @@ app.get("/", (req, res) => {
       },
       ai: {
         conversation: "POST /api/ai/conversation"
+      },
+      finance: {
+        calculate: "POST /api/finance/calculate",
+        aprEstimate: "GET /api/finance/apr-estimate/:creditScore"
       }
     },
     note: "This is the backend API. The frontend runs on http://localhost:8080"
@@ -35,6 +42,7 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/api/voice", voiceRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/finance", financeRoutes);
 
 // Health check
 app.get("/health", (req, res) => {
