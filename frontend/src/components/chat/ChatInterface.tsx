@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send, Loader2 } from "lucide-react";
-import { getAIResponse } from "@/services/api";
+import { getAIResponse, type FinancingState } from "@/services/api";
 import { Vehicle } from "@/types/vehicle";
 import MessageBubble from "./MessageBubble";
 
@@ -33,6 +33,7 @@ export default function ChatInterface({
   const [conversationHistory, setConversationHistory] = useState<
     Array<{ role: "user" | "assistant" | "system"; content: string }>
   >([]);
+  const [financingState, setFinancingState] = useState<FinancingState>({});
 
   const [hasWelcomed, setHasWelcomed] = React.useState(false);
 
@@ -42,11 +43,13 @@ export default function ChatInterface({
       setMessages([]);
       setConversationHistory([]);
       setHasWelcomed(false);
+      setFinancingState({});
     } else {
       // Clear messages when no vehicle is selected
       setMessages([]);
       setConversationHistory([]);
       setHasWelcomed(false);
+      setFinancingState({});
     }
   }, [selectedVehicle?.id]);
 
@@ -83,6 +86,8 @@ export default function ChatInterface({
       ...conversationHistory,
       { role: "user" as const, content: input },
     ];
+    // Keep only the last 10 messages to reduce token usage
+    const limitedHistory = newHistory.slice(-10);
     setConversationHistory(newHistory);
 
     try {
@@ -92,20 +97,54 @@ export default function ChatInterface({
           vehicles,
           currentCategory,
           selectedVehicle,
+          financingState,
         },
-        conversationHistory: newHistory,
+        conversationHistory: limitedHistory,
       });
+
+      const updatedFinancingState = aiResponse.financingState ?? financingState;
+      setFinancingState(updatedFinancingState);
+
+      let assistantContent = aiResponse.response;
+
+      if (aiResponse.financingResults) {
+        const result = aiResponse.financingResults;
+        const formatter = new Intl.NumberFormat("en-US", {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        });
+
+        const altText = result.alternatives
+          .map((alt, idx) => {
+            const payment = formatter.format(alt.monthlyPayment);
+            const savings =
+              alt.savings !== undefined && alt.savings !== null
+                ? ` (${alt.savings >= 0 ? "saves" : "adds"} $${Math.abs(alt.savings)}/mo)`
+                : "";
+            return `${idx + 1}. ${alt.description}: $${payment}/mo${savings}`;
+          })
+          .join("\n");
+
+        assistantContent +=
+          `\n\nFinancing Summary:\n` +
+          `- Monthly Payment: $${formatter.format(result.monthlyPayment)}\n` +
+          `- APR: ${result.apr}%\n` +
+          `- Total Cost: $${formatter.format(result.totalCost)}\n` +
+          `- Amount Financed: $${formatter.format(result.amountFinanced)}\n` +
+          (result.recommendation ? `\n${result.recommendation}\n` : "") +
+          (altText ? `\nAlternative Options:\n${altText}` : "");
+      }
 
       const assistantMessage: Message = {
         role: "assistant",
-        content: aiResponse,
+        content: assistantContent,
         timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
       setConversationHistory([
         ...newHistory,
-        { role: "assistant" as const, content: aiResponse },
+        { role: "assistant" as const, content: assistantContent },
       ]);
     } catch (error) {
       console.error("Error getting AI response:", error);
@@ -156,6 +195,33 @@ export default function ChatInterface({
               <span className="text-sm">AI is thinking...</span>
             </div>
           )}
+        </div>
+        <div className="border rounded-lg p-3 mb-4 bg-muted/40">
+          <p className="text-sm font-semibold mb-2">Financing Checklist</p>
+          <ul className="text-xs space-y-1 text-muted-foreground">
+            <li>
+              {financingState.creditScore !== undefined ? "✅" : "⬜"} Credit Score{" "}
+              {financingState.creditScore !== undefined && `( ${financingState.creditScore} )`}
+            </li>
+            <li>
+              {financingState.downPayment !== undefined ? "✅" : "⬜"} Down Payment{" "}
+              {financingState.downPayment !== undefined &&
+                `( $${new Intl.NumberFormat("en-US").format(financingState.downPayment)} )`}
+            </li>
+            <li>
+              {financingState.loanTermMonths !== undefined ? "✅" : "⬜"} Loan Term{" "}
+              {financingState.loanTermMonths !== undefined && `( ${financingState.loanTermMonths} months )`}
+            </li>
+            <li>
+              {financingState.tradeInValue !== undefined ? "✅" : "⬜"} Trade-In Value{" "}
+              {financingState.tradeInValue !== undefined &&
+                `( $${new Intl.NumberFormat("en-US").format(financingState.tradeInValue)} )`}
+            </li>
+            <li>
+              {financingState.salesTaxRate !== undefined ? "✅" : "⬜"} Sales Tax Rate{" "}
+              {financingState.salesTaxRate !== undefined && `( ${financingState.salesTaxRate}% )`}
+            </li>
+          </ul>
         </div>
         <div className="flex space-x-2">
           <Input
