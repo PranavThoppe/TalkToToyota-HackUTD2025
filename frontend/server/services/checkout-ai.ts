@@ -1,11 +1,12 @@
 import axios from "axios";
-import { config } from "../config/env.js";
+import type { Vehicle } from "@/types/vehicle";
+import { config } from "../config/env";
 
 const OPENROUTER_API_KEY = config.openrouterApiKey;
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
-interface CheckoutConversationContext {
-  vehicle?: any;
+export interface CheckoutConversationContext {
+  vehicle?: Vehicle;
   financingSummary?: {
     monthlyPayment?: number;
     apr?: number;
@@ -21,7 +22,7 @@ interface CheckoutConversationContext {
   };
 }
 
-interface ConversationMessage {
+export interface ConversationMessage {
   role: "user" | "assistant" | "system";
   content: string;
 }
@@ -154,7 +155,7 @@ export async function generateCheckoutAIResponse({
         headers: {
           Authorization: `Bearer ${OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": process.env.APP_URL || "http://localhost:8080",
+          "HTTP-Referer": config.appUrl,
           "X-Title": "TalkToToyota Checkout",
         },
       }

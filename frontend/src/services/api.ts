@@ -1,4 +1,8 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001/api";
+import type { Vehicle } from "@/types/vehicle";
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.DEV ? "http://localhost:3001/api" : "/api");
 
 interface TranscriptionResponse {
   transcription: string;
@@ -48,7 +52,7 @@ export interface AIResponsePayload {
 }
 
 export interface CheckoutContext {
-  vehicle?: any;
+  vehicle?: Vehicle;
   financingSummary?: {
     monthlyPayment?: number;
     apr?: number;
@@ -75,14 +79,14 @@ export interface CheckoutAIResponse {
 interface ConversationRequest {
   message: string;
   context?: {
-    vehicles?: any[];
+    vehicles?: Vehicle[];
     currentCategory?: string;
-    selectedVehicle?: any;
-  // Support both old and new naming for comparison lists
-  selectedVehicles?: any[];
-  compareVehicles?: any[];
-  isComparison?: boolean;
-    userPreferences?: Record<string, any>;
+    selectedVehicle?: Vehicle;
+    // Support both old and new naming for comparison lists
+    selectedVehicles?: Vehicle[];
+    compareVehicles?: Vehicle[];
+    isComparison?: boolean;
+    userPreferences?: Record<string, unknown>;
     financingState?: FinancingState;
   };
   conversationHistory?: Array<{

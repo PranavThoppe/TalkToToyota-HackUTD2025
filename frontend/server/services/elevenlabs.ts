@@ -1,7 +1,7 @@
 import { ElevenLabsClient } from "elevenlabs";
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
-const DEFAULT_VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "21m00Tcm4TlvDq8ikWAM"; // Default voice ID
+const DEFAULT_VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "21m00Tcm4TlvDq8ikWAM";
 
 if (!ELEVENLABS_API_KEY) {
   console.warn("ELEVENLABS_API_KEY is not set");
@@ -9,18 +9,15 @@ if (!ELEVENLABS_API_KEY) {
 
 const client = ELEVENLABS_API_KEY ? new ElevenLabsClient({ apiKey: ELEVENLABS_API_KEY }) : null;
 
-export async function textToSpeech(
-  text: string,
-  voiceId?: string
-): Promise<Buffer> {
+export async function textToSpeech(text: string, voiceId?: string): Promise<Buffer> {
   if (!client) {
     throw new Error("ElevenLabs client is not configured");
   }
 
   try {
     const audio = await client.textToSpeech.convert(voiceId || DEFAULT_VOICE_ID, {
-      text: text,
-      model_id: "eleven_turbo_v2_5", // Fast, high-quality model
+      text,
+      model_id: "eleven_turbo_v2_5",
       voice_settings: {
         stability: 0.5,
         similarity_boost: 0.75,
@@ -29,12 +26,11 @@ export async function textToSpeech(
       },
     });
 
-    // Convert stream to buffer
     const chunks: Uint8Array[] = [];
     for await (const chunk of audio) {
       chunks.push(chunk);
     }
-    
+
     return Buffer.concat(chunks);
   } catch (error) {
     console.error("ElevenLabs TTS error:", error);
@@ -55,3 +51,4 @@ export async function getVoices() {
     throw new Error("Failed to fetch voices");
   }
 }
+

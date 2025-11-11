@@ -1,20 +1,22 @@
 import axios from "axios";
-import { calculateFinancing } from "./finance.js";
-import { config } from "../config/env.js";
+import type { Vehicle } from "@/types/vehicle";
+import { calculateFinancing } from "./finance";
+import type { FinanceCalculationResult } from "./finance";
+import { config } from "../config/env";
 
 const OPENROUTER_API_KEY = config.openrouterApiKey;
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
-interface ConversationContext {
-  vehicles?: any[];
-  userPreferences?: Record<string, any>;
+export interface ConversationContext {
+  vehicles?: Vehicle[];
+  userPreferences?: Record<string, unknown>;
   currentCategory?: string;
-  selectedVehicle?: any;
-  compareVehicles?: any[];
+  selectedVehicle?: Vehicle;
+  compareVehicles?: Vehicle[];
   financingState?: FinancingState;
 }
 
-interface FinancingState {
+export interface FinancingState {
   creditScore?: number;
   downPayment?: number;
   loanTermMonths?: number;
@@ -23,7 +25,7 @@ interface FinancingState {
   isComplete?: boolean;
 }
 
-interface ConversationMessage {
+export interface ConversationMessage {
   role: "user" | "assistant" | "system";
   content: string;
 }
@@ -37,10 +39,9 @@ interface GenerateResponseParams {
 interface AIResponse {
   response: string;
   financingState?: FinancingState;
-  financingResults?: any;
+  financingResults?: FinanceCalculationResult | null;
 }
 
-// System prompt for general car salesman AI
 const GENERAL_SYSTEM_PROMPT = `You are a friendly, knowledgeable Toyota car salesman AI assistant. Your goal is to help customers find the perfect Toyota vehicle for their needs.
 
 Key traits:
@@ -65,8 +66,7 @@ When recommending vehicles:
 
 Keep responses concise, friendly, and helpful.`;
 
-// System prompt for sales-focused AI when a specific vehicle is selected
-function formatVehicleSnapshot(vehicle: any): string {
+function formatVehicleSnapshot(vehicle: Vehicle): string {
   const specs = vehicle.specifications || {};
   const pros = vehicle.pros || [];
   const features = vehicle.features || [];
@@ -133,35 +133,35 @@ ALL REQUIRED ITEMS COMPLETE — let them know you’ll calculate the numbers, th
   `.trim();
 }
 
-function createSalesPrompt(vehicle: any, financingState?: FinancingState): string {
+function createSalesPrompt(vehicle: Vehicle, financingState?: FinancingState): string {
   const basePrompt = `You are an enthusiastic, persuasive Toyota car salesman AI. Your PRIMARY GOAL is to help the customer with the ${vehicle.name} and guide them through financing options.
 
 CURRENT VEHICLE: ${vehicle.name}
 PRICE: $${vehicle.price.toLocaleString()} (Starting MSRP: $${vehicle.msrp.toLocaleString()})
-${vehicle.priceRange ? `PRICE RANGE: ${vehicle.priceRange}` : ''}
-${vehicle.year ? `YEAR: ${vehicle.year}` : ''}
+${vehicle.priceRange ? `PRICE RANGE: ${vehicle.priceRange}` : ""}
+${vehicle.year ? `YEAR: ${vehicle.year}` : ""}
 
 VEHICLE HIGHLIGHTS & SELLING POINTS:
-${(vehicle.pros || []).length > 0 ? `PROS:\n${(vehicle.pros || []).map((p: string) => `- ${p}`).join('\n')}` : ''}
+${(vehicle.pros || []).length > 0 ? `PROS:\n${(vehicle.pros || []).map((p: string) => `- ${p}`).join("\n")}` : ""}
 
-${(vehicle.features || []).length > 0 ? `KEY FEATURES:\n${(vehicle.features || []).map((f: string) => `- ${f}`).join('\n')}` : ''}
+${(vehicle.features || []).length > 0 ? `KEY FEATURES:\n${(vehicle.features || []).map((f: string) => `- ${f}`).join("\n")}` : ""}
 
-${(vehicle.bestFor || []).length > 0 ? `PERFECT FOR:\n${(vehicle.bestFor || []).map((b: string) => `- ${b}`).join(', ')}` : ''}
+${(vehicle.bestFor || []).length > 0 ? `PERFECT FOR:\n${(vehicle.bestFor || []).map((b: string) => `- ${b}`).join(", ")}` : ""}
 
 SPECIFICATIONS:
-${vehicle.specifications?.horsepower ? `- Horsepower: ${vehicle.specifications.horsepower} hp` : ''}
-${vehicle.specifications?.mpg?.combined ? `- MPG (Combined): ${vehicle.specifications.mpg.combined}` : ''}
-${vehicle.specifications?.seating ? `- Seating: ${vehicle.specifications.seating} passengers` : ''}
-${vehicle.specifications?.fuelType ? `- Fuel Type: ${vehicle.specifications.fuelType}` : ''}
-${vehicle.specifications?.engine ? `- Engine: ${vehicle.specifications.engine}` : ''}
-${vehicle.specifications?.cargoSpace ? `- Cargo Space: ${vehicle.specifications.cargoSpace}` : ''}
-${vehicle.specifications?.electricRange ? `- Electric Range: ${vehicle.specifications.electricRange}` : ''}
-${vehicle.warranty ? `- Warranty: ${vehicle.warranty}` : ''}`;
+${vehicle.specifications?.horsepower ? `- Horsepower: ${vehicle.specifications.horsepower} hp` : ""}
+${vehicle.specifications?.mpg?.combined ? `- MPG (Combined): ${vehicle.specifications.mpg.combined}` : ""}
+${vehicle.specifications?.seating ? `- Seating: ${vehicle.specifications.seating} passengers` : ""}
+${vehicle.specifications?.fuelType ? `- Fuel Type: ${vehicle.specifications.fuelType}` : ""}
+${vehicle.specifications?.engine ? `- Engine: ${vehicle.specifications.engine}` : ""}
+${vehicle.specifications?.cargoSpace ? `- Cargo Space: ${vehicle.specifications.cargoSpace}` : ""}
+${vehicle.specifications?.electricRange ? `- Electric Range: ${vehicle.specifications.electricRange}` : ""}
+${vehicle.warranty ? `- Warranty: ${vehicle.warranty}` : ""}`;
 
   return basePrompt + financingChecklistInstructions(financingState);
 }
 
-function createComparePrompt(vehicles: any[], financingState?: FinancingState): string {
+function createComparePrompt(vehicles: Vehicle[], financingState?: FinancingState): string {
   const [primary, secondary] = vehicles;
 
   const header = `You are an insightful Toyota product specialist helping a shopper compare two vehicles side-by-side. Stay personable, celebrate the strengths of each vehicle, and guide them toward a confident choice.`;
@@ -180,8 +180,7 @@ ${formatVehicleSnapshot(secondary)}
 COMPARISON TIPS:
 - Call out where each vehicle shines (performance, efficiency, tech, cargo, etc.).
 - Help the shopper weigh trade-offs based on their lifestyle comments.
-- Offer friendly suggestions like "If you love X, the ${primary.name} really delivers, while the ${secondary.name} gives you Y."
-`;
+- Offer friendly suggestions like "If you love X, the ${primary.name} really delivers, while the ${secondary.name} gives you Y."`;
 
   const financingInstructions = `
 FINANCING FOCUS:
@@ -193,7 +192,6 @@ ${financingChecklistInstructions(financingState)}
   return [header, comparisonOverview, financingInstructions].join("\n\n");
 }
 
-// Extract financing data from AI response
 function extractFinancingData(aiResponse: string): Partial<FinancingState> | null {
   const match = aiResponse.match(/\[FINANCING_DATA:\s*({[^}]+})\]/);
   if (match) {
@@ -207,12 +205,10 @@ function extractFinancingData(aiResponse: string): Partial<FinancingState> | nul
   return null;
 }
 
-// Check if AI wants to calculate financing
 function shouldCalculateFinancing(aiResponse: string): boolean {
   return aiResponse.includes("[CALCULATE_FINANCING]");
 }
 
-// Clean AI response by removing special markers
 function cleanAIResponse(response: string): string {
   return response
     .replace(/\[FINANCING_DATA:\s*{[^}]+}\]/g, "")
@@ -220,13 +216,8 @@ function cleanAIResponse(response: string): string {
     .trim();
 }
 
-// Check if financing state is complete
 function isFinancingComplete(state: FinancingState): boolean {
-  return !!(
-    state.creditScore &&
-    state.downPayment !== undefined &&
-    state.loanTermMonths
-  );
+  return !!(state.creditScore && state.downPayment !== undefined && state.loanTermMonths);
 }
 
 export async function generateAIResponse({
@@ -239,20 +230,16 @@ export async function generateAIResponse({
   }
 
   try {
-    // Initialize or get existing financing state
     const financingState: FinancingState = context?.financingState || {};
 
-    // Determine which system prompt to use
     let systemPrompt: string;
     let contextInfo = "";
 
-    // If a specific vehicle is selected, use sales-focused prompt with financing
     if (context?.compareVehicles && context.compareVehicles.length >= 2) {
       systemPrompt = createComparePrompt(context.compareVehicles.slice(0, 2), financingState);
     } else if (context?.selectedVehicle) {
       systemPrompt = createSalesPrompt(context.selectedVehicle, financingState);
     } else {
-      // Otherwise use general prompt
       systemPrompt = GENERAL_SYSTEM_PROMPT;
       if (context?.vehicles && context.vehicles.length > 0) {
         contextInfo = `\n\nAvailable vehicles:\n${JSON.stringify(context.vehicles.slice(0, 20), null, 2)}`;
@@ -262,7 +249,6 @@ export async function generateAIResponse({
       }
     }
 
-    // Build messages array
     const messages: ConversationMessage[] = [
       {
         role: "system",
@@ -275,7 +261,6 @@ export async function generateAIResponse({
       },
     ];
 
-    // Add debugging
     console.log("🤖 Sending to AI with", messages.length, "total messages");
     console.log("📋 Conversation history entries:", conversationHistory.length);
     console.log("💳 Financing state before AI:", JSON.stringify(financingState, null, 2));
@@ -284,57 +269,57 @@ export async function generateAIResponse({
       OPENROUTER_API_URL,
       {
         model: "anthropic/claude-3.5-sonnet",
-        messages: messages,
+        messages,
         temperature: 0.7,
         max_tokens: 800,
       },
       {
         headers: {
-          "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+          Authorization: `Bearer ${OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": process.env.APP_URL || "http://localhost:8080",
+          "HTTP-Referer": config.appUrl,
           "X-Title": "TalkToToyota",
         },
       }
     );
 
-    const aiResponse = response.data.choices[0]?.message?.content || 
-                      "I'm sorry, I couldn't generate a response.";
+    const aiResponse =
+      response.data.choices[0]?.message?.content || "I'm sorry, I couldn't generate a response.";
 
-    // Extract any financing data from the response
     const extractedData = extractFinancingData(aiResponse);
-    
+
     if (extractedData) {
       console.log("✅ Extracted financing data:", JSON.stringify(extractedData, null, 2));
     }
-    
-    // Merge extracted data with existing state
+
     const updatedFinancingState: FinancingState = {
       ...financingState,
       ...extractedData,
     };
-    
+
     console.log("💳 Updated financing state:", JSON.stringify(updatedFinancingState, null, 2));
 
-    // Set default values for optional fields if not provided
-    if (updatedFinancingState.tradeInValue === undefined && 
-        isFinancingComplete(updatedFinancingState)) {
+    if (
+      updatedFinancingState.tradeInValue === undefined &&
+      isFinancingComplete(updatedFinancingState)
+    ) {
       updatedFinancingState.tradeInValue = 0;
     }
-    if (updatedFinancingState.salesTaxRate === undefined && 
-        isFinancingComplete(updatedFinancingState)) {
+    if (
+      updatedFinancingState.salesTaxRate === undefined &&
+      isFinancingComplete(updatedFinancingState)
+    ) {
       updatedFinancingState.salesTaxRate = 8;
     }
 
-    // Clean the response
     const cleanedResponse = cleanAIResponse(aiResponse);
 
-    // Check if we should calculate financing
     let financingResults = null;
-    if (shouldCalculateFinancing(aiResponse) && 
-        isFinancingComplete(updatedFinancingState) &&
-        context?.selectedVehicle) {
-      
+    if (
+      shouldCalculateFinancing(aiResponse) &&
+      isFinancingComplete(updatedFinancingState) &&
+      context?.selectedVehicle
+    ) {
       try {
         financingResults = calculateFinancing({
           vehiclePrice: context.selectedVehicle.price,
@@ -342,7 +327,7 @@ export async function generateAIResponse({
           downPayment: updatedFinancingState.downPayment!,
           loanTermMonths: updatedFinancingState.loanTermMonths!,
           tradeInValue: updatedFinancingState.tradeInValue || 0,
-          salesTaxRate: (updatedFinancingState.salesTaxRate || 8) / 100, // Convert to decimal
+          salesTaxRate: (updatedFinancingState.salesTaxRate || 8) / 100,
         });
 
         updatedFinancingState.isComplete = true;
@@ -356,7 +341,6 @@ export async function generateAIResponse({
       financingState: updatedFinancingState,
       financingResults,
     };
-
   } catch (error) {
     console.error("AI response generation error:", error);
     if (axios.isAxiosError(error)) {
@@ -365,3 +349,4 @@ export async function generateAIResponse({
     throw new Error("Failed to generate AI response");
   }
 }
+

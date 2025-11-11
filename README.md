@@ -15,29 +15,15 @@ A conversational AI car salesman application featuring voice interaction, intell
 
 ```
 TalkToToyota-HackUTD2025/
-├── frontend/          # React/TypeScript frontend application
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ui/          # shadcn/ui components
-│   │   │   ├── vehicles/    # Vehicle-related components
-│   │   │   ├── voice/       # Voice assistant components
-│   │   │   └── chat/        # Chat interface components
-│   │   ├── services/        # Firebase, Auth0, API clients
-│   │   ├── hooks/           # Custom React hooks
-│   │   ├── types/           # TypeScript type definitions
-│   │   └── pages/           # Page components
+├── frontend/                # React + Vite app and serverless API
+│   ├── api/                 # Vercel functions deployed at /api/*
+│   ├── server/              # Shared API logic (Axios, ElevenLabs, financing calcs)
+│   ├── src/                 # SPA source (components, pages, hooks, etc.)
 │   └── package.json
 │
-├── backend/           # Node.js/Express backend API
-│   ├── src/
-│   │   ├── routes/          # API routes
-│   │   ├── services/        # ElevenLabs, OpenRouter, AI services
-│   │   └── config/          # Configuration files
-│   └── package.json
-│
-├── database/          # Firebase configuration
-│   ├── firestore.rules      # Firestore security rules
-│   └── seed-data.json       # Initial vehicle data
+├── database/                # Firebase configuration and seed data
+│   ├── firestore.rules
+│   └── seed-data.json
 │
 └── README.md
 ```
@@ -56,17 +42,11 @@ TalkToToyota-HackUTD2025/
 ### 1. Install Dependencies
 
 ```bash
-# Install root dependencies
-npm install
-
-# Install frontend dependencies
+npm install             # installs workspace tooling
 npm install --workspace=frontend
-
-# Install backend dependencies
-npm install --workspace=backend
 ```
 
-Or use the convenience script:
+Or run the convenience script:
 
 ```bash
 npm run install:all
@@ -74,9 +54,7 @@ npm run install:all
 
 ### 2. Configure Environment Variables
 
-#### Frontend (.env file in `frontend/` directory)
-
-Create `frontend/.env`:
+Create `frontend/.env` (used by both the SPA and the serverless functions):
 
 ```env
 # Firebase Configuration
@@ -92,26 +70,13 @@ VITE_AUTH0_DOMAIN=your_auth0_domain
 VITE_AUTH0_CLIENT_ID=your_auth0_client_id
 VITE_AUTH0_AUDIENCE=your_auth0_audience
 
-# Backend API
-VITE_API_BASE_URL=http://localhost:3001/api
-```
-
-#### Backend (.env file in `backend/` directory)
-
-Create `backend/.env`:
-
-```env
-# Server Configuration
-PORT=3001
-NODE_ENV=development
-APP_URL=http://localhost:8080
-
-# OpenRouter API (for AI conversations and transcriptions)
+# API credentials
+VITE_API_BASE_URL=http://localhost:3001/api   # optional for local dev; defaults to /api in production
 OPENROUTER_API_KEY=your_openrouter_api_key_here
 
-# ElevenLabs API (for text-to-speech)
 ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
 ELEVENLABS_VOICE_ID=21m00Tcm4TlvDq8ikWAM
+APP_URL=http://localhost:5173
 ```
 
 ### 3. Setup Firebase
@@ -134,35 +99,33 @@ ELEVENLABS_VOICE_ID=21m00Tcm4TlvDq8ikWAM
 
 ### 5. Run the Application
 
-#### Development Mode (both frontend and backend)
+#### Development Mode
 
-```bash
-npm run dev
-```
+- **Frontend only (default Vite dev server)**  
+  ```bash
+  npm run dev
+  ```  
+  The SPA runs at `http://localhost:5173`.
 
-#### Run Frontend Only
+- **Frontend + API (uses Vercel CLI)**  
+  ```bash
+  npm run vercel:dev
+  ```  
+  Requires `vercel` CLI. This mirrors the production deployment: the SPA is served at `http://localhost:3000` with the API available at `http://localhost:3000/api/*`.
 
-```bash
-npm run dev:frontend
-```
-
-#### Run Backend Only
-
-```bash
-npm run dev:backend
-```
-
-The frontend will be available at `http://localhost:8080`
-The backend API will be available at `http://localhost:3001`
+If you prefer running the SPA on `localhost:5173` while hitting the serverless API, set `VITE_API_BASE_URL=http://localhost:3000/api` and run `vercel dev` in another terminal.
 
 ## 📝 API Endpoints
 
-### Backend API
+### Serverless API (deployed with the frontend)
 
-- `GET /health` - Health check endpoint
-- `POST /api/voice/transcribe` - Transcribe audio to text
+- `GET /api` - API index + metadata
+- `GET /api/health` - Health check
 - `POST /api/voice/speak` - Convert text to speech
-- `POST /api/ai/conversation` - Get AI conversation response
+- `POST /api/ai/conversation` - AI conversation with financing state
+- `POST /api/ai/checkout` - Checkout-specific AI assistant
+- `POST /api/finance/calculate` - Financing calculator
+- `GET /api/finance/apr-estimate/:creditScore` - Quick APR estimate by credit score
 
 ## 🔧 Technologies Used
 
@@ -177,9 +140,8 @@ The backend API will be available at `http://localhost:3001`
 - Framer Motion
 - React Query
 
-### Backend
-- Node.js
-- Express
+### Serverless API
+- Vercel Functions (@vercel/node)
 - TypeScript
 - ElevenLabs SDK
 - OpenRouter API
