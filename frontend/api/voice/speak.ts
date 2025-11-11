@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { handleCors } from "../_lib/cors";
-import { readJsonBody } from "../_lib/request";
-import { textToSpeech } from "../../server/services/elevenlabs";
+import { handleCors } from "../_lib/cors.js";
+import { readJsonBody } from "../_lib/request.js";
+import { textToSpeech } from "../../server/services/elevenlabs.js";
 
 interface VoiceRequestBody {
   text?: string;

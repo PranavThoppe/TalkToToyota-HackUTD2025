@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { handleCors } from "../_lib/cors";
-import { readJsonBody } from "../_lib/request";
-import { calculateFinancing } from "../../server/services/finance";
+import { handleCors } from "../_lib/cors.js";
+import { readJsonBody } from "../_lib/request.js";
+import { calculateFinancing } from "../../server/services/finance.js";
 
 interface FinanceRequestBody {
   vehiclePrice?: number;

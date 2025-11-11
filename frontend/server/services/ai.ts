@@ -1,8 +1,8 @@
 import axios from "axios";
-import type { Vehicle } from "@/types/vehicle";
-import { calculateFinancing } from "./finance";
-import type { FinanceCalculationResult } from "./finance";
-import { config } from "../config/env";
+import type { Vehicle } from "../src/types/vehicle.js";
+import { calculateFinancing } from "./finance.js";
+import type { FinanceCalculationResult } from "./finance.js";
+import { config } from "../config/env.js";
 
 const OPENROUTER_API_KEY = config.openrouterApiKey;
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";

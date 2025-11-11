@@ -1,11 +1,11 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { handleCors } from "../_lib/cors";
-import { readJsonBody } from "../_lib/request";
-import { generateCheckoutAIResponse } from "../../server/services/checkout-ai";
+import { handleCors } from "../_lib/cors.js";
+import { readJsonBody } from "../_lib/request.js";
+import { generateCheckoutAIResponse } from "../../server/services/checkout-ai.js";
 import type {
   CheckoutConversationContext,
   ConversationMessage,
-} from "../../server/services/checkout-ai";
+} from "../../server/services/checkout-ai.js";
 
 type ConversationHistoryEntry = ConversationMessage;
 

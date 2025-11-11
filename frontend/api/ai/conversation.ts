@@ -1,11 +1,11 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { handleCors } from "../_lib/cors";
-import { readJsonBody } from "../_lib/request";
-import { generateAIResponse } from "../../server/services/ai";
+import { handleCors } from "../_lib/cors.js";
+import { readJsonBody } from "../_lib/request.js";
+import { generateAIResponse } from "../../server/services/ai.js";
 import type {
   ConversationContext,
   ConversationMessage,
-} from "../../server/services/ai";
+} from "../../server/services/ai.js";
 
 type ConversationHistoryEntry = ConversationMessage;
 
