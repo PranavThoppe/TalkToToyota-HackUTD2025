@@ -163,9 +163,18 @@ function IndexContent() {
         <>
           {/* Header */}
           <header className="border-b border-border bg-card sticky top-0 z-30">
-            <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-6">
-                <h1 className="text-4xl font-bold text-foreground">Toyota</h1>
+            <div className="flex items-center justify-between px-6 py-6">
+              <div className="flex items-center gap-4">
+                <img
+                  src="/Toyota-Logo.png"
+                  alt="Toyota"
+                  className="h-20 w-auto"
+                />
               </div>
+              <div className="flex items-center">
+                <span className="text-3xl text-red-600 font-toyota italic">Talk to Toyota</span>
+              </div>
+            </div>
           </header>
 
           {/* Category Tabs and Compare Button */}

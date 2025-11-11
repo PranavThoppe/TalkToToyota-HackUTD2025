@@ -1,3 +1,5 @@
+@import url("https://fonts.cdnfonts.com/css/toyota");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -95,6 +97,15 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer utilities {
+  .font-toyota {
+    font-family: "Toyota", "Helvetica Neue", Arial, sans-serif;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    text-transform: uppercase;
   }
 }
 
